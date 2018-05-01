@@ -68,10 +68,10 @@ public final class Shell {
         if (tokens.length > 3 || tokens.length == 0) {
             error("Input has not the correct syntax. Try 'Help'.");
             return false;
-        } else if (tokens.length == 3 && (!tokens[0].matches("[nadr]") || !isANumber(tokens[1]) || !isANumber(tokens[2]))) {
+        } else if (tokens.length == 3 && (!tokens[0].matches("[nadr]") || notANumber(tokens[1]) || notANumber(tokens[2]))) {
             error("Input has not the correct syntax. Command + number + number expected.");
             return false;
-        } else if (tokens.length == 2 && (!tokens[0].matches("[s]") || !isANumber(tokens[1]))) {
+        } else if (tokens.length == 2 && (!tokens[0].matches("[s]") || notANumber(tokens[1]))) {
             error("Input has not the correct syntax. Command + number expected.");
             return false;
         } else if (tokens.length == 1 && !tokens[0].matches("[gpchq]")) {
@@ -81,12 +81,12 @@ public final class Shell {
         return true;
     }
 
-    private static boolean isANumber(String number) {
+    private static boolean notANumber(String number) {
         try {
             Integer.parseInt(number);
         } catch (NumberFormatException e) {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 }
