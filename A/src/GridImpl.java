@@ -87,21 +87,24 @@ public class GridImpl implements Grid {
 
     @Override
     public String toString() { // TODO: check for n 2 1 and n 1 2 !!!
-        String row = "";
-            for (int i = 0; i < rows; i++) {
-                for (Cell cell : population) {
-                if (cell.getRow() == i) {
-                    if (cell.isAlive()) {
-                        row += "x";
-                    } else {
-                        row += ".";
+        StringBuilder result = new StringBuilder();
+            for (int i = 0; i < columns; i++) {
+                for (int j = 0; j < rows; j++) {
+                    for (Cell cell : population) {
+                        if (cell.getRow() == i && cell.getColumn() == j) {
+                            if (cell.isAlive()) {
+                                result.append("x");
+                            } else {
+                                result.append(".");
+                            }
+                        }
                     }
+
                 }
-            }
-            row += "\n";
+            result.append("\n");
         }
 
-        return row;
+        return result.toString();
     }
 
 }

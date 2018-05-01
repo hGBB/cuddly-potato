@@ -32,7 +32,7 @@ public final class Shell {
                         gol = new GridImpl(xAxis, yAxis);
                         break;
                     case 'a':
-                        if(initialized(gol)) {
+                        if (initialized(gol)) {
                             xAxis = Integer.parseInt(tokens[1]);
                             yAxis = Integer.parseInt(tokens[2]);
                             if (!gol.isAlive(xAxis, yAxis)) {
