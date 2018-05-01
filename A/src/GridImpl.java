@@ -4,8 +4,8 @@ import java.util.Set;
 
 public class GridImpl implements Grid {
     private int generation;
-    private int rows;
     private int columns;
+    private int rows;
     private Set<Cell> population;
 
     public GridImpl(int rows, int columns) {
@@ -67,7 +67,13 @@ public class GridImpl implements Grid {
 
     @Override
     public Collection<Cell> getPopulation() {
-        return population;
+        Collection<Cell> livingCells = new LinkedHashSet<>();
+        for (Cell cell : population) {
+            if (cell.isAlive()) {
+                livingCells.add(cell);
+            }
+        }
+        return livingCells;
     }
 
     @Override
