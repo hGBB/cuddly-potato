@@ -1,6 +1,10 @@
 import java.util.Collection;
 
 public class GridImpl implements Grid {
+    int generation;
+    int xAxis;
+    int yAxis;
+
 
     @Override
     public boolean isAlive(int col, int row) {

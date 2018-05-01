@@ -40,7 +40,7 @@ public final class Shell {
                         System.out.println(gol.toString());
                         break;
                     case 'c':
-                        ;
+                        gol.clear();
                         break;
                     case 'r':
                         gol.resize(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]));
