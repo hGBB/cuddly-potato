@@ -106,6 +106,7 @@ public class GridImpl implements Grid {
                         }
                     }
 
+
                 }
             result.append("\n");
         }
@@ -113,4 +114,23 @@ public class GridImpl implements Grid {
         return result.toString();
     }
 
+    private int getNeighbors(Cell cell) {
+        int xAxis = cell.getColumn();
+        int yAxis = cell.getRow();
+        int neighbors = 0;
+        for (int i = xAxis - 1; i < xAxis + 1; i++) {
+            for (int j = yAxis - 1; j < yAxis + 1; j++) {
+                if (xAxis < 0 || xAxis > columns || yAxis < 0 || yAxis > rows) {
+                    neighbors++;
+                } else {
+                    for (Cell pop : population) {
+                        if (pop.getColumn() == i && pop.getRow() == j) {
+                            neighbors++;
+                        }
+                    }
+                }
+            }
+        }
+        return neighbors;
+    }
 }
