@@ -44,7 +44,7 @@ public final class Shell {
                         if (initialized(gol)) {
                             xAxis = Integer.parseInt(tokens[1]);
                             yAxis = Integer.parseInt(tokens[2]);
-                            if (!gol.isAlive(xAxis, yAxis)) {
+                            if (gol.isAlive(xAxis, yAxis)) {
                                 gol.setAlive(xAxis, yAxis, false);
                             }
                         }

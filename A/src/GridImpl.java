@@ -31,7 +31,7 @@ public class GridImpl implements Grid {
     @Override
     public boolean isAlive(int col, int row) {
         for (Cell cell : population) {
-            if (cell.getColumn() == col && cell.getRow() == row) {
+            if (cell.getColumn() == (col - 1) && cell.getRow() == (row - 1)) {
                 return cell.isAlive();
             }
         }
