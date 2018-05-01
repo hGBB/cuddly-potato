@@ -13,7 +13,7 @@ public final class Shell {
 
     private static void execute(BufferedReader stdin) throws IOException {
         boolean quit = false;
-
+        GridImpl gol = new GridImpl();
         while (!quit) {
             System.out.println("gol> ");
             String input = stdin.readLine();
@@ -25,28 +25,31 @@ public final class Shell {
 
                 switch (input.toLowerCase().charAt(0)) {
                     case 'n':
-                        ;
+                        gol = new GridImpl();
                         break;
                     case 'a':
-                        ;
+                        gol.setAlive(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), true);
                         break;
                     case 'd':
-                        ;
+                        gol.setAlive(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), false);
                         break;
                     case 'g':
-                        ;
+                        gol.next();
                         break;
                     case 'p':
-                        ;
+                        System.out.println(gol.toString());
                         break;
                     case 'c':
                         ;
                         break;
                     case 'r':
+                        gol.resize(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]));
                         break;
                     case 's':
+                        // TODO: write set of shapes
                         break;
                     case 'h':
+                        // TODO: write help
                         break;
                     case 'q':
                         quit = true;
@@ -71,7 +74,7 @@ public final class Shell {
         } else if (tokens.length == 3 && (!tokens[0].matches("[nadr]") || notANumber(tokens[1]) || notANumber(tokens[2]))) {
             error("Input has not the correct syntax. Command + number + number expected.");
             return false;
-        } else if (tokens.length == 2 && (!tokens[0].matches("[s]") || notANumber(tokens[1]))) {
+        } else if (tokens.length == 2 && (!tokens[0].matches("[s]"))) { // TODO: add filter for shapes
             error("Input has not the correct syntax. Command + number expected.");
             return false;
         } else if (tokens.length == 1 && !tokens[0].matches("[gpchq]")) {
