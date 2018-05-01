@@ -13,7 +13,9 @@ public final class Shell {
 
     private static void execute(BufferedReader stdin) throws IOException {
         boolean quit = false;
-        GridImpl gol = new GridImpl();
+        int xAxis;
+        int yAxis;
+        GridImpl gol = null;
         while (!quit) {
             System.out.println("gol> ");
             String input = stdin.readLine();
@@ -25,28 +27,52 @@ public final class Shell {
 
                 switch (input.toLowerCase().charAt(0)) {
                     case 'n':
-                        gol = new GridImpl();
+                        xAxis = Integer.parseInt(tokens[1]);
+                        yAxis = Integer.parseInt(tokens[2]);
+                        gol = new GridImpl(xAxis, yAxis);
                         break;
                     case 'a':
-                        gol.setAlive(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), true);
+                        if(initialized(gol)) {
+                            xAxis = Integer.parseInt(tokens[1]);
+                            yAxis = Integer.parseInt(tokens[2]);
+                            if (!gol.isAlive(xAxis, yAxis)) {
+                                gol.setAlive(xAxis, yAxis, true);
+                            }
+                        }
                         break;
                     case 'd':
-                        gol.setAlive(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]), false);
+                        if (initialized(gol)) {
+                            xAxis = Integer.parseInt(tokens[1]);
+                            yAxis = Integer.parseInt(tokens[2]);
+                            if (gol.isAlive(xAxis, yAxis)) {
+                                gol.setAlive(xAxis, yAxis, false);
+                            }
+                        }
                         break;
                     case 'g':
-                        gol.next();
+                        if (initialized(gol)) {
+                            gol.next();
+                        }
                         break;
                     case 'p':
-                        System.out.println(gol.toString());
+                        if (initialized(gol)) {
+                            System.out.println(gol.toString());
+                        }
                         break;
                     case 'c':
-                        gol.clear();
+                        if (initialized(gol)) {
+                            gol.clear();
+                        }
                         break;
                     case 'r':
-                        gol.resize(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]));
+                        if (initialized(gol)) {
+                            gol.resize(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]));
+                        }
                         break;
                     case 's':
-                        // TODO: write set of shapes
+                        if (initialized(gol)) {
+                            // TODO: write set of shapes
+                        }
                         break;
                     case 'h':
                         // TODO: write help
@@ -91,5 +117,14 @@ public final class Shell {
             return true;
         }
         return false;
+    }
+
+    private static boolean initialized(GridImpl grid) {
+        if (grid == null) {
+            error("Grid hasn't been initialized yet! Try 'NEW + number + number' to create a grid.");
+            return false;
+        } else {
+            return true;
+        }
     }
 }
