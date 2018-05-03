@@ -78,11 +78,16 @@ public class GridImpl implements Grid {
 
     @Override
     public void clear() {
-        this.population.clear();
+        for (Cell cell : population) {
+            cell.setAlive(false);
+        }
     }
 
     @Override
     public void next() {
+        for (Cell cell : population) {
+            setNeighbors(cell);
+        }
 
     }
 
@@ -114,23 +119,23 @@ public class GridImpl implements Grid {
         return result.toString();
     }
 
-    private int getNeighbors(Cell cell) {
+    private void setNeighbors(Cell cell) {
         int xAxis = cell.getColumn();
         int yAxis = cell.getRow();
         int neighbors = 0;
         for (int i = xAxis - 1; i < xAxis + 1; i++) {
             for (int j = yAxis - 1; j < yAxis + 1; j++) {
-                if (xAxis < 0 || xAxis > columns || yAxis < 0 || yAxis > rows) {
-                    neighbors++;
-                } else {
+            //    if (xAxis < 0 || xAxis > columns || yAxis < 0 || yAxis > rows) {
+            //        neighbors++;
+            //    } else {
                     for (Cell pop : population) {
-                        if (pop.getColumn() == i && pop.getRow() == j) {
+                        if (pop.getColumn() == i && pop.getRow() == j && pop.isAlive()) {
                             neighbors++;
-                        }
+            //            }
                     }
                 }
             }
         }
-        return neighbors;
+        cell.setNeighbors(neighbors);
     }
 }
