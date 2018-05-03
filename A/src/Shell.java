@@ -16,6 +16,7 @@ public final class Shell {
         int xAxis;
         int yAxis;
         GridImpl gol = null;
+        Shapes shapes = new Shapes();
         while (!quit) {
             System.out.println("gol> ");
             String input = stdin.readLine();
@@ -71,6 +72,8 @@ public final class Shell {
                         break;
                     case 's':
                         if (initialized(gol)) {
+                            gol.clear();
+                            gol = shapes.createBlock(gol);
                             // TODO: write set of shapes
                         }
                         break;
