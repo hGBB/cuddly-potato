@@ -2,6 +2,7 @@ public class Cell {
     private boolean alive;
     private int column;
     private int row;
+    private int neighbors;
 
     public int getRow() {
         return row;
@@ -23,5 +24,13 @@ public class Cell {
 
     public void setAlive(boolean alive) {
         this.alive = alive;
+    }
+
+    public int getNeighbors() {
+        return neighbors;
+    }
+
+    public void setNeighbors(int neighbors) {
+        this.neighbors = neighbors;
     }
 }
