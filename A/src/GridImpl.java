@@ -99,20 +99,20 @@ public class GridImpl implements Grid {
     @Override
     public String toString() { // TODO: check for n 2 1 and n 1 2 !!!
         StringBuilder result = new StringBuilder();
-            for (int i = 0; i < columns; i++) {
-                for (int j = 0; j < rows; j++) {
-                    for (Cell cell : population) {
-                        if (cell.getRow() == i && cell.getColumn() == j) {
-                            if (cell.isAlive()) {
-                                result.append("x");
-                            } else {
-                                result.append(".");
-                            }
+        for (int i = 0; i < columns; i++) {
+            for (int j = 0; j < rows; j++) {
+                for (Cell cell : population) {
+                    if (cell.getRow() == i && cell.getColumn() == j) {
+                        if (cell.isAlive()) {
+                            result.append("x");
+                        } else {
+                            result.append(".");
                         }
                     }
-
-
                 }
+
+
+            }
             result.append("\n");
         }
 
@@ -125,13 +125,9 @@ public class GridImpl implements Grid {
         int neighbors = 0;
         for (int i = xAxis - 1; i < xAxis + 1; i++) {
             for (int j = yAxis - 1; j < yAxis + 1; j++) {
-            //    if (xAxis < 0 || xAxis > columns || yAxis < 0 || yAxis > rows) {
-            //        neighbors++;
-            //    } else {
-                    for (Cell pop : population) {
-                        if (pop.getColumn() == i && pop.getRow() == j && pop.isAlive()) {
-                            neighbors++;
-            //            }
+                for (Cell pop : population) {
+                    if (pop.getColumn() == i && pop.getRow() == j && pop.isAlive() && !pop.equals(cell)) {
+                        neighbors++;
                     }
                 }
             }
