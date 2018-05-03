@@ -115,6 +115,7 @@ public final class Shell {
 
     private static boolean notANumber(String number) {
         try {
+            //noinspection ResultOfMethodCallIgnored
             Integer.parseInt(number);
         } catch (NumberFormatException e) {
             return true;
