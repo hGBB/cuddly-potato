@@ -88,7 +88,14 @@ public class GridImpl implements Grid {
         for (Cell cell : population) {
             setNeighbors(cell);
         }
-
+        for (Cell cell : population) {
+            if (!cell.isAlive() && cell.getNeighbors() == 3) {
+                cell.setAlive(true);
+            } else if (cell.isAlive() && !(cell.getNeighbors() == 2 || cell.getNeighbors() == 3)) {
+                cell.setAlive(false);
+            }
+        }
+        generation++;
     }
 
     @Override
@@ -120,18 +127,18 @@ public class GridImpl implements Grid {
     }
 
     private void setNeighbors(Cell cell) {
-        int xAxis = cell.getColumn();
-        int yAxis = cell.getRow();
-        int neighbors = 0;
-        for (int i = xAxis - 1; i < xAxis + 1; i++) {
-            for (int j = yAxis - 1; j < yAxis + 1; j++) {
-                for (Cell pop : population) {
-                    if (pop.getColumn() == i && pop.getRow() == j && pop.isAlive() && !pop.equals(cell)) {
-                        neighbors++;
-                    }
+        for (Cell allCells : population) {
+            int neighbors = 0;
+            for (Cell livingCells : getPopulation()) {
+                if (Math.abs(allCells.getColumn() - livingCells.getColumn()) == 1 && Math.abs(allCells.getRow() - livingCells.getRow()) == 1) {
+                neighbors++;
+                } else if (Math.abs(allCells.getColumn() - livingCells.getColumn()) == 1 && allCells.getRow() == livingCells.getRow()) {
+                    neighbors++;
+                } else if (allCells.getColumn()  == livingCells.getColumn() && Math.abs(allCells.getRow() - livingCells.getRow()) == 1) {
+                    neighbors++;
                 }
             }
+            allCells.setNeighbors(neighbors);
         }
-        cell.setNeighbors(neighbors);
     }
 }
