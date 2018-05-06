@@ -73,7 +73,7 @@ public final class Shell {
                     case 's':
                         if (initialized(gol)) {
                             gol.clear();
-                            gol = shapes.createSpaceship(gol);
+                            gol = shapes.createCluster(gol);
                             // TODO: write set of shapes
                         }
                         break;
