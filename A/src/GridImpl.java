@@ -12,7 +12,7 @@ public class GridImpl implements Grid {
         this.rows = rows;
         this.columns = columns;
         this.grid = new Cell[columns][rows];
-        for (int i = 0; i < rows; i++) {
+        for (int i = 0; i < rows; i++) {    // TODO: new 3 1 / new 1 3 checken!
             for (int j = 0; j < columns; j++) {
                 grid[i][j] = new Cell(false, i, j);
             }
@@ -39,8 +39,20 @@ public class GridImpl implements Grid {
 
     @Override
     public void resize(int cols, int rows) {
+        Collection<Cell> aliveCells = getPopulation();
+        this.grid = new Cell[cols][rows];
         this.columns = cols;
         this.rows = rows;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < columns; j++) {
+                grid[i][j] = new Cell(false, i, j);
+            }
+        }
+        for (Cell cell : aliveCells) {
+            if (cell.getColumn() < cols && cell.getRow() < rows) {
+                grid[cell.getColumn()][cell.getRow()].setAlive(true);
+            }
+        }
     }
 
     @Override

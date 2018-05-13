@@ -37,8 +37,10 @@ public final class Shell {
                         if (initialized(gol)) {
                             xAxis = Integer.parseInt(tokens[1]);
                             yAxis = Integer.parseInt(tokens[2]);
-                            if (!gol.isAlive(xAxis, yAxis)) {
-                                gol.setAlive(xAxis, yAxis, true);
+                            if (chosenInputIsOnGrid(gol, xAxis, yAxis)) {
+                                if (!gol.isAlive(xAxis, yAxis)) {
+                                    gol.setAlive(xAxis, yAxis, true);
+                                }
                             }
                         }
                         break;
@@ -46,8 +48,10 @@ public final class Shell {
                         if (initialized(gol)) {
                             xAxis = Integer.parseInt(tokens[1]);
                             yAxis = Integer.parseInt(tokens[2]);
-                            if (gol.isAlive(xAxis, yAxis)) {
-                                gol.setAlive(xAxis, yAxis, false);
+                            if (chosenInputIsOnGrid(gol, xAxis, yAxis)) {
+                                if (gol.isAlive(xAxis, yAxis)) {
+                                    gol.setAlive(xAxis, yAxis, false);
+                                }
                             }
                         }
                         break;
@@ -137,6 +141,17 @@ public final class Shell {
             return false;
         } else {
             return true;
+        }
+    }
+
+    private static boolean chosenInputIsOnGrid(Grid grid, int col, int row) {
+        if (grid.getColumns() >= col && grid.getRows() >= row) {
+            return true;
+        } else {
+            error("The chosen Cell is out of bounds! Stay on the grid " +
+                    "colums = " + grid.getColumns() + " and rows = "
+            + grid.getRows());
+            return false;
         }
     }
 }
