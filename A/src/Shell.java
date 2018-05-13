@@ -7,7 +7,8 @@ public final class Shell {
     }
 
     public static void main(String[] args) throws IOException {
-        BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader stdin
+                = new BufferedReader(new InputStreamReader(System.in));
         execute(stdin);
     }
 
@@ -53,6 +54,8 @@ public final class Shell {
                     case 'g':
                         if (initialized(gol)) {
                             gol.next();
+                            System.out.println("Generation: "
+                                    + gol.getGenerations());
                         }
                         break;
                     case 'p':
@@ -67,7 +70,8 @@ public final class Shell {
                         break;
                     case 'r':
                         if (initialized(gol)) {
-                            gol.resize(Integer.parseInt(tokens[1]), Integer.parseInt(tokens[2]));
+                            gol.resize(Integer.parseInt(tokens[1]),
+                                    Integer.parseInt(tokens[2]));
                         }
                         break;
                     case 's':
@@ -100,11 +104,14 @@ public final class Shell {
         if (tokens.length > 3 || tokens.length == 0) {
             error("Input has not the correct syntax. Try 'Help'.");
             return false;
-        } else if (tokens.length == 3 && (!tokens[0].matches("[nadr]") || notANumber(tokens[1]) || notANumber(tokens[2]))) {
-            error("Input has not the correct syntax. Command + number + number expected.");
+        } else if (tokens.length == 3 && (!tokens[0].matches("[nadr]")
+                || notANumber(tokens[1]) || notANumber(tokens[2]))) {
+            error("Input has not the correct syntax. Command + number" +
+                    " + number expected.");
             return false;
-        } else if (tokens.length == 2 && (!tokens[0].matches("[s]"))) { // TODO: add filter for shapes
-            error("Input has not the correct syntax. Command + number expected.");
+        } else if (tokens.length == 2 && (!tokens[0].matches("[s]"))) {     // TODO: add filter for shapes
+            error("Input has not the correct syntax. Command " +
+                    "+ number expected.");
             return false;
         } else if (tokens.length == 1 && !tokens[0].matches("[gpchq]")) {
             error("Input has not the correct syntax. Command expected.");
@@ -125,7 +132,8 @@ public final class Shell {
 
     private static boolean initialized(GridImpl grid) {
         if (grid == null) {
-            error("Grid hasn't been initialized yet! Try 'NEW + number + number' to create a grid.");
+            error("Grid hasn't been initialized yet! Try 'NEW + number " +
+                    "+ number' to create a grid.");
             return false;
         } else {
             return true;

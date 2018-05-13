@@ -2,9 +2,11 @@ import java.util.Set;
 
 public class Shapes {
     private String name;
+    private int[][] cellsAlive;
     private int xShape;
     private int yShape;
     private Set<Cell> population;
+
 
     public GridImpl createBlock(GridImpl grid) {
         int[] center = getCenter(grid.getColumns(), grid.getRows(), 2, 2);
