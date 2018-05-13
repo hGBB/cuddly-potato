@@ -31,7 +31,9 @@ public final class Shell {
                     case 'n':
                         xAxis = Integer.parseInt(tokens[1]);
                         yAxis = Integer.parseInt(tokens[2]);
-                        gol = new GridImpl(xAxis, yAxis);
+                        if (noNegativeGridSize(xAxis, yAxis)) {
+                            gol = new GridImpl(xAxis, yAxis);
+                        }
                         break;
                     case 'a':
                         if (initialized(gol)) {
@@ -73,9 +75,12 @@ public final class Shell {
                         }
                         break;
                     case 'r':
+                        xAxis = Integer.parseInt(tokens[1]);
+                        yAxis = Integer.parseInt(tokens[2]);
                         if (initialized(gol)) {
-                            gol.resize(Integer.parseInt(tokens[1]),
-                                    Integer.parseInt(tokens[2]));
+                            if (noNegativeGridSize(xAxis, yAxis)) {
+                                gol.resize(xAxis, yAxis);
+                            }
                         }
                         break;
                     case 's':
@@ -149,13 +154,23 @@ public final class Shell {
     }
 
     private static boolean chosenInputIsOnGrid(Grid grid, int col, int row) {
-        if (grid.getColumns() >= col && grid.getRows() >= row
+        if (grid.getColumns() > col && grid.getRows() > row
                 && col >= 0 && row >= 0) {
             return true;
         } else {
             error("The chosen Cell is out of bounds! Stay on the grid "
                     + "colums = " + grid.getColumns() + " and rows = "
                     + grid.getRows());
+            return false;
+        }
+    }
+
+    private static boolean noNegativeGridSize(int col, int row) {
+        if (col >= 0 && row >= 0) {
+            return true;
+        } else {
+            error("It is not possible to create a grid with negative "
+                    + "numbers!");
             return false;
         }
     }
