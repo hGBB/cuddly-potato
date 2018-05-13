@@ -108,16 +108,20 @@ public final class Shell {
         if (tokens.length > 3 || tokens.length == 0) {
             error("Input has not the correct syntax. Try 'Help'.");
             return false;
-        } else if (tokens.length == 3 && (!tokens[0].matches("[nadr]")
+        } else if (tokens.length == 3
+                && (!tokens[0].substring(0, 1).matches("[nadrNADR]")
                 || notANumber(tokens[1]) || notANumber(tokens[2]))) {
-            error("Input has not the correct syntax. Command + number" +
-                    " + number expected.");
+            error("Input has not the correct syntax. Command + number"
+                    + " + number expected.");
             return false;
-        } else if (tokens.length == 2 && (!tokens[0].matches("[s]"))) {     // TODO: add filter for shapes
-            error("Input has not the correct syntax. Command " +
-                    "+ number expected.");
+        } else if (tokens.length == 2
+                && (!tokens[0].substring(0, 1).matches("[sS]"))) {
+            // TODO: add filter for shapes
+            error("Input has not the correct syntax. Command "
+                    + "+ number expected.");
             return false;
-        } else if (tokens.length == 1 && !tokens[0].matches("[gpchq]")) {
+        } else if (tokens.length == 1
+                && !tokens[0].substring(0, 1).matches("[gpchqGPCHQ]")) {
             error("Input has not the correct syntax. Command expected.");
             return false;
         }
@@ -136,8 +140,8 @@ public final class Shell {
 
     private static boolean initialized(GridImpl grid) {
         if (grid == null) {
-            error("Grid hasn't been initialized yet! Try 'NEW + number " +
-                    "+ number' to create a grid.");
+            error("Grid hasn't been initialized yet! Try 'NEW + number "
+                    + "+ number' to create a grid.");
             return false;
         } else {
             return true;
@@ -145,12 +149,13 @@ public final class Shell {
     }
 
     private static boolean chosenInputIsOnGrid(Grid grid, int col, int row) {
-        if (grid.getColumns() >= col && grid.getRows() >= row) {
+        if (grid.getColumns() >= col && grid.getRows() >= row
+                && col >= 0 && row >= 0) {
             return true;
         } else {
-            error("The chosen Cell is out of bounds! Stay on the grid " +
-                    "colums = " + grid.getColumns() + " and rows = "
-            + grid.getRows());
+            error("The chosen Cell is out of bounds! Stay on the grid "
+                    + "colums = " + grid.getColumns() + " and rows = "
+                    + grid.getRows());
             return false;
         }
     }

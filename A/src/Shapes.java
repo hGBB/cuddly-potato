@@ -155,7 +155,8 @@ public class Shapes {
     private int[] getCenter(int gridX, int gridY, int shapeX, int shapeY) {
         int gameX = 2; // ((gridX - shapeX) / 2) ;
         int gameY = 2; // ((gridY - shapeY) / 2) + shapeY ;
-        return new int[]{gameY, gameX}; //TODO überarbeiten sauber colum / row trennen!!!
+        return new int[]{gameY, gameX}; //TODO überarbeiten sauber colum
+        // / row trennen!!!
     }
 
 }

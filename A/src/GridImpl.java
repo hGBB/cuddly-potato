@@ -29,12 +29,12 @@ public class GridImpl implements Grid {
 
     @Override
     public boolean isAlive(int col, int row) {
-        return grid[col - 1][row - 1].isAlive();
+        return grid[col][row].isAlive();
     }
 
     @Override
     public void setAlive(int col, int row, boolean alive) {
-        grid[col - 1][row - 1].setAlive(alive);
+        grid[col][row].setAlive(alive);
     }
 
     @Override
@@ -84,6 +84,7 @@ public class GridImpl implements Grid {
         for (Cell cell : getPopulation()) {
             cell.setAlive(false);
         }
+        generation = 0;
     }
 
     @Override
@@ -116,7 +117,7 @@ public class GridImpl implements Grid {
         for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
                 if (grid[j][i].isAlive()) {
-                    result.append("x");
+                    result.append("X");
                 } else {
                     result.append(".");
                 }
@@ -133,11 +134,11 @@ public class GridImpl implements Grid {
                 int neighbors = 0;
                 for (Cell livingCells : getPopulation()) {
                     if (Math.abs(allCells.getColumn() - livingCells.getColumn())
-                            == 1 && Math.abs(allCells.getRow() -
-                            livingCells.getRow()) == 1) {
+                            == 1 && Math.abs(allCells.getRow()
+                            - livingCells.getRow()) == 1) {
                         neighbors++;
-                    } else if (Math.abs(allCells.getColumn() -
-                            livingCells.getColumn()) == 1 && allCells.getRow()
+                    } else if (Math.abs(allCells.getColumn()
+                            - livingCells.getColumn()) == 1 && allCells.getRow()
                             == livingCells.getRow()) {
                         neighbors++;
                     } else if (allCells.getColumn() == livingCells.getColumn()
