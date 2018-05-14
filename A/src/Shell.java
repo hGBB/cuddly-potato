@@ -17,7 +17,7 @@ public final class Shell {
         int xAxis;
         int yAxis;
         GridImpl gol = null;
-        Shapes shapes = new Shapes();
+        ShapeCollection shapeCollection = new ShapeCollection();
         while (!quit) {
             System.out.println("gol> ");
             String input = stdin.readLine();
@@ -86,8 +86,7 @@ public final class Shell {
                     case 's':
                         if (initialized(gol)) {
                             gol.clear();
-                            gol = shapes.createCluster(gol);
-                            // TODO: write set of shapes
+                            // TODO WIP!
                         }
                         break;
                     case 'h':
@@ -103,10 +102,6 @@ public final class Shell {
 
             }
         }
-    }
-
-    private static void error(String msg) {
-        System.out.println("Error! " + msg);
     }
 
     private static boolean checkInput(String[] tokens) {
@@ -173,5 +168,11 @@ public final class Shell {
                     + "numbers!");
             return false;
         }
+    }
+
+    private static void callShape() {}
+
+    private static void error(String msg) {
+        System.out.println("Error! " + msg);
     }
 }

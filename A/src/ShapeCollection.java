@@ -1,10 +1,13 @@
 import java.util.Collection;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class ShapeCollection {
 
-    private Collection<Shapes2> shapesCollection;
+    private Set<Shapes2> shapesCollection;
 
-    private ShapeCollection() {
+    public ShapeCollection() {
+        shapesCollection = new LinkedHashSet<>();
         int[][] block = {{0, 0}, {1, 0}, {1, 0}, {1, 1}};
         this.shapesCollection.add(new Shapes2("Block", block, 1, 1));
         int[][] boat = {{0, 0}, {1, 0}, {0, 1}, {2, 1}, {1, 2}};
@@ -36,5 +39,14 @@ public class ShapeCollection {
                 {2, 12}, {3, 12}, {9, 12}, {10, 12}
         };
         shapesCollection.add(new Shapes2("Pulsar", pulsar, 12, 12));
+        // some more shapes
+        int[][] bipole = {{0, 0}, {1, 0}, {0, 1}, {3, 2}, {2, 3}, {3, 3}};
+        shapesCollection.add(new Shapes2("Bipole", bipole, 3, 3));
+        int[][] tripole = {{0, 0}, {1, 0}, {0, 1}, {2, 1}, {2, 3}, {4, 3}, {3, 4}, {4, 4}};
+        shapesCollection.add(new Shapes2("Tripole", tripole, 4, 4));
+        int[][] rPentomino = {{1, 0}, {2, 0}, {0, 1}, {1, 1}, {1, 2}};
+        shapesCollection.add(new Shapes2("r-Pentomino", rPentomino, 2, 2));
+
+
     }
 }
