@@ -144,12 +144,12 @@ public final class Shell {
     }
 
     private static boolean initialized(GridImpl grid) {
-        if (grid == null) {
+        if (grid != null) {
+            return true;
+        } else {
             error("Grid hasn't been initialized yet! Try 'NEW + number "
                     + "+ number' to create a grid.");
             return false;
-        } else {
-            return true;
         }
     }
 
