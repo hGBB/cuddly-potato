@@ -12,7 +12,7 @@ public class GridImpl implements Grid {
         this.rows = rows;
         this.columns = columns;
         this.grid = new Cell[columns][rows];
-        for (int i = 0; i < columns; i++) {    // TODO: new 3 1 / new 1 3 checken!
+        for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
                 grid[i][j] = new Cell(false, i, j);
             }
@@ -112,7 +112,7 @@ public class GridImpl implements Grid {
     }
 
     @Override
-    public String toString() { // TODO: check for n 2 1 and n 1 2 !!!
+    public String toString() {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
