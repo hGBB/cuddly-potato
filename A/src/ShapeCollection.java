@@ -1,10 +1,13 @@
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class ShapeCollection {
 
-    private Set<Shapes2> shapesCollection;
+    private Set<Shapes2> shapesCollection; // TODO: anderes speichermedium mit welchem alle objecte aufgerufen werden können!
+
+    public Set<Shapes2> getShapesCollection() {
+        return shapesCollection;
+    }
 
     public ShapeCollection() {
         shapesCollection = new LinkedHashSet<>();

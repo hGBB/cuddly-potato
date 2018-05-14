@@ -170,7 +170,13 @@ public final class Shell {
         }
     }
 
-    private static void callShape() {}
+    private static void callShape(String token, ShapeCollection shapes) {
+        if (token.matches("Block")) {
+
+        }
+
+
+    }
 
     private static void error(String msg) {
         System.out.println("Error! " + msg);
