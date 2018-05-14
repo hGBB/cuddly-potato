@@ -12,8 +12,8 @@ public class GridImpl implements Grid {
         this.rows = rows;
         this.columns = columns;
         this.grid = new Cell[columns][rows];
-        for (int i = 0; i < rows; i++) {    // TODO: new 3 1 / new 1 3 checken!
-            for (int j = 0; j < columns; j++) {
+        for (int i = 0; i < columns; i++) {    // TODO: new 3 1 / new 1 3 checken!
+            for (int j = 0; j < rows; j++) {
                 grid[i][j] = new Cell(false, i, j);
             }
         }
@@ -116,7 +116,7 @@ public class GridImpl implements Grid {
         StringBuilder result = new StringBuilder();
         for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
-                if (grid[j][i].isAlive()) {
+                if (grid[i][j].isAlive()) {
                     result.append("X");
                 } else {
                     result.append(".");
