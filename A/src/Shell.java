@@ -183,7 +183,11 @@ public final class Shell {
                     return;
                 }
                 for (int[] coords : sh.getCoordinates()) {
-                    gol.setAlive(coords[0], coords[1], true);
+                    int gameX = (gol.getColumns() - sh.shapeColums)
+                            / 2 + coords[0];
+                    int gameY = (gol.getRows() - sh.getShapeRows())
+                            / 2 + coords[1];
+                    gol.setAlive(gameX, gameY, true);
                 }
                 return;
             }
