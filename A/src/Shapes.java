@@ -4,7 +4,8 @@ public class Shapes {
     private int shapeColumns;
     private int shapeRows;
 
-    public Shapes(String name, int[][] coordinates, int shapeColums, int shapeRows) {
+    public Shapes(String name, int[][] coordinates,
+                  int shapeColums, int shapeRows) {
         this.name = name;
         this.coordinates = coordinates;
         this.shapeColumns = shapeColums;

@@ -144,8 +144,6 @@ public final class Shell {
                     default:
                         error("Not a valid command!");
                 }
-
-
             }
         }
     }
