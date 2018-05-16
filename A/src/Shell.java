@@ -120,7 +120,6 @@ public final class Shell {
             return false;
         } else if (tokens.length == 2
                 && (!tokens[0].substring(0, 1).matches("[sS]"))) {
-            // TODO: add filter for shapes
             error("Input has not the correct syntax. Command "
                     + "+ number expected.");
             return false;
@@ -178,6 +177,11 @@ public final class Shell {
                                   ShapeCollection shapes) {
         for (Shapes2 sh : shapes.getShapesCollection()) {
             if (token.matches(sh.getName())) {
+                if (gol.getColumns() < sh.shapeColums || gol.getRows() < sh.shapeRows) {
+                    error("The shape you tried to load does not fit on the grid! Please resize using the command: 'r " +
+                            (sh.shapeColums + 1) + " " + (sh.shapeRows + 1) + "'");
+                    return;
+                }
                 for (int[] coords : sh.getCoordinates()) {
                     gol.setAlive(coords[0], coords[1], true);
                 }
