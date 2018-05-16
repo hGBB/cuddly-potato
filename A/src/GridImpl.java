@@ -7,10 +7,10 @@ public class GridImpl implements Grid {
     private int rows;
     private Cell[][] grid;
 
-    public GridImpl(int rows, int columns) {
+    public GridImpl(int columns, int rows) {
         this.generation = 0;
-        this.rows = rows;
         this.columns = columns;
+        this.rows = rows;
         this.grid = new Cell[columns][rows];
         for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
@@ -74,7 +74,6 @@ public class GridImpl implements Grid {
                     livingCells.add(cell);
                 }
             }
-
         }
         return livingCells;
     }
@@ -89,9 +88,7 @@ public class GridImpl implements Grid {
 
     @Override
     public void next() {
-        for (Cell cell : getPopulation()) {
-            setNeighbors(cell);
-        }
+            setNeighbors();
         for (int i = 0; i < columns; i++) {
             for (Cell cell : grid[i]) {
                 if (!cell.isAlive() && cell.getNeighbors() == 3) {
@@ -101,7 +98,6 @@ public class GridImpl implements Grid {
                     cell.setAlive(false);
                 }
             }
-
         }
         generation++;
     }
@@ -114,8 +110,8 @@ public class GridImpl implements Grid {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        for (int i = 0; i < columns; i++) {
-            for (int j = 0; j < rows; j++) {
+        for (int j = 0; j < rows; j++) {
+            for (int i = 0; i < columns; i++) {
                 if (grid[i][j].isAlive()) {
                     result.append("X");
                 } else {
@@ -124,11 +120,10 @@ public class GridImpl implements Grid {
             }
             result.append("\n");
         }
-
         return result.toString();
     }
 
-    private void setNeighbors(Cell cell) {
+    private void setNeighbors() {
         for (int i = 0; i < columns; i++) {
             for (Cell allCells : grid[i]) {
                 int neighbors = 0;
@@ -149,7 +144,6 @@ public class GridImpl implements Grid {
                 }
                 allCells.setNeighbors(neighbors);
             }
-
         }
     }
 }

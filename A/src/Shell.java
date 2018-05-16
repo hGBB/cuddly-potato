@@ -86,6 +86,7 @@ public final class Shell {
                     case 's':
                         if (initialized(gol)) {
                             gol.clear();
+                            callShape(gol, tokens[1], shapeCollection);
                             // TODO WIP!
                         }
                         break;
@@ -105,7 +106,10 @@ public final class Shell {
     }
 
     private static boolean checkInput(String[] tokens) {
-        if (tokens.length > 3 || tokens.length == 0) {
+        if (tokens.equals("")) {
+            error("No command detected please insert Input or try 'Help'"
+                    + "for additional information how to use this program.");
+        } else if (tokens.length > 3 || tokens.length == 0) {
             error("Input has not the correct syntax. Try 'Help'.");
             return false;
         } else if (tokens.length == 3
@@ -170,12 +174,18 @@ public final class Shell {
         }
     }
 
-    private static void callShape(String token, ShapeCollection shapes) {
-        if (token.matches("Block")) {
-
+    private static void callShape(GridImpl gol, String token,
+                                  ShapeCollection shapes) {
+        for (Shapes2 sh : shapes.getShapesCollection()) {
+            if (token.matches(sh.getName())) {
+                for (int[] coords : sh.getCoordinates()) {
+                    gol.setAlive(coords[0], coords[1], true);
+                }
+                return;
+            }
         }
-
-
+        error("The shape " + token + " is not in the collection! "
+                + "Try Help for a list of valid shapes");
     }
 
     private static void error(String msg) {
