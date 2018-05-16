@@ -134,12 +134,9 @@ public final class Shell {
                                 + "Tripole \n"
                                 + "r-Pentomino \n"
                                 + "Please be aware the shapes are case "
-                                + "sensitive."
+                                + "sensitive. \n"
                                 + "QUIT \n"
                                 + "Ends the program");
-
-
-                        // TODO: write help
                         break;
                     case 'q':
                         quit = true;
@@ -222,17 +219,17 @@ public final class Shell {
                                   ShapeCollection shapes) {
         for (Shapes sh : shapes.getShapesCollection()) {
             if (token.matches(sh.getName())) {
-                if (gol.getColumns() < sh.shapeColums
-                        || gol.getRows() < sh.shapeRows) {
+                if (gol.getColumns() < sh.getShapeColumns()
+                        || gol.getRows() < sh.getShapeRows()) {
                     error("The shape you tried to load does not "
                             + "fit on the grid! Please resize using "
                             + "the command: 'r " +
-                            (sh.shapeColums + 1) + " "
-                            + (sh.shapeRows + 1) + "'");
+                            (sh.getShapeColumns() + 1) + " "
+                            + (sh.getShapeRows() + 1) + "'");
                     return;
                 }
                 for (int[] coords : sh.getCoordinates()) {
-                    int gameX = (gol.getColumns() - sh.shapeColums)
+                    int gameX = (gol.getColumns() - sh.getShapeColumns())
                             / 2 + coords[0];
                     int gameY = (gol.getRows() - sh.getShapeRows())
                             / 2 + coords[1];

@@ -1,13 +1,13 @@
 public class Shapes {
     private String name;
     private int[][] coordinates;
-    int shapeColums;
-    int shapeRows;
+    private int shapeColumns;
+    private int shapeRows;
 
     public Shapes(String name, int[][] coordinates, int shapeColums, int shapeRows) {
         this.name = name;
         this.coordinates = coordinates;
-        this.shapeColums = shapeColums;
+        this.shapeColumns = shapeColums;
         this.shapeRows = shapeRows;
     }
 
@@ -19,8 +19,8 @@ public class Shapes {
         return coordinates;
     }
 
-    public int getShapeColums() {
-        return shapeColums;
+    public int getShapeColumns() {
+        return shapeColumns;
     }
 
     public int getShapeRows() {
