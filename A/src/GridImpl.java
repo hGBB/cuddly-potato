@@ -88,7 +88,7 @@ public class GridImpl implements Grid {
 
     @Override
     public void next() {
-            setNeighbors();
+        setNeighbors();
         for (int i = 0; i < columns; i++) {
             for (Cell cell : grid[i]) {
                 if (!cell.isAlive() && cell.getNeighbors() == 3) {

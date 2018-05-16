@@ -1,10 +1,10 @@
-public class Shapes2 {
+public class Shapes {
     private String name;
     private int[][] coordinates;
     int shapeColums;
     int shapeRows;
 
-    public Shapes2(String name, int[][] coordinates, int shapeColums, int shapeRows) {
+    public Shapes(String name, int[][] coordinates, int shapeColums, int shapeRows) {
         this.name = name;
         this.coordinates = coordinates;
         this.shapeColums = shapeColums;

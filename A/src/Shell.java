@@ -87,7 +87,6 @@ public final class Shell {
                         if (initialized(gol)) {
                             gol.clear();
                             callShape(gol, tokens[1], shapeCollection);
-                            // TODO WIP!
                         }
                         break;
                     case 'h':
@@ -106,10 +105,7 @@ public final class Shell {
     }
 
     private static boolean checkInput(String[] tokens) {
-        if (tokens.equals("")) {
-            error("No command detected please insert Input or try 'Help'"
-                    + "for additional information how to use this program.");
-        } else if (tokens.length > 3 || tokens.length == 0) {
+        if (tokens.length > 3 || tokens[0].hashCode() == 0) {
             error("Input has not the correct syntax. Try 'Help'.");
             return false;
         } else if (tokens.length == 3
@@ -175,11 +171,15 @@ public final class Shell {
 
     private static void callShape(GridImpl gol, String token,
                                   ShapeCollection shapes) {
-        for (Shapes2 sh : shapes.getShapesCollection()) {
+        for (Shapes sh : shapes.getShapesCollection()) {
             if (token.matches(sh.getName())) {
-                if (gol.getColumns() < sh.shapeColums || gol.getRows() < sh.shapeRows) {
-                    error("The shape you tried to load does not fit on the grid! Please resize using the command: 'r " +
-                            (sh.shapeColums + 1) + " " + (sh.shapeRows + 1) + "'");
+                if (gol.getColumns() < sh.shapeColums
+                        || gol.getRows() < sh.shapeRows) {
+                    error("The shape you tried to load does not "
+                            + "fit on the grid! Please resize using "
+                            + "the command: 'r " +
+                            (sh.shapeColums + 1) + " "
+                            + (sh.shapeRows + 1) + "'");
                     return;
                 }
                 for (int[] coords : sh.getCoordinates()) {
