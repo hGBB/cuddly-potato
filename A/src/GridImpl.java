@@ -1,6 +1,11 @@
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
+/**
+ * This is the grid or game board of the Game of Live. It contains a two
+ * dimensional array of Cells, the number of the current generation and the
+ * max width and height of the grid.
+ */
 public class GridImpl implements Grid {
     private int generation;
     private int columns;
@@ -19,16 +24,25 @@ public class GridImpl implements Grid {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean isAlive(int col, int row) {
         return grid[col][row].isAlive();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void setAlive(int col, int row, boolean alive) {
         grid[col][row].setAlive(alive);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void resize(int cols, int rows) {
         Collection<Cell> aliveCells = getPopulation();
@@ -47,11 +61,17 @@ public class GridImpl implements Grid {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getColumns() {
         return columns;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getRows() {
         return rows;
@@ -70,6 +90,9 @@ public class GridImpl implements Grid {
         return livingCells;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void clear() {
         for (Cell cell : getPopulation()) {
@@ -78,6 +101,9 @@ public class GridImpl implements Grid {
         generation = 0;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void next() {
         setNeighbors();
@@ -94,11 +120,17 @@ public class GridImpl implements Grid {
         generation++;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int getGenerations() {
         return generation;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
@@ -115,6 +147,9 @@ public class GridImpl implements Grid {
         return result.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     private void setNeighbors() {
         for (int i = 0; i < columns; i++) {
             for (Cell allCells : grid[i]) {

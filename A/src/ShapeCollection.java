@@ -1,13 +1,24 @@
 import java.util.LinkedList;
 
+/**
+ * This class holds a collection of all Shapes which can be used in the game.
+ */
 public class ShapeCollection {
-
     private LinkedList<Shapes> shapesCollection;
 
+    /**
+     * The Getter method of the shape collection.
+     *
+     * @return A collection of Shapes
+     */
     public LinkedList<Shapes> getShapesCollection() {
         return shapesCollection;
     }
 
+    /**
+     * This constructor creates a list of shapes with an unique name and
+     * a unique array of coordinates of which each shape is made from.
+     */
     public ShapeCollection() {
         shapesCollection = new LinkedList<>();
         int[][] block = {{0, 0}, {1, 0}, {0, 1}, {1, 1}};
@@ -50,7 +61,5 @@ public class ShapeCollection {
         shapesCollection.add(new Shapes("Tripole", tripole, 4, 4));
         int[][] rPentomino = {{1, 0}, {2, 0}, {0, 1}, {1, 1}, {1, 2}};
         shapesCollection.add(new Shapes("r-Pentomino", rPentomino, 2, 2));
-
-
     }
 }

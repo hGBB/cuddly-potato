@@ -1,5 +1,5 @@
 /**
- *
+ * This class is the core element of the Game of Life.
  */
 public class Cell {
     private boolean alive;
