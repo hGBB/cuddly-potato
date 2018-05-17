@@ -274,8 +274,8 @@ public final class Shell {
      * This method uses a Shape Collection to create predefined Shapes
      * centered on the Grid.
      *
-     * @param gol An instance of the Game of Life grid.
-     * @param token The User input calling a certain Shape.
+     * @param gol    An instance of the Game of Life grid.
+     * @param token  The User input calling a certain Shape.
      * @param shapes A predefined Collection of Shapes.
      */
     private static void callShape(GridImpl gol, String token,
@@ -286,8 +286,8 @@ public final class Shell {
                         || gol.getRows() < sh.getShapeRows()) {
                     error("The shape you tried to load does not "
                             + "fit on the grid! Please resize using "
-                            + "the command: 'r " +
-                            (sh.getShapeColumns() + 1) + " "
+                            + "the command: 'r "
+                            + (sh.getShapeColumns() + 1) + " "
                             + (sh.getShapeRows() + 1) + "'");
                     return;
                 }

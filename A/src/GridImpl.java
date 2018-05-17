@@ -12,6 +12,12 @@ public class GridImpl implements Grid {
     private int rows;
     private Cell[][] grid;
 
+    /**
+     * A Constructor for a gridImpl.
+     *
+     * @param columns Number of Columns of the new Grid.
+     * @param rows    Number of Rows of the new Grid.
+     */
     public GridImpl(int columns, int rows) {
         this.generation = 0;
         this.columns = columns;

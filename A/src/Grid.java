@@ -18,8 +18,8 @@ public interface Grid {
     /**
      * Sets the Cell at the chosen position on the board to a given status.
      *
-     * @param col The X-Coordinate of the Cell.
-     * @param row The Y-Coordinate of the Cell.
+     * @param col   The X-Coordinate of the Cell.
+     * @param row   The Y-Coordinate of the Cell.
      * @param alive The status the Cell will be set to.
      */
     void setAlive(int col, int row, boolean alive);  // set status of cell
