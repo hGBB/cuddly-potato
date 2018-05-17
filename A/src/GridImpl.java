@@ -19,14 +19,6 @@ public class GridImpl implements Grid {
         }
     }
 
-    public GridImpl(int generation, int rows, int columns, Cell[][] grid) {
-        this.generation = generation;
-        this.rows = rows;
-        this.columns = columns;
-        this.grid = grid;
-    }
-
-
     @Override
     public boolean isAlive(int col, int row) {
         return grid[col][row].isAlive();

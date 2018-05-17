@@ -2,16 +2,37 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+/**
+ * This is the Shell for Conway's Game of Life.
+ */
 public final class Shell {
+
+    /**
+     * The constructor for the utility class.
+     */
     private Shell() {
     }
 
+    /**
+     * This is the main method of Conway's Game of Life.
+     *
+     * @param args Arguments of type String
+     * @throws IOException Buffered Reader requires to be able to throw
+     *                     IOExceptions
+     */
     public static void main(String[] args) throws IOException {
         BufferedReader stdin
                 = new BufferedReader(new InputStreamReader(System.in));
         execute(stdin);
     }
 
+    /**
+     * The core method which works with the User input and calls the methods
+     * after evaluating if the User's input fits the interface's requirements.
+     *
+     * @param stdin The input given by the User.
+     * @throws IOException BufferedReader requires IOException.
+     */
     private static void execute(BufferedReader stdin) throws IOException {
         boolean quit = false;
         int xAxis;
@@ -66,7 +87,7 @@ public final class Shell {
                         break;
                     case 'p':
                         if (initialized(gol)) {
-                            System.out.println(gol.toString());
+                            System.out.println(gol);
                         }
                         break;
                     case 'c':
@@ -148,6 +169,13 @@ public final class Shell {
         }
     }
 
+    /**
+     * Help-method to check if the User's input according to the Grid
+     * interface's requirements.
+     *
+     * @param tokens The User input split into String[] tokens.
+     * @return True if the Input can be processed else false.
+     */
     private static boolean checkInput(String[] tokens) {
         if (tokens.length > 3 || tokens[0].hashCode() == 0) {
             error("Input has not the correct syntax. Try 'Help'.");
@@ -171,6 +199,13 @@ public final class Shell {
         return true;
     }
 
+    /**
+     * Help-method to check if the User input contains
+     * numbers for certain calls.
+     *
+     * @param number A String being checked if it contains solely a number.
+     * @return Weather the String can be cast into an Integer.
+     */
     private static boolean notANumber(String number) {
         try {
             //noinspection ResultOfMethodCallIgnored
@@ -181,6 +216,13 @@ public final class Shell {
         return false;
     }
 
+    /**
+     * Help-method to check if the Game of Life Grid has been initialized to
+     * prevent NullPointerExceptions.
+     *
+     * @param grid An instance of the Game of Life Grid.
+     * @return Weather the grid has been initialized.
+     */
     private static boolean initialized(GridImpl grid) {
         if (grid != null) {
             return true;
@@ -191,6 +233,14 @@ public final class Shell {
         }
     }
 
+    /**
+     * Help-Method to check weather the User's input does'nt fall of the grid.
+     *
+     * @param grid An instance of the Game of Life Grid.
+     * @param col  The User input for the X Coordinate.
+     * @param row  The User input for the Y Coordinate.
+     * @return If the Grid is wide enough.
+     */
     private static boolean chosenInputIsOnGrid(Grid grid, int col, int row) {
         if (grid.getColumns() > col && grid.getRows() > row
                 && col >= 0 && row >= 0) {
@@ -203,6 +253,13 @@ public final class Shell {
         }
     }
 
+    /**
+     * Help-Method to determine if the User's input is a positive number.
+     *
+     * @param col The User's input for the X Coordinate.
+     * @param row The User's input for the Y Coordinate.
+     * @return X Coordinate and Y Coordinate >= 0
+     */
     private static boolean noNegativeGridSize(int col, int row) {
         if (col >= 0 && row >= 0) {
             return true;
@@ -213,6 +270,14 @@ public final class Shell {
         }
     }
 
+    /**
+     * This method uses a Shape Collection to create predefined Shapes
+     * centered on the Grid.
+     *
+     * @param gol An instance of the Game of Life grid.
+     * @param token The User input calling a certain Shape.
+     * @param shapes A predefined Collection of Shapes.
+     */
     private static void callShape(GridImpl gol, String token,
                                   ShapeCollection shapes) {
         for (Shapes sh : shapes.getShapesCollection()) {
@@ -240,6 +305,11 @@ public final class Shell {
                 + "Try Help for a list of valid shapes");
     }
 
+    /**
+     * Help-method to standardize the Error messages printed on the console.
+     *
+     * @param msg A message helping the User to prevent incorrect inputs.
+     */
     private static void error(String msg) {
         System.out.println("Error! " + msg);
     }
