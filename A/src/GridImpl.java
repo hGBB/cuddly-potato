@@ -89,7 +89,8 @@ public class GridImpl implements Grid {
         for (int i = 0; i < columns; i++) {
             for (Cell cell : grid[i]) {
                 if (cell.isAlive()) {
-                    livingCells.add(cell);
+                    livingCells.add(new Cell(true, cell.getColumn(),
+                            cell.getRow()));
                 }
             }
         }
