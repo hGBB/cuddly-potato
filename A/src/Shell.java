@@ -37,7 +37,7 @@ public final class Shell {
         boolean quit = false;
         int xAxis;
         int yAxis;
-        GridImpl gol = null;
+        Grid gol = null;
         ShapeCollection shapeCollection = new ShapeCollection();
         while (!quit) {
             System.out.println("gol> ");
@@ -223,7 +223,7 @@ public final class Shell {
      * @param grid An instance of the Game of Life Grid.
      * @return Weather the grid has been initialized.
      */
-    private static boolean initialized(GridImpl grid) {
+    private static boolean initialized(Grid grid) {
         if (grid != null) {
             return true;
         } else {
@@ -278,7 +278,7 @@ public final class Shell {
      * @param token  The User input calling a certain Shape.
      * @param shapes A predefined Collection of Shapes.
      */
-    private static void callShape(GridImpl gol, String token,
+    private static void callShape(Grid gol, String token,
                                   ShapeCollection shapes) {
         for (Shapes sh : shapes.getShapesCollection()) {
             if (token.matches(sh.getName())) {
