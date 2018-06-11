@@ -22,7 +22,7 @@ public class ShapeCollection {
     public ShapeCollection() {
         shapesCollection = new LinkedList<>();
         int[][] block = {{0, 0}, {1, 0}, {0, 1}, {1, 1}};
-        this.shapesCollection.add(new Shapes("Block", block, 1, 1));
+        this.shapesCollection.add(new Shapes("Block", block, 2, 2));
         int[][] boat = {{0, 0}, {1, 0}, {0, 1}, {2, 1}, {1, 2}};
         shapesCollection.add(new Shapes("Boat", boat, 2, 2));
         int[][] blinker = {{0, 0}, {1, 0}, {2, 0}};
