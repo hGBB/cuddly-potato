@@ -1,26 +1,28 @@
+package gol;
+
 import java.util.Collection;
 
 /**
- * Interface Grid unifies Grid and Cell of the Game of Life
+ * Interface gol.Grid unifies gol.Grid and gol.Cell of the Game of Life
  */
 public interface Grid {
 
     /**
-     * Returns weather the Cell at the chosen position on the board is
+     * Returns weather the gol.Cell at the chosen position on the board is
      * alive.
      *
-     * @param col The X-Coordinate of the Cell.
-     * @param row The Y-Coordinate of the Cell.
-     * @return The status of the Cell.
+     * @param col The X-Coordinate of the gol.Cell.
+     * @param row The Y-Coordinate of the gol.Cell.
+     * @return The status of the gol.Cell.
      */
     boolean isAlive(int col, int row); // get status of cell
 
     /**
-     * Sets the Cell at the chosen position on the board to a given status.
+     * Sets the gol.Cell at the chosen position on the board to a given status.
      *
-     * @param col   The X-Coordinate of the Cell.
-     * @param row   The Y-Coordinate of the Cell.
-     * @param alive The status the Cell will be set to.
+     * @param col   The X-Coordinate of the gol.Cell.
+     * @param row   The Y-Coordinate of the gol.Cell.
+     * @param alive The status the gol.Cell will be set to.
      */
     void setAlive(int col, int row, boolean alive);  // set status of cell
 

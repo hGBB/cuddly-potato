@@ -1,9 +1,16 @@
+package user_interaction;
+
+import gol.Grid;
+import gol.GridImpl;
+import gol.Shape;
+import gol.ShapeCollection;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * This is the Shell for Conway's Game of Life.
+ * This is the user_interaction.Shell for Conway's Game of Life.
  */
 public final class Shell {
 
@@ -40,14 +47,13 @@ public final class Shell {
         Grid gol = null;
         ShapeCollection shapeCollection = new ShapeCollection();
         while (!quit) {
-            System.out.println("gol> ");
+            System.out.print("gol> ");
             String input = stdin.readLine();
             if (input == null) {
                 break;
             }
             String[] tokens = input.trim().split("\\s+");
             if (checkInput(tokens)) {
-
                 switch (input.toLowerCase().charAt(0)) {
                     case 'n':
                         xAxis = Integer.parseInt(tokens[1]);
@@ -117,7 +123,7 @@ public final class Shell {
                                 + " to use them. \n"
                                 + "x determines the X Coordinate and y the "
                                 + "Y Coordinates of the Board \n"
-                                + "First you have to create a new Grid using \n"
+                                + "First you have to create a new gol.Grid using \n"
                                 + "NEW x y \n"
                                 + "Creates a new Board of the size x * y \n"
                                 + "ALIVE x y \n"
@@ -127,10 +133,10 @@ public final class Shell {
                                 + "GENERATE \n"
                                 + "This command creates the next Generation"
                                 + " of cells \n"
-                                + "If a living Cell has 2 or 3 neighboring "
+                                + "If a living gol.Cell has 2 or 3 neighboring "
                                 + "living Cells it stays alive \n"
-                                + "in any other case the living Cell dies. \n"
-                                + "If a dead Cell has exactly 3 living"
+                                + "in any other case the living gol.Cell dies. \n"
+                                + "If a dead gol.Cell has exactly 3 living"
                                 + " neighboring Cells it is born. \n"
                                 + "PRINT \n"
                                 + "This command prints the Board "
@@ -141,9 +147,9 @@ public final class Shell {
                                 + "RESIZE x y \n"
                                 + "Resizes the Board but keeps all Cells "
                                 + "as long as they don't fall off the Board \n"
-                                + "Shape s \n"
-                                + "Loads a predefined Shape on the Grid. \n"
-                                + "This is the list of all available Shapes: \n"
+                                + "gol.Shape s \n"
+                                + "Loads a predefined gol.Shape on the gol.Grid. \n"
+                                + "This is the list of all available gol.Shape: \n"
                                 + "Block \n"
                                 + "Boat \n"
                                 + "Blinker \n"
@@ -170,7 +176,7 @@ public final class Shell {
     }
 
     /**
-     * Help-method to check if the User's input according to the Grid
+     * Help-method to check if the User's input according to the gol.Grid
      * interface's requirements.
      *
      * @param tokens The User input split into String[] tokens.
@@ -217,17 +223,17 @@ public final class Shell {
     }
 
     /**
-     * Help-method to check if the Game of Life Grid has been initialized to
+     * Help-method to check if the Game of Life gol.Grid has been initialized to
      * prevent NullPointerExceptions.
      *
-     * @param grid An instance of the Game of Life Grid.
+     * @param grid An instance of the Game of Life gol.Grid.
      * @return Weather the grid has been initialized.
      */
     private static boolean initialized(Grid grid) {
         if (grid != null) {
             return true;
         } else {
-            error("Grid hasn't been initialized yet! Try 'NEW + number "
+            error("gol.Grid hasn't been initialized yet! Try 'NEW + number "
                     + "+ number' to create a grid.");
             return false;
         }
@@ -236,17 +242,17 @@ public final class Shell {
     /**
      * Help-Method to check weather the User's input does'nt fall of the grid.
      *
-     * @param grid An instance of the Game of Life Grid.
+     * @param grid An instance of the Game of Life gol.Grid.
      * @param col  The User input for the X Coordinate.
      * @param row  The User input for the Y Coordinate.
-     * @return If the Grid is wide enough.
+     * @return If the gol.Grid is wide enough.
      */
     private static boolean chosenInputIsOnGrid(Grid grid, int col, int row) {
         if (grid.getColumns() > col && grid.getRows() > row
                 && col >= 0 && row >= 0) {
             return true;
         } else {
-            error("The chosen Cell is out of bounds! Stay on the grid "
+            error("The chosen gol.Cell is out of bounds! Stay on the grid "
                     + "colums = " + grid.getColumns() + " and rows = "
                     + grid.getRows());
             return false;
@@ -271,16 +277,16 @@ public final class Shell {
     }
 
     /**
-     * This method uses a Shape Collection to create predefined Shapes
-     * centered on the Grid.
+     * This method uses a gol.Shape Collection to create predefined gol.Shape
+     * centered on the gol.Grid.
      *
      * @param gol    An instance of the Game of Life grid.
-     * @param token  The User input calling a certain Shape.
-     * @param shapes A predefined Collection of Shapes.
+     * @param token  The User input calling a certain gol.Shape.
+     * @param shapes A predefined Collection of gol.Shape.
      */
     private static void callShape(Grid gol, String token,
                                   ShapeCollection shapes) {
-        for (Shapes sh : shapes.getShapesCollection()) {
+        for (Shape sh : shapes.getShapeCollection()) {
             if (token.matches(sh.getName())) {
                 if (gol.getColumns() < sh.getShapeColumns()
                         || gol.getRows() < sh.getShapeRows()) {

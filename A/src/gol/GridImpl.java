@@ -1,9 +1,11 @@
+package gol;
+
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
 /**
- * This is the grid or game board of the Game of Live. It contains a two
- * dimensional array of Cells, the number of the current generation and the
+ * This is the grid or game board of the game of live. It contains a two
+ * dimensional array of cells, the number of the current generation and the
  * max width and height of the grid.
  */
 public class GridImpl implements Grid {
@@ -11,12 +13,15 @@ public class GridImpl implements Grid {
     private int columns;
     private int rows;
     private Cell[][] grid;
+    private LinkedHashSet<Cell> population;
 
+    private static final int SURVIVE = 2;
+    private static final int SET_ALIVE = 3;
     /**
      * A Constructor for a gridImpl.
      *
-     * @param columns Number of Columns of the new Grid.
-     * @param rows    Number of Rows of the new Grid.
+     * @param columns number of columns of the new grid.
+     * @param rows    number of rows of the new grid.
      */
     public GridImpl(int columns, int rows) {
         this.generation = 0;
@@ -106,7 +111,6 @@ public class GridImpl implements Grid {
             for (Cell cell : grid[i]) {
                 cell.setAlive(false);
             }
-
         }
         generation = 0;
     }
@@ -119,10 +123,10 @@ public class GridImpl implements Grid {
         setNeighbors();
         for (int i = 0; i < columns; i++) {
             for (Cell cell : grid[i]) {
-                if (!cell.isAlive() && cell.getNeighbors() == 3) {
+                if (!cell.isAlive() && cell.getNeighbors() == SET_ALIVE) {
                     cell.setAlive(true);
-                } else if (cell.isAlive() && !(cell.getNeighbors() == 2
-                        || cell.getNeighbors() == 3)) {
+                } else if (cell.isAlive() && !(cell.getNeighbors() == SURVIVE
+                        || cell.getNeighbors() == SET_ALIVE)) {
                     cell.setAlive(false);
                 }
             }
@@ -146,11 +150,7 @@ public class GridImpl implements Grid {
         StringBuilder result = new StringBuilder();
         for (int j = 0; j < rows; j++) {
             for (int i = 0; i < columns; i++) {
-                if (grid[i][j].isAlive()) {
-                    result.append("X");
-                } else {
-                    result.append(".");
-                }
+                result.append(grid[i][j]);
             }
             result.append("\n");
         }
@@ -163,23 +163,23 @@ public class GridImpl implements Grid {
     private void setNeighbors() {
         for (int i = 0; i < columns; i++) {
             for (Cell allCells : grid[i]) {
-                int neighbors = 0;
+                int proximityCell = 0;
                 for (Cell livingCells : getPopulation()) {
                     if (Math.abs(allCells.getColumn() - livingCells.getColumn())
                             == 1 && Math.abs(allCells.getRow()
                             - livingCells.getRow()) == 1) {
-                        neighbors++;
+                        proximityCell++;
                     } else if (Math.abs(allCells.getColumn()
                             - livingCells.getColumn()) == 1 && allCells.getRow()
                             == livingCells.getRow()) {
-                        neighbors++;
+                        proximityCell++;
                     } else if (allCells.getColumn() == livingCells.getColumn()
                             && Math.abs(allCells.getRow()
                             - livingCells.getRow()) == 1) {
-                        neighbors++;
+                        proximityCell++;
                     }
                 }
-                allCells.setNeighbors(neighbors);
+                allCells.setNeighbors(proximityCell);
             }
         }
     }
