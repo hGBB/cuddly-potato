@@ -1,4 +1,4 @@
-package gol;
+package gameOfLife;
 
 /**
  * This class is the core element of the Game of Life.
@@ -13,8 +13,8 @@ public class Cell {
      * Common constructor for new Cells.
      *
      * @param alive  Boolean, wheater the cell is alive.
-     * @param column Int, the gol.Cell's X Coordinate.
-     * @param row    Int, the gol.Cell's Y Coordinate.
+     * @param column Int, the gameOfLife.Cell's X Coordinate.
+     * @param row    Int, the gameOfLife.Cell's Y Coordinate.
      */
     public Cell(boolean alive, int column, int row) {
         this.alive = alive;
@@ -32,34 +32,34 @@ public class Cell {
     }
 
     /**
-     * Getter method of the gol.Cell's y coordinate.
+     * Getter method of the gameOfLife.Cell's y coordinate.
      *
-     * @return row the gol.Cell is located at as int.
+     * @return row the gameOfLife.Cell is located at as int.
      */
     public int getRow() {
         return row;
     }
 
     /**
-     * Getter method of the gol.Cell's status.
+     * Getter method of the gameOfLife.Cell's status.
      *
-     * @return status of the gol.Cell as boolean.
+     * @return status of the gameOfLife.Cell as boolean.
      */
     public boolean isAlive() {
         return alive;
     }
 
     /**
-     * Setter method of the gol.Cell's status.
+     * Setter method of the gameOfLife.Cell's status.
      *
-     * @param alive Boolean weather a gol.Cell will be set to live or die.
+     * @param alive Boolean weather a gameOfLife.Cell will be set to live or die.
      */
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
 
     /**
-     * Getter method of the gol.Cell's neighbors.
+     * Getter method of the gameOfLife.Cell's neighbors.
      *
      * @return The number of living neighboring Cells.
      */
@@ -68,7 +68,7 @@ public class Cell {
     }
 
     /**
-     * Setter method of the gol.Cell's neighbors.
+     * Setter method of the gameOfLife.Cell's neighbors.
      *
      * @param neighbors Sets the amount of a Cells neighbors.
      */

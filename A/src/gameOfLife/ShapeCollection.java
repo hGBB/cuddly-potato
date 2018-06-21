@@ -1,9 +1,9 @@
-package gol;
+package gameOfLife;
 
 import java.util.LinkedList;
 
 /**
- * This class holds a collection of all gol.Shape which can be used in the game.
+ * This class holds a collection of all gameOfLife.Shape which can be used in the game.
  */
 public class ShapeCollection {
     private LinkedList<Shape> shapeCollection;
@@ -11,7 +11,7 @@ public class ShapeCollection {
     /**
      * The Getter method of the shape collection.
      *
-     * @return A collection of gol.Shape
+     * @return A collection of gameOfLife.Shape
      */
     public LinkedList<Shape> getShapeCollection() {
         return shapeCollection;

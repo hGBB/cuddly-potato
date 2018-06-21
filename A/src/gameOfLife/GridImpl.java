@@ -1,4 +1,4 @@
-package gol;
+package gameOfLife;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;

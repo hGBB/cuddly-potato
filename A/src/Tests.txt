@@ -1,155 +1,155 @@
-gol>
+gameOfLife>
 a
 Error! Input has not the correct syntax. Command expected.
-gol>
+gameOfLife>
 n 1
 Error! Input has not the correct syntax. Command + number expected.
-gol>
+gameOfLife>
 n x 1
 Error! Input has not the correct syntax. Command + number + number expected.
-gol>
+gameOfLife>
 n x x
 Error! Input has not the correct syntax. Command + number + number expected.
-gol>
+gameOfLife>
 n 1 1 a
 Error! Input has not the correct syntax. Try 'Help'.
-gol>
+gameOfLife>
 n 1 1 1
 Error! Input has not the correct syntax. Try 'Help'.
-gol>
+gameOfLife>
 n 1 1
-gol>
+gameOfLife>
 p
 .
 
-gol>
+gameOfLife>
 a 0 2
-Error! The chosen gol.Cell is out of bounds! Stay on the grid colums = 1 and
+Error! The chosen gameOfLife.Cell is out of bounds! Stay on the grid colums = 1 and
 rows = 1
-gol>
+gameOfLife>
 a a a
 Error! Input has not the correct syntax. Command + number + number expected.
-gol>
+gameOfLife>
 a0 0
 Error! Input has not the correct syntax. Command + number expected.
-gol>
+gameOfLife>
 a 0 0
-gol>
+gameOfLife>
 p
 X
 
-gol>
+gameOfLife>
 d 0 0
-gol>
+gameOfLife>
 n 4 4
-gol>
+gameOfLife>
 p
 ....
 ....
 ....
 ....
 
-gol>
+gameOfLife>
 a 0 0
-gol>
+gameOfLife>
 p
 X...
 ....
 ....
 ....
 
-gol>
+gameOfLife>
 a 1 0
-gol>
+gameOfLife>
 p
 XX..
 ....
 ....
 ....
 
-gol>
+gameOfLife>
 a 3 ß
 Error! Input has not the correct syntax. Command + number + number expected.
-gol>
+gameOfLife>
 a 3 0
-gol>
+gameOfLife>
 p
 XX.X
 ....
 ....
 ....
 
-gol>
+gameOfLife>
 hello world!
 Error! Input has not the correct syntax. Command + number expected.
-gol>
+gameOfLife>
 a 3 3
-gol>
+gameOfLife>
 p
 XX.X
 ....
 ....
 ...X
 
-gol>
+gameOfLife>
 c
-gol>
+gameOfLife>
 p
 ....
 ....
 ....
 ....
 
-gol>
+gameOfLife>
 c 1
 Error! Input has not the correct syntax. Command + number expected.
-gol>
+gameOfLife>
 c 1 1
 Error! Input has not the correct syntax. Command + number + number expected.
-gol>
+gameOfLife>
 a 0 0
-gol>
+gameOfLife>
 a 1 1
-gol>
+gameOfLife>
 a 2 2
-gol>
+gameOfLife>
 a 3 3
-gol>
+gameOfLife>
 p
 X...
 .X..
 ..X.
 ...X
 
-gol>
+gameOfLife>
 r 3 3
-gol>
+gameOfLife>
 p
 X..
 .X.
 ..X
 
-gol>
+gameOfLife>
 r 4 4
-gol>
+gameOfLife>
 p
 X...
 .X..
 ..X.
 ....
 
-gol>
+gameOfLife>
 r 2 2
-gol>
+gameOfLife>
 p
 X.
 .X
 
-gol>
+gameOfLife>
 c
-gol>
+gameOfLife>
 r 5 5
-gol>
+gameOfLife>
 p
 .....
 .....
@@ -157,17 +157,17 @@ p
 .....
 .....
 
-gol>
+gameOfLife>
 s Pulsar
 Error! The shape you tried to load does not fit on the grid! Please resize
 using the command: 'r 13 13'
-gol>
+gameOfLife>
 s glider
 Error! The shape glider is not in the collection! Try Help for a list of
 valid shapes
-gol>
+gameOfLife>
 s Glider
-gol>
+gameOfLife>
 p
 .....
 .XXX.
@@ -175,10 +175,10 @@ p
 ..X..
 .....
 
-gol>
+gameOfLife>
 g
 Generation: 1
-gol>
+gameOfLife>
 p
 ..X..
 .XX..
@@ -186,10 +186,10 @@ p
 .....
 .....
 
-gol>
+gameOfLife>
 g
 Generation: 2
-gol>
+gameOfLife>
 p
 .XX..
 .X.X.
@@ -197,10 +197,10 @@ p
 .....
 .....
 
-gol>
+gameOfLife>
 g
 Generation: 3
-gol>
+gameOfLife>
 p
 .XX..
 XX...
@@ -208,19 +208,19 @@ XX...
 .....
 .....
 
-gol>
+gameOfLife>
 g
 Generation: 4
-gol>
+gameOfLife>
 p
 XXX..
 X....
 .X...
 .....
 .....
-gol>
+gameOfLife>
 d 0 0
-gol>
+gameOfLife>
 p
 .XX..
 X....
@@ -228,9 +228,9 @@ X....
 .....
 .....
 
-gol>
+gameOfLife>
 d 0 1
-gol>
+gameOfLife>
 p
 .XX..
 .....
@@ -238,13 +238,13 @@ p
 .....
 .....
 
-gol>
+gameOfLife>
 d 1 0
-gol>
+gameOfLife>
 d 2 0
-gol>
+gameOfLife>
 d 1 2
-gol>
+gameOfLife>
 p
 .....
 .....
@@ -252,9 +252,9 @@ p
 .....
 .....
 
-gol>
+gameOfLife>
 n 10 10
-gol>
+gameOfLife>
 p
 ..........
 ..........
@@ -266,9 +266,9 @@ p
 ..........
 ..........
 ..........
-gol>
+gameOfLife>
 s r-Pentomino
-gol>
+gameOfLife>
 p
 ..........
 ..........
@@ -281,10 +281,10 @@ p
 ..........
 ..........
 
-gol>
+gameOfLife>
 g
 Generation: 1
-gol>
+gameOfLife>
 p
 ..........
 ..........
@@ -297,10 +297,10 @@ p
 ..........
 ..........
 
-gol>
+gameOfLife>
 g
 Generation: 2
-gol>
+gameOfLife>
 p
 ..........
 ..........
@@ -313,10 +313,10 @@ p
 ..........
 ..........
 
-gol>
+gameOfLife>
 g
 Generation: 3
-gol>
+gameOfLife>
 p
 ..........
 ..........
@@ -329,10 +329,10 @@ p
 ..........
 ..........
 
-gol>
+gameOfLife>
 g
 Generation: 4
-gol>
+gameOfLife>
 p
 ..........
 ..........
@@ -345,10 +345,10 @@ p
 ..........
 ..........
 
-gol>
+gameOfLife>
 g
 Generation: 5
-gol>
+gameOfLife>
 p
 ..........
 ..........
@@ -361,10 +361,10 @@ p
 ..........
 ..........
 
-gol>
+gameOfLife>
 g
 Generation: 6
-gol>
+gameOfLife>
 p
 ..........
 ..........
@@ -377,10 +377,10 @@ p
 ..........
 ..........
 
-gol>
+gameOfLife>
 g
 Generation: 7
-gol>
+gameOfLife>
 p
 ..........
 ..........
@@ -393,10 +393,10 @@ p
 ..........
 ..........
 
-gol>
+gameOfLife>
 gp
 Generation: 8
-gol>
+gameOfLife>
 p
 ..........
 ..........
@@ -409,10 +409,10 @@ p
 ..........
 ..........
 
-gol>
+gameOfLife>
 g
 Generation: 9
-gol>
+gameOfLife>
 p
 ..........
 .....X....
@@ -425,10 +425,10 @@ p
 ..........
 ..........
 
-gol>
+gameOfLife>
 g
 Generation: 10
-gol>
+gameOfLife>
 p
 ..........
 ..........
@@ -441,10 +441,10 @@ p
 .....X....
 ..........
 
-gol>
+gameOfLife>
 g
 Generation: 11
-gol>
+gameOfLife>
 p
 ..........
 ..........
@@ -457,10 +457,10 @@ p
 ..........
 ..........
 
-gol>
+gameOfLife>
 g
 Generation: 12
-gol>
+gameOfLife>
 p
 ..........
 ..........
@@ -473,10 +473,10 @@ XX........
 ..........
 ..........
 
-gol>
+gameOfLife>
 g
 Generation: 13
-gol>
+gameOfLife>
 p
 ..........
 ..........
@@ -489,10 +489,10 @@ XXX..X....
 .....X....
 ..........
 
-gol>
+gameOfLife>
 g
 Generation: 14
-gol>
+gameOfLife>
 p
 ..........
 ..........
@@ -505,12 +505,12 @@ XXXXXX....
 ....XX....
 ..........
 
-gol>
+gameOfLife>
 g
 Generation: 15
-gol>
+gameOfLife>
 r 5 5
-gol>
+gameOfLife>
 p
 ..........
 ..........
@@ -523,9 +523,9 @@ XX....X...
 ....XX....
 ..........
 
-gol>
+gameOfLife>
 r 5 5
-gol>
+gameOfLife>
 p
 .....
 .....
@@ -533,12 +533,12 @@ p
 X.XX.
 X...X
 
-gol>
+gameOfLife>
 h
 Hello and welcome to Conway's Game of Life
 This is the List of all commands and how to use them.
 x determines the X Coordinate and y the Y Coordinates of the Board
-First you have to create a new gol.Grid using
+First you have to create a new gameOfLife.Grid using
 NEW x y
 Creates a new Board of the size x * y
 ALIVE x y
@@ -547,18 +547,18 @@ DEAD x y
 Sets the cell located at x y to dead
 GENERATE
 This command creates the next Generation of cells
-If a living gol.Cell has 2 or 3 neighboring living Cells it stays alive
-in any other case the living gol.Cell dies.
-If a dead gol.Cell has exactly 3 living neighboring Cells it is born.
+If a living gameOfLife.Cell has 2 or 3 neighboring living Cells it stays alive
+in any other case the living gameOfLife.Cell dies.
+If a dead gameOfLife.Cell has exactly 3 living neighboring Cells it is born.
 PRINT
 This command prints the Board on the console
 CLEAR
 This command kills all living Cells of the Board
 RESIZE x y
 Resizes the Board but keeps all Cells as long as they don't fall off the Board
-gol.Shape s
-Loads a predefined gol.Shape on the gol.Grid.
-This is the list of all available gol.Shape:
+gameOfLife.Shape s
+Loads a predefined gameOfLife.Shape on the gameOfLife.Grid.
+This is the list of all available gameOfLife.Shape:
 Block
 Boat
 Blinker
@@ -572,8 +572,8 @@ r-Pentomino
 Please be aware the shapes are case sensitive.
 QUIT
 Ends the program
-gol>
+gameOfLife>
 
 Error! Input has not the correct syntax. Try 'Help'.
-gol>
+gameOfLife>
 q
