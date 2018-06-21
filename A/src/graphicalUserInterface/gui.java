@@ -7,7 +7,8 @@ public class gui {
     private JButton startButton;
     private JButton stopButton;
     private JComboBox shapeDropdown;
-    private JComboBox cellSizeComboBox;
-    private JComboBox threadSpeedComboBox;
     private JPanel GenerationCounter;
+    private JSlider slider1;
+    private JSlider slider2;
+    private JTextArea generationTextArea;
 }
