@@ -5,10 +5,10 @@ package gameOfLife;
  * an a unique name by which they can be identified.
  */
 public class Shape {
-    private String name;
-    private int[][] coordinates;
-    private int shapeColumns;
-    private int shapeRows;
+    private final String name;
+    private final int[][] coordinates;
+    private final int shapeColumns;
+    private final int shapeRows;
 
     /**
      * The constructor for a new gameOfLife.Shape.

@@ -5,8 +5,8 @@ package gameOfLife;
  */
 public class Cell {
     private boolean alive;
-    private int column;
-    private int row;
+    private final int column;
+    private final int row;
     private int neighbors;
 
     /**
