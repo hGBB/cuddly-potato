@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import view.components.Grid;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,14 +12,13 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class Gui extends JFrame implements Observer {
-
+    private Grid grid;
     private JPanel panel1;
     private JComboBox comboBox1;
     private JButton button1;
     private JButton button2;
     private JComboBox comboBox2;
     private JComboBox comboBox3;
-
     private Controller controller = new Controller();
 
 
@@ -48,9 +48,10 @@ public class Gui extends JFrame implements Observer {
 
 
     public static void main(String[] args) throws IOException {
-        JFrame frame = new JFrame("Gui");
-        frame.setContentPane(new Gui().panel1);
+        JFrame frame = new JFrame("Game of Life");
+    //    frame.setContentPane(new Gui().panel1);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.add(new Grid(100, 100));
         frame.pack();
         frame.setVisible(true);
         //      Gui gui = new Gui();
