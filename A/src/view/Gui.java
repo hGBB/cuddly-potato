@@ -12,7 +12,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class Gui extends JFrame implements Observer {
-    private Grid grid;
+    private Grid grid = new Grid(10, 10);
     private JPanel panel1;
     private JComboBox comboBox1;
     private JButton button1;
@@ -31,7 +31,6 @@ public class Gui extends JFrame implements Observer {
         controller.addObserver(this);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBounds(100, 100, 1000, 1000);
-
         button1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,10 +48,13 @@ public class Gui extends JFrame implements Observer {
 
     public static void main(String[] args) throws IOException {
         JFrame frame = new JFrame("Game of Life");
-    //    frame.setContentPane(new Gui().panel1);
+
+   //     frame.setContentPane(new Gui().panel1);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.add(new Grid(100, 100));
+        frame.add(new Grid(5, 20));
         frame.pack();
+        frame.setBounds(100, 100, 600, 400);
+        frame.setMinimumSize(new Dimension(450, 200));
         frame.setVisible(true);
         //      Gui gui = new Gui();
         //      gui.setVisible(true);

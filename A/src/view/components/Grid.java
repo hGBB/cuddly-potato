@@ -10,19 +10,18 @@ public class Grid extends JPanel {
 
         setLayout(new GridBagLayout());
 
-        GridBagConstraints gbc = new GridBagConstraints();
+        GridBagConstraints constraints = new GridBagConstraints();
 
 
-        for (int row = 0; row <= height; row++) {
-            for (int col = 0; col <= width; col++) {
-                gbc.gridx = col;
-                gbc.gridy = row;
-
+        for (int i = 0; i <= height; i++) {
+            for (int j = 0; j <= width; j++) {
+                constraints.gridx = j;
+                constraints.gridy = i;
                 GridCell cellPane = new GridCell();
-                Border border = new MatteBorder(1, 1, (row == height ? 1 : 0), (col == width ? 1 : 0), Color.GRAY);
+                Border border = new MatteBorder(1, 1, (i == height ? 1 : 0), (j == width ? 1 : 0), Color.BLACK);
 
                 cellPane.setBorder(border);
-                this.add(cellPane, gbc);
+                this.add(cellPane, constraints);
             }
         }
     }
