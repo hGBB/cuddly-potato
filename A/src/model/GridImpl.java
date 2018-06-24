@@ -1,4 +1,4 @@
-package gameOfLife;
+package model;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -14,9 +14,13 @@ public class GridImpl implements Grid {
     private int rows;
     private Cell[][] grid;
     private LinkedHashSet<Cell> population;
-
     private static final int SURVIVE = 2;
     private static final int SET_ALIVE = 3;
+
+    public GridImpl() {
+
+    }
+
     /**
      * A Constructor for a gridImpl.
      *

@@ -1,4 +1,4 @@
-package gameOfLife;
+package model;
 
 /**
  * This class is the core element of the Game of Life.
@@ -13,8 +13,8 @@ public class Cell {
      * Common constructor for new Cells.
      *
      * @param alive  Boolean, wheater the cell is alive.
-     * @param column Int, the gameOfLife.Cell's X Coordinate.
-     * @param row    Int, the gameOfLife.Cell's Y Coordinate.
+     * @param column Int, the model.Cell's X Coordinate.
+     * @param row    Int, the model.Cell's Y Coordinate.
      */
     public Cell(boolean alive, int column, int row) {
         this.alive = alive;
@@ -32,34 +32,34 @@ public class Cell {
     }
 
     /**
-     * Getter method of the gameOfLife.Cell's y coordinate.
+     * Getter method of the model.Cell's y coordinate.
      *
-     * @return row the gameOfLife.Cell is located at as int.
+     * @return row the model.Cell is located at as int.
      */
     public int getRow() {
         return row;
     }
 
     /**
-     * Getter method of the gameOfLife.Cell's status.
+     * Getter method of the model.Cell's status.
      *
-     * @return status of the gameOfLife.Cell as boolean.
+     * @return status of the model.Cell as boolean.
      */
     public boolean isAlive() {
         return alive;
     }
 
     /**
-     * Setter method of the gameOfLife.Cell's status.
+     * Setter method of the model.Cell's status.
      *
-     * @param alive Boolean weather a gameOfLife.Cell will be set to live or die.
+     * @param alive Boolean weather a model.Cell will be set to live or die.
      */
     public void setAlive(boolean alive) {
         this.alive = alive;
     }
 
     /**
-     * Getter method of the gameOfLife.Cell's neighbors.
+     * Getter method of the model.Cell's neighbors.
      *
      * @return The number of living neighboring Cells.
      */
@@ -68,7 +68,7 @@ public class Cell {
     }
 
     /**
-     * Setter method of the gameOfLife.Cell's neighbors.
+     * Setter method of the model.Cell's neighbors.
      *
      * @param neighbors Sets the amount of a Cells neighbors.
      */
