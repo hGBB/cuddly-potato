@@ -1,9 +1,11 @@
 package view;
 
 import controller.Controller;
+import model.GridImpl;
 import view.components.Grid;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,14 +14,17 @@ import java.util.Observable;
 import java.util.Observer;
 
 public class Gui extends JFrame implements Observer {
-    private Grid grid = new Grid(10, 10);
-    private JPanel panel1;
-    private JComboBox comboBox1;
-    private JButton button1;
-    private JButton button2;
-    private JComboBox comboBox2;
-    private JComboBox comboBox3;
+    private JPanel contentPane;
+    private JComboBox shapeComboBox;
+    private JButton startButton;
+    private JButton stopButton;
+    private JComboBox sizeComboBox;
+    private JComboBox threadComboBox;
+    private Grid gridJPanel;
     private Controller controller = new Controller();
+    private model.Grid gameOfLife;
+
+
 
 
     @Override
@@ -28,30 +33,85 @@ public class Gui extends JFrame implements Observer {
     }
 
     public Gui() {
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPane.setLayout(new BorderLayout(0, 0));
+        setContentPane(contentPane);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout(0, 0));
+        contentPane.add(panel);
+
+
+        this.addMenu();
+        this.addGrid();
+
+
         controller.addObserver(this);
+
+
+
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBounds(100, 100, 1000, 1000);
-        button1.addActionListener(new ActionListener() {
+
+    }
+
+    private void addMenu() {
+        JPanel menu = new JPanel();
+        contentPane.add(menu, BorderLayout.SOUTH);
+        // add a label.
+        JLabel dropdownShapes = new JLabel("Shapes:");
+        menu.add(dropdownShapes);
+        // add the combobox.
+        String[] shapes = {"Clear", "Blinker", "Block"};
+        shapeComboBox = new JComboBox(shapes);
+        shapeComboBox.setSelectedIndex(0);
+        shapeComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
             }
         });
-        button2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        menu.add(shapeComboBox);
+        // add start button
+        JButton start = new JButton("Start");
+        menu.add(start);
+        // add stop button
+        JButton stop = new JButton("Stop");
+        menu.add(stop);
+        // add size label
+        JLabel dropownSize = new JLabel("Size");
+        menu.add(dropownSize);
+        // add size comboBox.
+        String[] size = {"Small", "Medium", "Large"};
+        sizeComboBox = new JComboBox(size);
+        sizeComboBox.setSelectedIndex(1);
+        menu.add(sizeComboBox);
+        // add thread label
+        JLabel dropdownThread = new JLabel("Thread");
+        menu.add(dropdownThread);
+        // add thread comboBox.
+        String[] thread = {"slow", "normal", "fast"};
+        threadComboBox = new JComboBox(thread);
+        threadComboBox.setSelectedIndex(1);
+        menu.add(threadComboBox);
+    }
 
-            }
-        });
+    private void addGrid() {
+        gameOfLife = new GridImpl();
+        gameOfLife.resize(10, 10);
+        JPanel gridPanel = new JPanel();
+        Grid grid = new Grid(gameOfLife);
+        contentPane.add(gridPanel, BorderLayout.NORTH);
+        gridPanel.add(grid);
     }
 
 
     public static void main(String[] args) throws IOException {
         JFrame frame = new JFrame("Game of Life");
 
-   //     frame.setContentPane(new Gui().panel1);
+        frame.setContentPane(new Gui().contentPane);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.add(new Grid(5, 20));
         frame.pack();
         frame.setBounds(100, 100, 600, 400);
         frame.setMinimumSize(new Dimension(450, 200));
