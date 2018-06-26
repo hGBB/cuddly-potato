@@ -66,7 +66,7 @@ public class GridImpl implements Grid {
         this.rows = rows;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                grid[i][j] = new Cell(false, i, j);
+                grid[j][i] = new Cell(false, i, j);
             }
         }
         for (Cell cell : aliveCells) {

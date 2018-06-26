@@ -11,11 +11,12 @@ import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
 
+@SuppressWarnings("deprecation")
 public final class Controller extends Observable {
     private static boolean run;
     private static Timer timer;
-    Toolkit toolkit;
-
+    private Toolkit toolkit;
+    private Gui gui;
     private static Grid grid = new GridImpl();
 
     public void startButton() {
@@ -64,7 +65,8 @@ public final class Controller extends Observable {
         this.notifyObservers();
     }
 
-    public void sizeComboBox() {
+    public void sizeComboBox(int size) {
+
         this.setChanged();
         this.notifyObservers();
     }
@@ -80,5 +82,16 @@ public final class Controller extends Observable {
         public void run() {
             grid.next();
         }
+    }
+
+    public static void main(String[] args) throws IOException {
+        JFrame frame = new JFrame("Game of Life");
+        frame.setContentPane(new Gui().contentPane);
+        frame.getContentPane().setBackground(Color.GRAY);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setBounds(100, 100, 600, 400);
+        frame.setMinimumSize(new Dimension(450, 200));
+        frame.setVisible(true);
     }
 }

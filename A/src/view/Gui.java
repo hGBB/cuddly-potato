@@ -9,18 +9,19 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
+@SuppressWarnings("deprecation")
 public class Gui extends JFrame implements Observer {
-    private JPanel contentPane;
+    private int size;
+    public JPanel contentPane;
     private JComboBox shapeComboBox;
     private JButton startButton;
     private JButton stopButton;
     private JComboBox sizeComboBox;
     private JComboBox threadComboBox;
-    private Grid gridJPanel;
+    public Grid gridJPanel;
     private Controller controller = new Controller();
     private model.Grid gameOfLife;
 
@@ -49,11 +50,6 @@ public class Gui extends JFrame implements Observer {
 
         controller.addObserver(this);
 
-
-
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setBounds(100, 100, 1000, 1000);
-
     }
 
     private void addMenu() {
@@ -66,12 +62,7 @@ public class Gui extends JFrame implements Observer {
         String[] shapes = {"Clear", "Blinker", "Block"};
         shapeComboBox = new JComboBox(shapes);
         shapeComboBox.setSelectedIndex(0);
-        shapeComboBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
+        shapeComboBox.addActionListener(setShape);
         menu.add(shapeComboBox);
         // add start button
         JButton start = new JButton("Start");

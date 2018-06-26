@@ -11,9 +11,14 @@ public class GridCell extends JPanel {
     private Color cellColorMedium = Color.decode("#000080");
     private Color cellColorLarge = Color.decode("#FFD700");
 
+    private int size;
+
     volatile private boolean mousePressed;
 
-    public GridCell() {
+    public GridCell(boolean alive) {
+        if (alive) {
+            setBackground(cellColorLarge);
+        }
         addMouseListener(new MouseAdapter() {
 
             @Override
@@ -24,6 +29,7 @@ public class GridCell extends JPanel {
             @Override
             public void mousePressed(MouseEvent e) {
                 mousePressed = true;
+                initThread();
             }
 
             @Override
@@ -31,25 +37,32 @@ public class GridCell extends JPanel {
                 mousePressed = false;
             }
 
-            @Override
-            public void mouseEntered(MouseEvent event) {
-                if (mousePressed) {
-                    setBackground(cellColorSmall);
-                }
-            }
-
-            @Override
-            public void mouseExited(MouseEvent event) {
-                if (mousePressed) {
-                    setBackground(cellColorSmall);
-                }
-            }
 
         });
     }
 
+    public void setSize(int size) {
+        this.size = size;
+    }
+
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(20, 20);
+        return new Dimension(size, size);
+    }
+
+    volatile private boolean isRunning = false;
+    private synchronized boolean checkAndMark() {
+        if (isRunning) return false;
+        isRunning = true;
+        return true;
+    }
+
+    private void initThread() {
+        if (checkAndMark()) {
+            new Thread(() -> {
+
+                    setBackground(Color.red);
+            }).start();
+        }
     }
 }
