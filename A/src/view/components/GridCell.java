@@ -23,7 +23,7 @@ public class GridCell extends JPanel {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                setBackground(cellColorLarge);
+                setBackground(cellColorSmall);
             }
 
             @Override

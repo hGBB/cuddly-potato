@@ -18,6 +18,7 @@ public final class Controller extends Observable {
     private Toolkit toolkit;
     private Gui gui;
     private static Grid grid = new GridImpl();
+    private int threadSpeed;
 
     public void startButton() {
         run = true;
@@ -60,7 +61,8 @@ public final class Controller extends Observable {
         this.notifyObservers();
     }
 
-    public void threadComboBox() {
+    public void threadComboBox(int speed) {
+        threadSpeed = speed;
         this.setChanged();
         this.notifyObservers();
     }
@@ -90,7 +92,7 @@ public final class Controller extends Observable {
         frame.getContentPane().setBackground(Color.GRAY);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setBounds(100, 100, 600, 400);
+        frame.setBounds(100, 100, 650, 400);
         frame.setMinimumSize(new Dimension(450, 200));
         frame.setVisible(true);
     }

@@ -56,10 +56,10 @@ public class Gui extends JFrame implements Observer {
         JPanel menu = new JPanel();
         contentPane.add(menu, BorderLayout.SOUTH);
         // add a label.
-        JLabel dropdownShapes = new JLabel("Shapes:");
+        JLabel dropdownShapes = new JLabel("Shape:");
         menu.add(dropdownShapes);
         // add the combobox.
-        String[] shapes = {"Clear", "Blinker", "Block"};
+        String[] shapes = {"Clear", "Block", "Boat", "Blinker", "Toad", "Glider", "Spaceship", "Pulsar", "Bipole", "Tripole", "r-Pentomino"};
         shapeComboBox = new JComboBox(shapes);
         shapeComboBox.setSelectedIndex(0);
         shapeComboBox.addActionListener(setShape);
@@ -71,7 +71,7 @@ public class Gui extends JFrame implements Observer {
         JButton stop = new JButton("Stop");
         menu.add(stop);
         // add size label
-        JLabel dropownSize = new JLabel("Size");
+        JLabel dropownSize = new JLabel("Size:");
         menu.add(dropownSize);
         // add size comboBox.
         String[] size = {"Small", "Medium", "Large"};
@@ -79,12 +79,13 @@ public class Gui extends JFrame implements Observer {
         sizeComboBox.setSelectedIndex(1);
         menu.add(sizeComboBox);
         // add thread label
-        JLabel dropdownThread = new JLabel("Thread");
+        JLabel dropdownThread = new JLabel("Thread:");
         menu.add(dropdownThread);
         // add thread comboBox.
         String[] thread = {"slow", "normal", "fast"};
         threadComboBox = new JComboBox(thread);
         threadComboBox.setSelectedIndex(1);
+        threadComboBox.addActionListener(setThreadSpeed);
         menu.add(threadComboBox);
     }
 
