@@ -5,7 +5,9 @@ import model.GridImpl;
 import view.components.Grid;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -45,7 +47,7 @@ public class Gui extends JFrame implements Observer {
 
 
         this.addMenu();
-        this.addGrid();
+        this.addGrid(20);
 
 
         controller.addObserver(this);
@@ -89,7 +91,7 @@ public class Gui extends JFrame implements Observer {
         menu.add(threadComboBox);
     }
 
-    private void addGrid() {
+    private void addGrid(int size) {
         gameOfLife = new GridImpl();
         gameOfLife.resize(10, 10);
         JPanel gridPanel = new JPanel();

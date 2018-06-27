@@ -7,7 +7,6 @@ import java.awt.*;
 
 public class Grid extends JPanel {
 
-
     public Grid(model.Grid grid, int size) {
         int height = grid.getRows();
         int width = grid.getColumns();
@@ -17,12 +16,17 @@ public class Grid extends JPanel {
             for (int j = 0; j < width; j++) {
                 constraints.gridx = j;
                 constraints.gridy = i;
-                GridCell cellPane = new GridCell(grid.isAlive(j, i));
+                GridCell cellPane = new GridCell(grid.isAlive(i, j));
                 Border border = new MatteBorder(1, 1, (i == height - 1 ? 1 : 0), (j == width - 1 ? 1 : 0), Color.BLACK);
                 cellPane.setBorder(border);
                 cellPane.setSize(size);
                 this.add(cellPane, constraints);
             }
         }
+    }
+
+    public void printCell(int i, int j) {
+        this.contains(i, j);
+
     }
 }
