@@ -12,7 +12,7 @@ public class GridImpl implements Grid {
     private int generation;
     private int columns;
     private int rows;
-    private Cell[][] grid;
+    private boolean[][] grid;
     private LinkedHashSet<Cell> population;
     private static final int SURVIVE = 2;
     private static final int SET_ALIVE = 3;
@@ -30,10 +30,11 @@ public class GridImpl implements Grid {
         this.generation = 0;
         this.columns = columns;
         this.rows = rows;
-        this.grid = new Cell[columns][rows];
+        this.grid = new boolean[columns][rows];
+        population = new LinkedHashSet<>();
         for (int i = 0; i < columns; i++) {
             for (int j = 0; j < rows; j++) {
-                grid[i][j] = new Cell(false, i, j);
+                grid[i][j] = false;
             }
         }
     }
@@ -43,7 +44,7 @@ public class GridImpl implements Grid {
      */
     @Override
     public boolean isAlive(int col, int row) {
-        return grid[col][row].isAlive();
+        return grid[col][row];
     }
 
     /**
@@ -51,7 +52,17 @@ public class GridImpl implements Grid {
      */
     @Override
     public void setAlive(int col, int row, boolean alive) {
-        grid[col][row].setAlive(alive);
+        if (alive) {
+            grid[col][row] = true;
+            population.add(new Cell(true, col, row));
+        } else {
+            grid[col][row] = false;
+            for (Cell c : population) {
+                if (c.getColumn() == col && c.getRow() == row) {
+                    population.remove(c);
+                }
+            }
+        }
     }
 
     /**
@@ -60,17 +71,17 @@ public class GridImpl implements Grid {
     @Override
     public void resize(int cols, int rows) {
         Collection<Cell> aliveCells = getPopulation();
-        this.grid = new Cell[cols][rows];
+        this.grid = new boolean[cols][rows];
         this.columns = cols;
         this.rows = rows;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                grid[j][i] = new Cell(false, i, j);
+                grid[j][i] = false;
             }
         }
         for (Cell cell : aliveCells) {
             if (cell.getColumn() < cols && cell.getRow() < rows) {
-                grid[cell.getColumn()][cell.getRow()].setAlive(true);
+                grid[cell.getColumn()][cell.getRow()] = true;
             }
         }
     }
@@ -93,14 +104,10 @@ public class GridImpl implements Grid {
 
     @Override
     public Collection<Cell> getPopulation() {
+        // in order to keep the class secret copy the collection.
         Collection<Cell> livingCells = new LinkedHashSet<>();
-        for (int i = 0; i < columns; i++) {
-            for (Cell cell : grid[i]) {
-                if (cell.isAlive()) {
-                    livingCells.add(new Cell(true, cell.getColumn(),
-                            cell.getRow()));
-                }
-            }
+        for (Cell c : population) {
+            livingCells.add(new Cell(true, c.getColumn(), c.getRow()));
         }
         return livingCells;
     }
@@ -110,9 +117,10 @@ public class GridImpl implements Grid {
      */
     @Override
     public void clear() {
+        population.clear();
         for (int i = 0; i < columns; i++) {
-            for (Cell cell : grid[i]) {
-                cell.setAlive(false);
+            for (int j = 0; j < rows; j++) {
+                grid[i][j] = false;
             }
         }
         generation = 0;
@@ -124,16 +132,15 @@ public class GridImpl implements Grid {
     @Override
     public void next() {
         setNeighbors();
-        for (int i = 0; i < columns; i++) {
-            for (Cell cell : grid[i]) {
-                if (!cell.isAlive() && cell.getNeighbors() == SET_ALIVE) {
-                    cell.setAlive(true);
-                } else if (cell.isAlive() && !(cell.getNeighbors() == SURVIVE
-                        || cell.getNeighbors() == SET_ALIVE)) {
-                    cell.setAlive(false);
-                }
+        for (Cell cell : population) {
+            if (!cell.isAlive() && cell.getNeighbors() == SET_ALIVE) {
+                cell.setAlive(true);
+            } else if (cell.isAlive() && !(cell.getNeighbors() == SURVIVE
+                    || cell.getNeighbors() == SET_ALIVE)) {
+                cell.setAlive(false);
             }
         }
+
         generation++;
     }
 
@@ -153,7 +160,11 @@ public class GridImpl implements Grid {
         StringBuilder result = new StringBuilder();
         for (int j = 0; j < rows; j++) {
             for (int i = 0; i < columns; i++) {
-                result.append(grid[i][j]);
+                if (grid[i][j]) {
+                    result.append("x");
+                } else {
+                    result.append(".");
+                }
             }
             result.append("\n");
         }
@@ -164,26 +175,16 @@ public class GridImpl implements Grid {
      * {@inheritDoc}
      */
     private void setNeighbors() {
-        for (int i = 0; i < columns; i++) {
-            for (Cell allCells : grid[i]) {
-                int proximityCell = 0;
-                for (Cell livingCells : getPopulation()) {
-                    if (Math.abs(allCells.getColumn() - livingCells.getColumn())
-                            == 1 && Math.abs(allCells.getRow()
-                            - livingCells.getRow()) == 1) {
-                        proximityCell++;
-                    } else if (Math.abs(allCells.getColumn()
-                            - livingCells.getColumn()) == 1 && allCells.getRow()
-                            == livingCells.getRow()) {
-                        proximityCell++;
-                    } else if (allCells.getColumn() == livingCells.getColumn()
-                            && Math.abs(allCells.getRow()
-                            - livingCells.getRow()) == 1) {
+        int proximityCell = 0;
+        for (Cell cell : getPopulation()) {
+            for (int i = cell.getColumn() - 1; i <= cell.getColumn() + 1; i++) {
+                for (int j = cell.getRow(); j <= cell.getRow() + 1; j++) {
+                    if (grid[i][j] && !(i == cell.getColumn() && j == cell.getRow())) {
                         proximityCell++;
                     }
                 }
-                allCells.setNeighbors(proximityCell);
             }
+            cell.setNeighbors(proximityCell);
         }
     }
 }
