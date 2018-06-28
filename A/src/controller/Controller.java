@@ -2,11 +2,14 @@ package controller;
 
 import model.Grid;
 import model.GridImpl;
+import model.ShapeCollection;
 import view.Gui;
+import view.components.GridCell;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -17,8 +20,9 @@ public final class Controller extends Observable {
     private static Timer timer;
     private Toolkit toolkit;
     private Gui gui;
-    private static Grid grid = new GridImpl();
+    private static Grid grid;
     private int threadSpeed;
+    private ShapeCollection shapes = new ShapeCollection();
 
     public void startButton() {
         run = true;
@@ -32,31 +36,20 @@ public final class Controller extends Observable {
         this.notifyObservers();
     }
 
-    public void shapeComboBox() {
-
-
-        /*
-        for (Shape sh : shapes.getShapeCollection()) {
-            if (token.matches(sh.getName())) {
-                if (gol.getColumns() < sh.getShapeColumns()
-                        || gol.getRows() < sh.getShapeRows()) {
-                    error("The shape you tried to load does not "
-                            + "fit on the grid! Please resize using "
-                            + "the command: 'r "
-                            + (sh.getShapeColumns() + 1) + " "
-                            + (sh.getShapeRows() + 1) + "'");
-                    return;
-                }
-                for (int[] coords : sh.getCoordinates()) {
-                    int gameX = (gol.getColumns() - sh.getShapeColumns())
+    public void shapeComboBox(String string) {
+        System.out.println("test");
+        System.out.println(grid);
+        /*  for (Shape shape : shapes.getShapeCollection()) {
+            if (string.equals(shape.getName())) {
+                for (int[] coords : shape.getCoordinates()) {
+                    int gameX = (grid.getColumns() - shape.getShapeColumns())
                             / 2 + coords[0];
-                    int gameY = (gol.getRows() - sh.getShapeRows())
+                    int gameY = (grid.getRows() - shape.getShapeRows())
                             / 2 + coords[1];
-                    gol.setAlive(gameX, gameY, true);
+                    grid.setAlive(gameX, gameY, true);
                 }
-                return;
             }
-         */
+        } */
         this.setChanged();
         this.notifyObservers();
     }
@@ -68,7 +61,14 @@ public final class Controller extends Observable {
     }
 
     public void sizeComboBox(int size) {
-
+        Enumeration keys = UIManager.getDefaults().keys();
+        while (keys.hasMoreElements()) {
+            Object key = keys.nextElement();
+            Object value = UIManager.get(key);
+            if (value instanceof GridCell) {
+                ((GridCell) value).setSize(size);
+            }
+        }
         this.setChanged();
         this.notifyObservers();
     }
@@ -88,7 +88,8 @@ public final class Controller extends Observable {
 
     public static void main(String[] args) throws IOException {
         JFrame frame = new JFrame("Game of Life");
-        frame.setContentPane(new Gui().contentPane);
+        grid = new GridImpl(10, 10);
+        frame.setContentPane(new Gui(grid).contentPane);
         frame.getContentPane().setBackground(Color.GRAY);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();

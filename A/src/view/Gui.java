@@ -11,6 +11,8 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -18,24 +20,23 @@ import java.util.Observer;
 public class Gui extends JFrame implements Observer {
     private int size;
     public JPanel contentPane;
-    private JComboBox shapeComboBox;
     private JButton startButton;
     private JButton stopButton;
-    private JComboBox sizeComboBox;
-    private JComboBox threadComboBox;
-    public Grid gridJPanel;
-    private Controller controller = new Controller();
     private model.Grid gameOfLife;
-
-
-
+    private SetPanelSize setPanelSize = new SetPanelSize();
+    private SetShape setShape = new SetShape();
+    private SetThreadSpeed setThreadSpeed = new SetThreadSpeed();
+    private JPanel gridJPanel;
+    private List<GridCell> cells;
+    private Controller controller;
 
     @Override
     public void update(Observable o, Object arg) {
 
     }
 
-    public Gui() {
+    public Gui(Grid grid) {
+        this.gameOfLife = grid;
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new BorderLayout(0, 0));
@@ -50,6 +51,7 @@ public class Gui extends JFrame implements Observer {
         this.addGrid(20);
 
 
+        controller = new Controller();
         controller.addObserver(this);
 
     }
@@ -57,12 +59,9 @@ public class Gui extends JFrame implements Observer {
     private void addMenu() {
         JPanel menu = new JPanel();
         contentPane.add(menu, BorderLayout.SOUTH);
-        // add a label.
-        JLabel dropdownShapes = new JLabel("Shape:");
-        menu.add(dropdownShapes);
         // add the combobox.
         String[] shapes = {"Clear", "Block", "Boat", "Blinker", "Toad", "Glider", "Spaceship", "Pulsar", "Bipole", "Tripole", "r-Pentomino"};
-        shapeComboBox = new JComboBox(shapes);
+        JComboBox shapeComboBox = new JComboBox(shapes);
         shapeComboBox.setSelectedIndex(0);
         shapeComboBox.addActionListener(setShape);
         menu.add(shapeComboBox);
@@ -77,7 +76,7 @@ public class Gui extends JFrame implements Observer {
         menu.add(dropownSize);
         // add size comboBox.
         String[] size = {"Small", "Medium", "Large"};
-        sizeComboBox = new JComboBox(size);
+        JComboBox sizeComboBox = new JComboBox(size);
         sizeComboBox.setSelectedIndex(1);
         menu.add(sizeComboBox);
         // add thread label
@@ -85,19 +84,45 @@ public class Gui extends JFrame implements Observer {
         menu.add(dropdownThread);
         // add thread comboBox.
         String[] thread = {"slow", "normal", "fast"};
-        threadComboBox = new JComboBox(thread);
+        JComboBox threadComboBox = new JComboBox(thread);
         threadComboBox.setSelectedIndex(1);
         threadComboBox.addActionListener(setThreadSpeed);
         menu.add(threadComboBox);
     }
 
     private void addGrid(int size) {
-        gameOfLife = new GridImpl();
-        gameOfLife.resize(10, 10);
-        JPanel gridPanel = new JPanel();
-        Grid grid = new Grid(gameOfLife);
-        contentPane.add(gridPanel, BorderLayout.NORTH);
-        gridPanel.add(grid);
+        int height = gameOfLife.getRows();
+        int width = gameOfLife.getColumns();
+        gridJPanel = new JPanel();
+        cells = new ArrayList<>();
+        gridJPanel.setLayout(new GridBagLayout());
+        GridBagConstraints constraints = new GridBagConstraints();
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                GridCell addCell = new GridCell(gameOfLife.isAlive(j, i));
+                constraints.gridy = i;
+                constraints.gridx = j;
+                Border border = new MatteBorder(1, 1, (i == height - 1 ? 1 : 0), (j == width - 1 ? 1 : 0), Color.BLACK);
+                addCell.setBorder(border);
+                addCell.setSize(size);
+                gridJPanel.add(addCell, constraints);
+                cells.add(addCell);
+            }
+        }
+        contentPane.add(gridJPanel, BorderLayout.CENTER);
+    }
+
+    public class SetShape implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JComboBox<String> cb = (JComboBox<String>) e.getSource();
+            assert cb.getSelectedItem() != null;
+            if (cb.getSelectedItem().equals("Clear")) {
+                gameOfLife.clear();
+            } else {
+                controller.shapeComboBox(cb.getSelectedItem().toString());
+            }
+        }
     }
 
 

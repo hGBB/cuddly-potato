@@ -1,5 +1,7 @@
 package view.components;
 
+import model.Cell;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -10,11 +12,8 @@ public class GridCell extends JPanel {
     private Color cellColorSmall = Color.decode("#551A8B");
     private Color cellColorMedium = Color.decode("#000080");
     private Color cellColorLarge = Color.decode("#FFD700");
-
-
     private int size;
-
-    volatile private boolean mousePressed;
+    private Cell cell;
 
     public GridCell(boolean alive) {
         if (alive) {
@@ -29,16 +28,12 @@ public class GridCell extends JPanel {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                mousePressed = true;
                 initThread();
             }
 
             @Override
             public void mouseReleased(MouseEvent e) {
-                mousePressed = false;
             }
-
-
         });
     }
 
@@ -58,10 +53,10 @@ public class GridCell extends JPanel {
         return true;
     }
 
+
     private void initThread() {
         if (checkAndMark()) {
             new Thread(() -> {
-
                     setBackground(Color.red);
             }).start();
         }
