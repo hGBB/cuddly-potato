@@ -19,22 +19,34 @@ public final class Controller extends Observable {
     private static Timer timer;
     private Toolkit toolkit;
     private Gui gui;
-    private static Grid grid;
+    private static Grid grid = newGame();
     private int threadSpeed;
     private ShapeCollection shapes = new ShapeCollection();
+
+    public Controller() {
+    }
+
+    private static Grid newGame() {
+        return new GridImpl();
+    }
+
+    public Grid getGrid() {
+        return Controller.grid;
+    }
 
     public void startButton() {
         run = true;
         grid.next();
+
         System.out.println(grid);
         this.setChanged();
-        this.notifyObservers();
+        this.notifyObservers(grid);
     }
 
     public void stopButton() {
         run = false;
         this.setChanged();
-        this.notifyObservers();
+        this.notifyObservers(grid);
     }
 
     public void shapeComboBox(String string) {
@@ -54,7 +66,7 @@ public final class Controller extends Observable {
         }
         System.out.println(grid);
         this.setChanged();
-        this.notifyObservers();
+        this.notifyObservers(grid);
     }
 
     public void generationCounter() {
@@ -64,7 +76,7 @@ public final class Controller extends Observable {
     public void threadComboBox(int speed) {
         threadSpeed = speed;
         this.setChanged();
-        this.notifyObservers();
+        this.notifyObservers(grid);
     }
 
     private class Run extends TimerTask {

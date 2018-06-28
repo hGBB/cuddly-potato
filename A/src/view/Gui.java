@@ -20,11 +20,11 @@ import java.util.Observer;
 @SuppressWarnings("deprecation")
 public class Gui extends JFrame implements Observer {
     public JPanel contentPane;
-    private model.Grid gameOfLife;
     private JPanel gridJPanel;
     private List<GridCell> cells;
-    private Controller controller;
+    private Controller controller = new Controller();
     private JLabel counter;
+    private model.Grid gameOfLife = controller.getGrid();
 
     @Override
     public void update(Observable o, Object arg) {
@@ -53,10 +53,8 @@ public class Gui extends JFrame implements Observer {
         contentPane.add(panel);
         this.addMenu();
         this.addGrid(20);
-        controller = new Controller();
         controller.addObserver(this);
     }
-
 
     @SuppressWarnings("unchecked")
     private void addMenu() {
@@ -99,7 +97,6 @@ public class Gui extends JFrame implements Observer {
         counter = new JLabel();
         counter.setText("0");
         menu.add(counter);
-
     }
 
     private void addGrid(int size) {
