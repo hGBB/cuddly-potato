@@ -25,6 +25,8 @@ public class Gui extends JFrame implements Observer {
     private Controller controller = new Controller();
     private JLabel counter;
     private model.Grid gameOfLife = controller.getGrid();
+    private boolean go = false;
+    private int threadSpeed = 1000;
 
     @Override
     public void update(Observable o, Object arg) {
@@ -124,14 +126,32 @@ public class Gui extends JFrame implements Observer {
     public class StartButton implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            controller.startButton();
+        go = true;
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                while (go) {
+                    SwingUtilities.invokeLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            controller.startButton();
+                        }
+                    });
+                    try {
+                        java.lang.Thread.sleep(threadSpeed);
+                    } catch (Exception e) {
+                    }
+                }
+            }
+        }).start();
         }
     }
 
     public class StopButton implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            controller.stopButton();
+            go = false;
         }
     }
 

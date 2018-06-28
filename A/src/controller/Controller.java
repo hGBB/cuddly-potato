@@ -35,16 +35,8 @@ public final class Controller extends Observable {
     }
 
     public void startButton() {
-        run = true;
         grid.next();
-
         System.out.println(grid);
-        this.setChanged();
-        this.notifyObservers(grid);
-    }
-
-    public void stopButton() {
-        run = false;
         this.setChanged();
         this.notifyObservers(grid);
     }
@@ -69,25 +61,13 @@ public final class Controller extends Observable {
         this.notifyObservers(grid);
     }
 
-    public void generationCounter() {
-
-    }
-
     public void threadComboBox(int speed) {
         threadSpeed = speed;
         this.setChanged();
         this.notifyObservers(grid);
     }
 
-    private class Run extends TimerTask {
-        public Run() {
-        }
 
-        @Override
-        public void run() {
-            grid.next();
-        }
-    }
 
     public static void main(String[] args) throws IOException {
         JFrame frame = new JFrame("Game of Life");
