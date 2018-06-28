@@ -175,16 +175,18 @@ public class GridImpl implements Grid {
      * {@inheritDoc}
      */
     private void setNeighbors() {
-        int proximityCell = 0;
+        int[][] neighborhood = new int[getColumns()][getRows()];
         for (Cell cell : getPopulation()) {
             for (int i = cell.getColumn() - 1; i <= cell.getColumn() + 1; i++) {
-                for (int j = cell.getRow(); j <= cell.getRow() + 1; j++) {
-                    if (grid[i][j] && !(i == cell.getColumn() && j == cell.getRow())) {
-                        proximityCell++;
+                for (int j = cell.getRow() - 1; j <= cell.getRow() + 1; j++) {
+                    if (i >= 0 && j >= 0 && i < getColumns() && j < getRows()) {
+                        if (!(i == cell.getColumn() && j == cell.getRow())) {
+                            neighborhood[i][j]++;
+                        }
                     }
                 }
             }
-            cell.setNeighbors(proximityCell);
         }
+        System.out.println("tets");
     }
 }
