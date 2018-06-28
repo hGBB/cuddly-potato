@@ -187,6 +187,5 @@ public class GridImpl implements Grid {
                 }
             }
         }
-        System.out.println("tets");
     }
 }
