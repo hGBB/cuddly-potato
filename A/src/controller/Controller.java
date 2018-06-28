@@ -2,14 +2,13 @@ package controller;
 
 import model.Grid;
 import model.GridImpl;
+import model.Shape;
 import model.ShapeCollection;
 import view.Gui;
-import view.components.GridCell;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.Observable;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -26,6 +25,10 @@ public final class Controller extends Observable {
 
     public void startButton() {
         run = true;
+        grid.next();
+
+
+        System.out.println(grid);
         this.setChanged();
         this.notifyObservers();
     }
@@ -37,19 +40,21 @@ public final class Controller extends Observable {
     }
 
     public void shapeComboBox(String string) {
-        System.out.println("test");
-        System.out.println(grid);
-        /*  for (Shape shape : shapes.getShapeCollection()) {
-            if (string.equals(shape.getName())) {
-                for (int[] coords : shape.getCoordinates()) {
-                    int gameX = (grid.getColumns() - shape.getShapeColumns())
-                            / 2 + coords[0];
-                    int gameY = (grid.getRows() - shape.getShapeRows())
-                            / 2 + coords[1];
-                    grid.setAlive(gameX, gameY, true);
+            grid.clear();
+        if (!string.equals("Clear")) {
+            for (Shape shape : shapes.getShapeCollection()) {
+                if (string.equals(shape.getName())) {
+                    for (int[] coords : shape.getCoordinates()) {
+                        int gameX = (grid.getColumns() - shape.getShapeColumns())
+                                / 2 + coords[0];
+                        int gameY = (grid.getRows() - shape.getShapeRows())
+                                / 2 + coords[1];
+                        grid.setAlive(gameX, gameY, true);
+                    }
                 }
             }
-        } */
+        }
+        System.out.println(grid);
         this.setChanged();
         this.notifyObservers();
     }
@@ -59,22 +64,6 @@ public final class Controller extends Observable {
         this.setChanged();
         this.notifyObservers();
     }
-
-    public void sizeComboBox(int size) {
-        Enumeration keys = UIManager.getDefaults().keys();
-        while (keys.hasMoreElements()) {
-            Object key = keys.nextElement();
-            Object value = UIManager.get(key);
-            if (value instanceof GridCell) {
-                ((GridCell) value).setSize(size);
-            }
-        }
-        this.setChanged();
-        this.notifyObservers();
-    }
-
-
-
 
     private class Run extends TimerTask {
         public Run() {

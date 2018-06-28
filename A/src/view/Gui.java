@@ -67,6 +67,7 @@ public class Gui extends JFrame implements Observer {
         menu.add(shapeComboBox);
         // add start button
         JButton start = new JButton("Start");
+        start.addActionListener(new StartButton());
         menu.add(start);
         // add stop button
         JButton stop = new JButton("Stop");
@@ -112,16 +113,19 @@ public class Gui extends JFrame implements Observer {
         contentPane.add(gridJPanel, BorderLayout.CENTER);
     }
 
+    public class StartButton implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            controller.startButton();
+        }
+    }
+
     public class SetShape implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             JComboBox<String> cb = (JComboBox<String>) e.getSource();
             assert cb.getSelectedItem() != null;
-            if (cb.getSelectedItem().equals("Clear")) {
-                gameOfLife.clear();
-            } else {
-                controller.shapeComboBox(cb.getSelectedItem().toString());
-            }
+               controller.shapeComboBox(cb.getSelectedItem().toString());
         }
     }
 
