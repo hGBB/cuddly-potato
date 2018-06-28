@@ -10,17 +10,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.util.Observable;
-import java.util.Timer;
-import java.util.TimerTask;
 
 @SuppressWarnings("deprecation")
 public final class Controller extends Observable {
-    private static boolean run;
-    private static Timer timer;
-    private Toolkit toolkit;
-    private Gui gui;
     private static Grid grid = newGame();
-    private int threadSpeed;
     private ShapeCollection shapes = new ShapeCollection();
 
     public Controller() {
@@ -60,14 +53,6 @@ public final class Controller extends Observable {
         this.setChanged();
         this.notifyObservers(grid);
     }
-
-    public void threadComboBox(int speed) {
-        threadSpeed = speed;
-        this.setChanged();
-        this.notifyObservers(grid);
-    }
-
-
 
     public static void main(String[] args) throws IOException {
         JFrame frame = new JFrame("Game of Life");
