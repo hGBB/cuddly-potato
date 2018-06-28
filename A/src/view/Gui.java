@@ -16,24 +16,31 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+
 @SuppressWarnings("deprecation")
 public class Gui extends JFrame implements Observer {
-    private int size;
     public JPanel contentPane;
-    private JButton startButton;
-    private JButton stopButton;
     private model.Grid gameOfLife;
-    private SetPanelSize setPanelSize = new SetPanelSize();
-    private SetShape setShape = new SetShape();
-    private SetThreadSpeed setThreadSpeed = new SetThreadSpeed();
     private JPanel gridJPanel;
     private List<GridCell> cells;
     private Controller controller;
+    private JLabel counter;
 
     @Override
     public void update(Observable o, Object arg) {
 
     }
+
+    private void updateGrid() {
+        for (int i = 0; i < cells.size(); i++) {
+            cells.get(i);
+        }
+    }
+
+    private void updateCounter() {
+        counter.setText(String.valueOf(gameOfLife.getGenerations()));
+    }
+
 
     public Gui(Grid grid) {
         this.gameOfLife = grid;
@@ -41,21 +48,17 @@ public class Gui extends JFrame implements Observer {
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setLayout(new BorderLayout(0, 0));
         setContentPane(contentPane);
-
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout(0, 0));
         contentPane.add(panel);
-
-
         this.addMenu();
         this.addGrid(20);
-
-
         controller = new Controller();
         controller.addObserver(this);
-
     }
 
+
+    @SuppressWarnings("unchecked")
     private void addMenu() {
         JPanel menu = new JPanel();
         contentPane.add(menu, BorderLayout.SOUTH);
@@ -63,7 +66,7 @@ public class Gui extends JFrame implements Observer {
         String[] shapes = {"Clear", "Block", "Boat", "Blinker", "Toad", "Glider", "Spaceship", "Pulsar", "Bipole", "Tripole", "r-Pentomino"};
         JComboBox shapeComboBox = new JComboBox(shapes);
         shapeComboBox.setSelectedIndex(0);
-        shapeComboBox.addActionListener(setShape);
+        shapeComboBox.addActionListener(new SetShape());
         menu.add(shapeComboBox);
         // add start button
         JButton start = new JButton("Start");
@@ -71,6 +74,7 @@ public class Gui extends JFrame implements Observer {
         menu.add(start);
         // add stop button
         JButton stop = new JButton("Stop");
+        stop.addActionListener(new StopButton());
         menu.add(stop);
         // add size label
         JLabel dropownSize = new JLabel("Size:");
@@ -87,8 +91,15 @@ public class Gui extends JFrame implements Observer {
         String[] thread = {"slow", "normal", "fast"};
         JComboBox threadComboBox = new JComboBox(thread);
         threadComboBox.setSelectedIndex(1);
-        threadComboBox.addActionListener(setThreadSpeed);
+        threadComboBox.addActionListener(new SetThreadSpeed());
         menu.add(threadComboBox);
+        JLabel generation = new JLabel();
+        generation.setText("Gen:");
+        menu.add(generation);
+        counter = new JLabel();
+        counter.setText("0");
+        menu.add(counter);
+
     }
 
     private void addGrid(int size) {
@@ -100,7 +111,7 @@ public class Gui extends JFrame implements Observer {
         GridBagConstraints constraints = new GridBagConstraints();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                GridCell addCell = new GridCell(gameOfLife.isAlive(j, i));
+                GridCell addCell = new GridCell(gameOfLife.isAlive(j, i), i, j);
                 constraints.gridy = i;
                 constraints.gridx = j;
                 Border border = new MatteBorder(1, 1, (i == height - 1 ? 1 : 0), (j == width - 1 ? 1 : 0), Color.BLACK);
@@ -120,6 +131,14 @@ public class Gui extends JFrame implements Observer {
         }
     }
 
+    public class StopButton implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            controller.stopButton();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
     public class SetShape implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {

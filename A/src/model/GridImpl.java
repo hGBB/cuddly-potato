@@ -18,7 +18,6 @@ public class GridImpl implements Grid {
     private static final int SET_ALIVE = 3;
 
     public GridImpl() {
-
     }
 
     /**

@@ -26,8 +26,6 @@ public final class Controller extends Observable {
     public void startButton() {
         run = true;
         grid.next();
-
-
         System.out.println(grid);
         this.setChanged();
         this.notifyObservers();
@@ -40,7 +38,7 @@ public final class Controller extends Observable {
     }
 
     public void shapeComboBox(String string) {
-            grid.clear();
+        grid.clear();
         if (!string.equals("Clear")) {
             for (Shape shape : shapes.getShapeCollection()) {
                 if (string.equals(shape.getName())) {
@@ -57,6 +55,10 @@ public final class Controller extends Observable {
         System.out.println(grid);
         this.setChanged();
         this.notifyObservers();
+    }
+
+    public void generationCounter() {
+
     }
 
     public void threadComboBox(int speed) {
