@@ -60,6 +60,7 @@ public class GridImpl implements Grid {
             for (Cell c : population) {
                 if (c.getColumn() == col && c.getRow() == row) {
                     population.remove(c);
+                    return;
                 }
             }
         }
@@ -131,7 +132,18 @@ public class GridImpl implements Grid {
      */
     @Override
     public void next() {
-        setNeighbors();
+        int[][] neighborhood = setNeighbors();
+        for (int i = 0; i < neighborhood.length; i++) {
+            for (int j = 0; j < neighborhood[i].length; j++) {
+                if (!grid[i][j] && neighborhood[i][j] == SET_ALIVE) {
+                    setAlive(i, j, true);
+                } else if (grid[i][j] && (neighborhood[i][j] < SURVIVE || neighborhood[i][j] > SET_ALIVE)) {
+                    grid[i][j] = false;
+                    setAlive(i, j, false);
+                }
+            }
+        }
+
         for (Cell cell : population) {
             if (!cell.isAlive() && cell.getNeighbors() == SET_ALIVE) {
                 cell.setAlive(true);
@@ -174,7 +186,7 @@ public class GridImpl implements Grid {
     /**
      * {@inheritDoc}
      */
-    private void setNeighbors() {
+    private int[][] setNeighbors() {
         int[][] neighborhood = new int[getColumns()][getRows()];
         for (Cell cell : getPopulation()) {
             for (int i = cell.getColumn() - 1; i <= cell.getColumn() + 1; i++) {
@@ -187,5 +199,6 @@ public class GridImpl implements Grid {
                 }
             }
         }
+        return neighborhood;
     }
 }
