@@ -19,7 +19,8 @@ public class Grid extends JPanel {
                 GridCell cellPane = new GridCell(grid.isAlive(i, j), i, j );
                 Border border = new MatteBorder(1, 1, (i == height - 1 ? 1 : 0), (j == width - 1 ? 1 : 0), Color.BLACK);
                 cellPane.setBorder(border);
-                cellPane.setSize(size);
+                Dimension newDim = new Dimension(size, size);
+                cellPane.setPreferredSize(newDim);
                 this.add(cellPane, constraints);
             }
         }

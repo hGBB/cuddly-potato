@@ -8,7 +8,6 @@ public class GridCell extends JPanel {
     private Color cellColorSmall = Color.decode("#551A8B");
     private Color cellColorMedium = Color.decode("#000080");
     private Color cellColorLarge = Color.decode("#FFD700");
-    private int size;
     private int xPosition;
     private int yPosition;
 
@@ -16,17 +15,15 @@ public class GridCell extends JPanel {
         this.xPosition = xPosition;
         this.yPosition = yPosition;
         if (alive) {
-            setBackground(cellColorLarge);
+            setBackground(cellColorSmall);
         }
     }
 
-    public void setSize(int size) {
-        this.size = size;
+    public int getxPosition() {
+        return xPosition;
     }
 
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(size, size);
+    public int getyPosition() {
+        return yPosition;
     }
-
 }

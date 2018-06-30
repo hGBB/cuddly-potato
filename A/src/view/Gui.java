@@ -113,9 +113,11 @@ public class Gui extends JFrame implements Observer {
                 GridCell addCell = new GridCell(gameOfLife.isAlive(j, i), i, j);
                 constraints.gridy = i;
                 constraints.gridx = j;
+            //    constraints.gridheight = 1;
+            //    constraints.ipady = 20;
+            //    constraints.ipadx = 20;
                 Border border = new MatteBorder(1, 1, (i == height - 1 ? 1 : 0), (j == width - 1 ? 1 : 0), Color.BLACK);
                 addCell.setBorder(border);
-                addCell.setSize(size);
                 gridJPanel.add(addCell, constraints);
                 cells.add(addCell);
             }
@@ -128,7 +130,7 @@ public class Gui extends JFrame implements Observer {
         public void actionPerformed(ActionEvent e) {
         go = true;
         new Thread(() -> {
-            while (go) {
+            while (go && !gameOfLife.getPopulation().isEmpty()) {
                 SwingUtilities.invokeLater(() -> controller.startButton());
                 try {
                     Thread.sleep(threadSpeed);

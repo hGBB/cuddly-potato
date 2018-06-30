@@ -13,6 +13,7 @@ import java.util.Observable;
 
 @SuppressWarnings("deprecation")
 public final class Controller extends Observable {
+    private static JFrame frame = new JFrame("Game of Life");
     private static Grid grid = newGame();
     private ShapeCollection shapes = new ShapeCollection();
 
@@ -55,7 +56,6 @@ public final class Controller extends Observable {
     }
 
     public static void main(String[] args) throws IOException {
-        JFrame frame = new JFrame("Game of Life");
         grid = new GridImpl(10, 10);
         frame.setContentPane(new Gui(grid).contentPane);
         frame.getContentPane().setBackground(Color.GRAY);
