@@ -30,7 +30,6 @@ public final class Controller extends Observable {
 
     public void startButton() {
         grid.next();
-        System.out.println(grid);
         this.setChanged();
         this.notifyObservers(grid);
     }
@@ -56,13 +55,13 @@ public final class Controller extends Observable {
     }
 
     public static void main(String[] args) throws IOException {
-        grid = new GridImpl(10, 10);
+        grid = new GridImpl(30, 15);
         frame.setContentPane(new Gui(grid).contentPane);
         frame.getContentPane().setBackground(Color.GRAY);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setBounds(100, 100, 650, 400);
-        frame.setMinimumSize(new Dimension(450, 200));
+        frame.setMinimumSize(new Dimension(650, 400));
         frame.setVisible(true);
     }
 }

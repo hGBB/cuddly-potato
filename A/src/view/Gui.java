@@ -27,16 +27,16 @@ public class Gui extends JFrame implements Observer {
     private model.Grid gameOfLife;
     private boolean go = false;
     private int threadSpeed = 1000;
+    private int size;
 
     @Override
     public void update(Observable o, Object arg) {
-
-    }
-
-    private void updateGrid() {
-        for (int i = 0; i < cells.size(); i++) {
-            cells.get(i);
-        }
+        this.gameOfLife = (Grid) arg;
+        updateCounter();
+        System.out.println(cells.size());
+        this.addGrid();
+        gridJPanel.revalidate();
+        gridJPanel.repaint();
     }
 
     private void updateCounter() {
@@ -45,6 +45,8 @@ public class Gui extends JFrame implements Observer {
 
 
     public Gui(Grid grid) {
+        gridJPanel = new JPanel();
+        cells = new ArrayList<>();
         this.gameOfLife = grid;
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -53,8 +55,9 @@ public class Gui extends JFrame implements Observer {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout(0, 0));
         contentPane.add(panel);
+        this.size = 20;
         this.addMenu();
-        this.addGrid(20);
+        this.addGrid();
         controller.addObserver(this);
     }
 
@@ -101,23 +104,24 @@ public class Gui extends JFrame implements Observer {
         menu.add(counter);
     }
 
-    private void addGrid(int size) {
+    private void addGrid() {
+        gridJPanel = new JPanel();
+        gridJPanel.setLayout(new GridBagLayout());
+        cells = new ArrayList<>();
         int height = gameOfLife.getRows();
         int width = gameOfLife.getColumns();
-        gridJPanel = new JPanel();
-        cells = new ArrayList<>();
-        gridJPanel.setLayout(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 GridCell addCell = new GridCell(gameOfLife.isAlive(j, i), i, j);
+                if (gameOfLife.isAlive(j, i)) {
+                    addCell.setBackground( Color.decode("#551A8B"));
+                }
                 constraints.gridy = i;
                 constraints.gridx = j;
-            //    constraints.gridheight = 1;
-            //    constraints.ipady = 20;
-            //    constraints.ipadx = 20;
                 Border border = new MatteBorder(1, 1, (i == height - 1 ? 1 : 0), (j == width - 1 ? 1 : 0), Color.BLACK);
                 addCell.setBorder(border);
+                addCell.setPreferredSize(new Dimension(size, size));
                 gridJPanel.add(addCell, constraints);
                 cells.add(addCell);
             }
@@ -128,16 +132,16 @@ public class Gui extends JFrame implements Observer {
     public class StartButton implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-        go = true;
-        new Thread(() -> {
-            while (go && !gameOfLife.getPopulation().isEmpty()) {
-                SwingUtilities.invokeLater(() -> controller.startButton());
-                try {
-                    Thread.sleep(threadSpeed);
-                } catch (Exception ignored) {
+            go = true;
+            new Thread(() -> {
+                while (go && !gameOfLife.getPopulation().isEmpty()) {
+                    SwingUtilities.invokeLater(() -> controller.startButton());
+                    try {
+                        Thread.sleep(threadSpeed);
+                    } catch (Exception ignored) {
+                    }
                 }
-            }
-        }).start();
+            }).start();
         }
     }
 
@@ -154,7 +158,7 @@ public class Gui extends JFrame implements Observer {
         public void actionPerformed(ActionEvent e) {
             JComboBox<String> cb = (JComboBox<String>) e.getSource();
             assert cb.getSelectedItem() != null;
-               controller.shapeComboBox(cb.getSelectedItem().toString());
+            controller.shapeComboBox(cb.getSelectedItem().toString());
         }
     }
 
