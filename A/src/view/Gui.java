@@ -1,8 +1,8 @@
 package view;
 
 import controller.Controller;
-import model.GridImpl;
-import view.components.Grid;
+import model.Grid;
+import view.components.GridCell;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -11,8 +11,6 @@ import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -21,7 +19,7 @@ import java.util.Observer;
 public class Gui extends JFrame implements Observer {
     public JPanel contentPane;
     private JPanel gridJPanel;
-    private List<GridCell> cells;
+    private GridCell[][] cells;
     private Controller controller = new Controller();
     private JLabel counter;
     private model.Grid gameOfLife;
@@ -33,7 +31,6 @@ public class Gui extends JFrame implements Observer {
     public void update(Observable o, Object arg) {
         this.gameOfLife = (Grid) arg;
         updateCounter();
-        System.out.println(cells.size());
         this.addGrid();
         gridJPanel.revalidate();
         gridJPanel.repaint();
@@ -46,7 +43,7 @@ public class Gui extends JFrame implements Observer {
 
     public Gui(Grid grid) {
         gridJPanel = new JPanel();
-        cells = new ArrayList<>();
+        cells = new GridCell[grid.getColumns()][grid.getRows()];
         this.gameOfLife = grid;
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -64,6 +61,7 @@ public class Gui extends JFrame implements Observer {
     @SuppressWarnings("unchecked")
     private void addMenu() {
         JPanel menu = new JPanel();
+        menu.setBackground(Color.lightGray);
         contentPane.add(menu, BorderLayout.SOUTH);
         // add the combobox.
         String[] shapes = {"Clear", "Block", "Boat", "Blinker", "Toad", "Glider", "Spaceship", "Pulsar", "Bipole", "Tripole", "r-Pentomino"};
@@ -86,6 +84,7 @@ public class Gui extends JFrame implements Observer {
         String[] size = {"Small", "Medium", "Large"};
         JComboBox sizeComboBox = new JComboBox(size);
         sizeComboBox.setSelectedIndex(1);
+        sizeComboBox.addActionListener(new SetPanelSize());
         menu.add(sizeComboBox);
         // add thread label
         JLabel dropdownThread = new JLabel("Thread:");
@@ -107,15 +106,15 @@ public class Gui extends JFrame implements Observer {
     private void addGrid() {
         gridJPanel = new JPanel();
         gridJPanel.setLayout(new GridBagLayout());
-        cells = new ArrayList<>();
+        cells = new GridCell[gameOfLife.getColumns()][gameOfLife.getRows()];
         int height = gameOfLife.getRows();
         int width = gameOfLife.getColumns();
         GridBagConstraints constraints = new GridBagConstraints();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                GridCell addCell = new GridCell(gameOfLife.isAlive(j, i), i, j);
+                GridCell addCell = new GridCell(gameOfLife.isAlive(j, i));
                 if (gameOfLife.isAlive(j, i)) {
-                    addCell.setBackground( Color.decode("#551A8B"));
+                    addCell.setBackground(Color.decode("#000080"));
                 }
                 constraints.gridy = i;
                 constraints.gridx = j;
@@ -123,7 +122,7 @@ public class Gui extends JFrame implements Observer {
                 addCell.setBorder(border);
                 addCell.setPreferredSize(new Dimension(size, size));
                 gridJPanel.add(addCell, constraints);
-                cells.add(addCell);
+                cells[j][i] = addCell;
             }
         }
         contentPane.add(gridJPanel, BorderLayout.CENTER);
@@ -132,16 +131,18 @@ public class Gui extends JFrame implements Observer {
     public class StartButton implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            go = true;
-            new Thread(() -> {
-                while (go && !gameOfLife.getPopulation().isEmpty()) {
-                    SwingUtilities.invokeLater(() -> controller.startButton());
-                    try {
-                        Thread.sleep(threadSpeed);
-                    } catch (Exception ignored) {
+            if (!go) {
+                go = true;
+                new Thread(() -> {
+                    while (go && !gameOfLife.getPopulation().isEmpty()) {
+                        SwingUtilities.invokeLater(() -> controller.startButton());
+                        try {
+                            Thread.sleep(threadSpeed);
+                        } catch (Exception ignored) {
+                        }
                     }
-                }
-            }).start();
+                }).start();
+            }
         }
     }
 
@@ -162,20 +163,55 @@ public class Gui extends JFrame implements Observer {
         }
     }
 
-
-    public static void main(String[] args) throws IOException {
-        JFrame frame = new JFrame("Game of Life");
-
-        frame.setContentPane(new Gui().contentPane);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setBounds(100, 100, 600, 400);
-        frame.setMinimumSize(new Dimension(450, 200));
-        frame.setVisible(true);
-        //      Gui gui = new Gui();
-        //      gui.setVisible(true);
-
+    public class SetPanelSize implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            @SuppressWarnings("unchecked")
+            JComboBox<String> cb = (JComboBox<String>) e.getSource();
+            assert cb.getSelectedItem() != null;
+            Dimension small = new Dimension(10, 10);
+            Dimension medium = new Dimension(20, 20);
+            Dimension large = new Dimension(30, 30);
+            if (cb.getSelectedItem().equals("Small")) {
+                size = 10;
+                for (GridCell[] gridCells : cells) {
+                    for (GridCell gc : gridCells) {
+                        gc.setPreferredSize(small);
+                    }
+                }
+            } else if (cb.getSelectedItem().equals("Medium")) {
+                size = 20;
+                for (GridCell[] gridCells : cells) {
+                    for (GridCell gc : gridCells) {
+                        gc.setPreferredSize(medium);
+                    }
+                }
+            } else if (cb.getSelectedItem().equals("Large")) {
+                size = 30;
+                for (GridCell[] gridCells : cells) {
+                    for (GridCell gc : gridCells) {
+                        gc.setPreferredSize(large);
+                    }
+                }
+            }
+            gridJPanel.repaint();
+            gridJPanel.revalidate();
+        }
     }
 
-
+    @SuppressWarnings("unchecked")
+    public class SetThreadSpeed implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JComboBox<String> cb = (JComboBox<String>) e.getSource();
+            assert cb.getSelectedItem() != null;
+            if (cb.getSelectedItem().equals("slow")) {
+                threadSpeed = 1350;
+            } else if (cb.getSelectedItem().equals("normal")) {
+                threadSpeed = 1000;
+            } else if (cb.getSelectedItem().equals("fast")) {
+                threadSpeed = 500;
+            }
+        }
+    }
 }
