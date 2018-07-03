@@ -37,19 +37,18 @@ public final class Controller extends Observable {
     public void shapeComboBox(String string) {
         grid.clear();
         if (!string.equals("Clear")) {
-            for (Shape shape : shapes.getShapeCollection()) {
-                if (string.equals(shape.getName())) {
-                    for (int[] coords : shape.getCoordinates()) {
-                        int gameX = (grid.getColumns() - shape.getShapeColumns())
+            for (Shape sh : shapes.getShapeCollection()) {
+                if (string.equals(sh.getName())) {
+                    for (int[] coords : sh.getCoordinates()) {
+                        int gameX = (grid.getColumns() - sh.getShapeColumns())
                                 / 2 + coords[0];
-                        int gameY = (grid.getRows() - shape.getShapeRows())
+                        int gameY = (grid.getRows() - sh.getShapeRows())
                                 / 2 + coords[1];
                         grid.setAlive(gameX, gameY, true);
                     }
                 }
             }
         }
-        System.out.println(grid);
         this.setChanged();
         this.notifyObservers(grid);
     }

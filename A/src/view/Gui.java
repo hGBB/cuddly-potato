@@ -64,7 +64,9 @@ public class Gui extends JFrame implements Observer {
         menu.setBackground(Color.lightGray);
         contentPane.add(menu, BorderLayout.SOUTH);
         // add the combobox.
-        String[] shapes = {"Clear", "Block", "Boat", "Blinker", "Toad", "Glider", "Spaceship", "Pulsar", "Bipole", "Tripole", "r-Pentomino"};
+        String[] shapes = {"Clear", "Block", "Boat", "Blinker",
+                "Toad", "Glider", "Spaceship", "Pulsar",
+                "Bipole", "Tripole", "r-Pentomino"};
         JComboBox shapeComboBox = new JComboBox(shapes);
         shapeComboBox.setSelectedIndex(0);
         shapeComboBox.addActionListener(new SetShape());
@@ -118,7 +120,9 @@ public class Gui extends JFrame implements Observer {
                 }
                 constraints.gridy = i;
                 constraints.gridx = j;
-                Border border = new MatteBorder(1, 1, (i == height - 1 ? 1 : 0), (j == width - 1 ? 1 : 0), Color.BLACK);
+                Border border = new MatteBorder(1, 1,
+                        (i == height - 1 ? 1 : 0),
+                        (j == width - 1 ? 1 : 0), Color.BLACK);
                 addCell.setBorder(border);
                 addCell.setPreferredSize(new Dimension(size, size));
                 gridJPanel.add(addCell, constraints);
@@ -135,7 +139,8 @@ public class Gui extends JFrame implements Observer {
                 go = true;
                 new Thread(() -> {
                     while (go && !gameOfLife.getPopulation().isEmpty()) {
-                        SwingUtilities.invokeLater(() -> controller.startButton());
+                        SwingUtilities.invokeLater(() ->
+                                controller.startButton());
                         try {
                             Thread.sleep(threadSpeed);
                         } catch (Exception ignored) {
@@ -206,7 +211,7 @@ public class Gui extends JFrame implements Observer {
             JComboBox<String> cb = (JComboBox<String>) e.getSource();
             assert cb.getSelectedItem() != null;
             if (cb.getSelectedItem().equals("slow")) {
-                threadSpeed = 1350;
+                threadSpeed = 1500;
             } else if (cb.getSelectedItem().equals("normal")) {
                 threadSpeed = 1000;
             } else if (cb.getSelectedItem().equals("fast")) {
