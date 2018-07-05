@@ -25,6 +25,8 @@ public class Gui extends JFrame implements Observer {
     private boolean go = false;
     private int threadSpeed = 1000;
     private int size;
+    private boolean mousePressedDown;
+    private boolean setAliveOrDead;
 
     @Override
     public void update(Observable o, Object arg) {
@@ -52,6 +54,7 @@ public class Gui extends JFrame implements Observer {
         panel.setLayout(new BorderLayout(0, 0));
         contentPane.add(panel);
         this.size = 20;
+        this.mousePressedDown = false;
         this.addMenu();
         this.addGrid();
 
@@ -132,6 +135,32 @@ public class Gui extends JFrame implements Observer {
                         GridCell cell = (GridCell) e.getSource();
                         controller.changeCellStatus(cell.getCol(), cell.getRow(), !cell.isAlive());
                         cell.setAlive(!cell.isAlive());
+                    }
+
+                    @Override
+                    public void mousePressed(MouseEvent e) {
+                        if (!mousePressedDown) {
+                            GridCell cell = (GridCell) e.getSource();
+                            setAliveOrDead = !cell.isAlive();
+                            controller.changeCellStatus(cell.getCol(), cell.getRow(), setAliveOrDead);
+                            cell.setAlive(setAliveOrDead);
+                        }
+                        mousePressedDown = true;
+                    }
+
+                    @Override
+                    public void mouseReleased(MouseEvent e) {
+                        mousePressedDown = false;
+                    }
+
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        if (mousePressedDown) {
+                            GridCell cell = (GridCell) e.getSource();
+                            controller.changeCellStatus(cell.getCol(), cell.getRow(), setAliveOrDead);
+                            cell.setAlive(setAliveOrDead);
+                        }
+
                     }
 
                 });
