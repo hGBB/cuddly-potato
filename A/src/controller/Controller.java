@@ -28,6 +28,19 @@ public final class Controller extends Observable {
         return Controller.grid;
     }
 
+
+    public void changeCellStatus(int col, int row, boolean alive) {
+        grid.setAlive(col, row, alive);
+        this.setChanged();
+        this.notifyObservers(grid);
+    }
+
+    public void resizeGrid(int col, int row) {
+        grid.resize(col, row);
+        this.setChanged();
+        this.notifyObservers(grid);
+    }
+
     public void startButton() {
         grid.next();
         this.setChanged();
@@ -39,12 +52,17 @@ public final class Controller extends Observable {
         if (!string.equals("Clear")) {
             for (Shape sh : shapes.getShapeCollection()) {
                 if (string.equals(sh.getName())) {
-                    for (int[] coords : sh.getCoordinates()) {
-                        int gameX = (grid.getColumns() - sh.getShapeColumns())
-                                / 2 + coords[0];
-                        int gameY = (grid.getRows() - sh.getShapeRows())
-                                / 2 + coords[1];
-                        grid.setAlive(gameX, gameY, true);
+                    if (grid.getRows() >= sh.getShapeRows() && grid.getColumns() >= sh.getShapeColumns()) {
+                        for (int[] coords : sh.getCoordinates()) {
+                            int gameX = (grid.getColumns() - sh.getShapeColumns())
+                                    / 2 + coords[0];
+                            int gameY = (grid.getRows() - sh.getShapeRows())
+                                    / 2 + coords[1];
+                            grid.setAlive(gameX, gameY, true);
+                        }
+                    } else {
+                        // TODO: error handling! too small of a grid -> error message
+                        System.out.println("false!");
                     }
                 }
             }

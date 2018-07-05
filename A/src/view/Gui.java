@@ -9,8 +9,7 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -55,6 +54,7 @@ public class Gui extends JFrame implements Observer {
         this.size = 20;
         this.addMenu();
         this.addGrid();
+
         controller.addObserver(this);
     }
 
@@ -114,7 +114,7 @@ public class Gui extends JFrame implements Observer {
         GridBagConstraints constraints = new GridBagConstraints();
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                GridCell addCell = new GridCell(gameOfLife.isAlive(j, i));
+                GridCell addCell = new GridCell(j, i, gameOfLife.isAlive(j, i));
                 if (gameOfLife.isAlive(j, i)) {
                     addCell.setBackground(Color.decode("#000080"));
                 }
@@ -126,6 +126,15 @@ public class Gui extends JFrame implements Observer {
                 addCell.setBorder(border);
                 addCell.setPreferredSize(new Dimension(size, size));
                 gridJPanel.add(addCell, constraints);
+                addCell.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        GridCell cell = (GridCell) e.getSource();
+                        controller.changeCellStatus(cell.getCol(), cell.getRow(), !cell.isAlive());
+                        cell.setAlive(!cell.isAlive());
+                    }
+
+                });
                 cells[j][i] = addCell;
             }
         }

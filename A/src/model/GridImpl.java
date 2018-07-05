@@ -60,7 +60,7 @@ public class GridImpl implements Grid {
             for (Cell c : population) {
                 if (c.getColumn() == col && c.getRow() == row) {
                     population.remove(c);
-                    return;
+                    break;
                 }
             }
         }
