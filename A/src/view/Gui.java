@@ -125,7 +125,7 @@ public class Gui extends JFrame implements Observer {
         JLabel dropdownThread = new JLabel("Thread:");
         menu.add(dropdownThread);
         // add thread comboBox.
-        String[] thread = {"slow", "normal", "fast"};
+        String[] thread = {"slow", "normal", "fast", "hyper", "overdrive"};
         JComboBox threadComboBox = new JComboBox(thread);
         threadComboBox.setSelectedIndex(1);
         threadComboBox.addActionListener(new SetThreadSpeed());
@@ -141,6 +141,7 @@ public class Gui extends JFrame implements Observer {
     private void addGrid() {
         int width = gameOfLife.getColumns();
         int height = gameOfLife.getRows();
+        // if the size is the same update only do a visual update.
         if (cells[0][0] != null && width == cells.length && height == cells[0].length) {
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
@@ -151,35 +152,33 @@ public class Gui extends JFrame implements Observer {
                     }
                 }
             }
+            // if the size changed create a new gridJPanel.
         } else {
-            fillGrid(width, height);
-        }
-    }
-
-    private void fillGrid(int width, int height) {
-        gridJPanel.removeAll();
-        gridJPanel.setLayout(new GridBagLayout());
-        cells = new GridCell[gameOfLife.getColumns()][gameOfLife.getRows()];
-        GridBagConstraints constraints = new GridBagConstraints();
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                GridCell addCell = new GridCell(j, i, gameOfLife.isAlive(j, i));
-                if (addCell.isAlive()) {
-                    addCell.setBackground(Color.red);
+            gridJPanel.removeAll();
+            gridJPanel.setLayout(new GridBagLayout());
+            cells = new GridCell[gameOfLife.getColumns()][gameOfLife.getRows()];
+            GridBagConstraints constraints = new GridBagConstraints();
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    GridCell addCell = new GridCell(j, i, gameOfLife.isAlive(j, i));
+                    if (addCell.isAlive()) {
+                        addCell.setBackground(Color.red);
+                    }
+                    constraints.gridy = i;
+                    constraints.gridx = j;
+                    Border border = new MatteBorder(1, 1,
+                            (i == height - 1 ? 1 : 0),
+                            (j == width - 1 ? 1 : 0), Color.BLACK);
+                    addCell.setBorder(border);
+                    addCell.setPreferredSize(new Dimension(size, size));
+                    gridJPanel.add(addCell, constraints);
+                    addCell.addMouseListener(new CellActiveListener());
+                    cells[j][i] = addCell;
                 }
-                constraints.gridy = i;
-                constraints.gridx = j;
-                Border border = new MatteBorder(1, 1,
-                        (i == height - 1 ? 1 : 0),
-                        (j == width - 1 ? 1 : 0), Color.BLACK);
-                addCell.setBorder(border);
-                addCell.setPreferredSize(new Dimension(size, size));
-                gridJPanel.add(addCell, constraints);
-                addCell.addMouseListener(new CellActiveListener());
-                cells[j][i] = addCell;
             }
         }
     }
+
 
     @SuppressWarnings("unchecked")
     public class CellActiveListener implements MouseListener {
@@ -266,16 +265,26 @@ public class Gui extends JFrame implements Observer {
         public void actionPerformed(ActionEvent event) {
             JComboBox<String> cb = (JComboBox<String>) event.getSource();
             assert cb.getSelectedItem() != null;
-            checkTime.stop();
+            boolean wasRunning = false;
+            if (checkTime.isRunning()) {
+                checkTime.stop();
+                wasRunning = true;
+            }
             if (cb.getSelectedItem().equals("slow")) {
                 threadSpeed = 1500;
             } else if (cb.getSelectedItem().equals("normal")) {
                 threadSpeed = 1000;
             } else if (cb.getSelectedItem().equals("fast")) {
                 threadSpeed = 500;
+            } else if (cb.getSelectedItem().equals("hyper")) {
+                threadSpeed = 250;
+            } else if (cb.getSelectedItem().equals("overdrive")) {
+                threadSpeed = 50;
             }
             checkTime = new Timer(threadSpeed, e -> controller.startButton());
-            checkTime.start();
+            if (wasRunning) {
+                checkTime.start();
+            }
         }
     }
 }
