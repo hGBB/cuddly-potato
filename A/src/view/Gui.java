@@ -27,6 +27,8 @@ public class Gui extends JFrame implements Observer {
     private int size;
     private boolean mousePressedDown;
     private boolean setAliveOrDead;
+    private Timer checkTime = new Timer(threadSpeed, e -> controller.startButton());
+
 
     @Override
     public void update(Observable o, Object arg) {
@@ -76,7 +78,12 @@ public class Gui extends JFrame implements Observer {
         menu.add(shapeComboBox);
         // add start button
         JButton start = new JButton("Start");
-        start.addActionListener(new StartButton());
+        start.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkTime.start();
+            }
+        });
         menu.add(start);
         // add stop button
         JButton stop = new JButton("Stop");
@@ -170,29 +177,10 @@ public class Gui extends JFrame implements Observer {
         contentPane.add(gridJPanel, BorderLayout.CENTER);
     }
 
-    public class StartButton implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            if (!go) {
-                go = true;
-                new Thread(() -> {
-                    while (go && !gameOfLife.getPopulation().isEmpty()) {
-                        SwingUtilities.invokeLater(() ->
-                                controller.startButton());
-                        try {
-                            Thread.sleep(threadSpeed);
-                        } catch (Exception ignored) {
-                        }
-                    }
-                }).start();
-            }
-        }
-    }
-
     public class StopButton implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            go = false;
+            checkTime.stop();
         }
     }
 
@@ -248,6 +236,7 @@ public class Gui extends JFrame implements Observer {
         public void actionPerformed(ActionEvent e) {
             JComboBox<String> cb = (JComboBox<String>) e.getSource();
             assert cb.getSelectedItem() != null;
+            checkTime.stop();
             if (cb.getSelectedItem().equals("slow")) {
                 threadSpeed = 1500;
             } else if (cb.getSelectedItem().equals("normal")) {
@@ -255,6 +244,8 @@ public class Gui extends JFrame implements Observer {
             } else if (cb.getSelectedItem().equals("fast")) {
                 threadSpeed = 500;
             }
+            checkTime = new Timer(threadSpeed, event -> controller.startButton());
+            checkTime.start();
         }
     }
 }
