@@ -36,16 +36,12 @@ public class Gui extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         this.gameOfLife = (Grid) arg;
-        updateCounter();
-        this.addGrid();
+        counter.setText(String.valueOf(gameOfLife.getGenerations()));
         gridJPanel.revalidate();
         gridJPanel.repaint();
-    }
+        System.out.println(gameOfLife);
 
-    private void updateCounter() {
-        counter.setText(String.valueOf(gameOfLife.getGenerations()));
     }
-
 
     public Gui(Grid grid) {
         gridJPanel = new JPanel();
@@ -126,9 +122,6 @@ public class Gui extends JFrame implements Observer {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 GridCell addCell = new GridCell(j, i, gameOfLife.isAlive(j, i));
-                if (gameOfLife.isAlive(j, i)) {
-                    addCell.setBackground(Color.blue);
-                }
                 constraints.gridy = i;
                 constraints.gridx = j;
                 Border border = new MatteBorder(1, 1,
@@ -137,39 +130,7 @@ public class Gui extends JFrame implements Observer {
                 addCell.setBorder(border);
                 addCell.setPreferredSize(new Dimension(size, size));
                 gridJPanel.add(addCell, constraints);
-                addCell.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        GridCell cell = (GridCell) e.getSource();
-                        cell.setAlive(!cell.isAlive());
-                        controller.changeCellStatus(cell.getCol(), cell.getRow(), !cell.isAlive());
-                    }
-
-                    @Override
-                    public void mousePressed(MouseEvent e) {
-                        if (!mousePressedDown) {
-                            GridCell cell = (GridCell) e.getSource();
-                            setAliveOrDead = !cell.isAlive();
-                            controller.changeCellStatus(cell.getCol(), cell.getRow(), setAliveOrDead);
-                            cell.setAlive(setAliveOrDead);
-                        }
-                        mousePressedDown = true;
-                    }
-
-                    @Override
-                    public void mouseReleased(MouseEvent e) {
-                        mousePressedDown = false;
-                    }
-
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        if (mousePressedDown) {
-                            GridCell cell = (GridCell) e.getSource();
-                            controller.changeCellStatus(cell.getCol(), cell.getRow(), setAliveOrDead);
-                            cell.setAlive(setAliveOrDead);
-                        }
-                    }
-                });
+                addCell.addMouseListener(new CellActiveListener());
                 cells[j][i] = addCell;
             }
         }
@@ -187,8 +148,6 @@ public class Gui extends JFrame implements Observer {
                     int heightCoefficient = gameOfLife.getRows() + 2;
                     initialWidth = newWidth;
                     initialHeight = newHeight;
-                    System.out.println(initialWidth);
-                    System.out.println(initialHeight + " 1");
                     controller.resizeGrid((initialWidth - widthCoefficient)
                             / size,
                             (initialHeight - heightCoefficient) / size);
@@ -196,13 +155,54 @@ public class Gui extends JFrame implements Observer {
             }
         });
         contentPane.add(gridJPanel, BorderLayout.CENTER);
-        contentPane.addComponentListener(new ResizeListener());
     }
 
-    public class ResizeListener extends ComponentAdapter {
+    public class CellActiveListener implements MouseListener {
         @Override
-        public void componentResized(ComponentEvent e) {
+        public void mouseClicked(MouseEvent e) {
+            GridCell cell = (GridCell) e.getSource();
+            cell.setAlive(!cell.isAlive());
+            controller.changeCellStatus(cell.getCol(),
+                    cell.getRow(), !cell.isAlive());
+            System.out.println("clicked");
+        }
 
+        @Override
+        public void mousePressed(MouseEvent e) {
+            if (!mousePressedDown) {
+                GridCell cell = (GridCell) e.getSource();
+                setAliveOrDead = !cell.isAlive();
+                controller.changeCellStatus(cell.getCol(),                        cell.getRow(), setAliveOrDead);
+                cell.setAlive(setAliveOrDead);
+                System.out.println("pressed");
+            }
+            mousePressedDown = true;
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            mousePressedDown = false;
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            changeCellStatus(e);
+        }
+
+        private void changeCellStatus(MouseEvent e) {
+            if (mousePressedDown) {
+                GridCell cell = (GridCell) e.getSource();
+                if (cell.isAlive() != setAliveOrDead) {
+                    controller.changeCellStatus(cell.getCol(),
+                            cell.getRow(), setAliveOrDead);
+                }
+                cell.setAlive(setAliveOrDead);
+            }
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+            changeCellStatus(e);
         }
     }
 
