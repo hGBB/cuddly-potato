@@ -37,10 +37,9 @@ public class Gui extends JFrame implements Observer {
     public void update(Observable o, Object arg) {
         this.gameOfLife = (Grid) arg;
         counter.setText(String.valueOf(gameOfLife.getGenerations()));
+        this.addGrid();
         gridJPanel.revalidate();
         gridJPanel.repaint();
-        System.out.println(gameOfLife);
-
     }
 
     public Gui(Grid grid) {
@@ -59,7 +58,30 @@ public class Gui extends JFrame implements Observer {
         this.addMenu();
         this.addGrid();
         controller.addObserver(this);
- }
+        gridJPanel = new JPanel();
+        contentPane.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                // round to nearest **50 to avoid overusing the resize method
+                int newHeight = ((gridJPanel.getHeight() + 25) / 50) * 50;
+                int newWidth = ((gridJPanel.getWidth() + 25) / 50) * 50;
+                if ((newHeight > 400 && newHeight != initialHeight) || (newWidth != initialWidth && newWidth > 600)) {
+                    // we have to take the border into account when we calculate
+                    // the new number of cells.
+                    int widthCoefficient = gameOfLife.getColumns() + 2;
+                    int heightCoefficient = gameOfLife.getRows() + 2;
+                    initialWidth = newWidth;
+                    initialHeight = newHeight;
+                    controller.resizeGrid((initialWidth - widthCoefficient)
+                                    / size,
+                            (initialHeight - heightCoefficient) / size);
+                }
+            }
+        });
+        contentPane.add(gridJPanel, BorderLayout.CENTER);
+
+    }
 
     @SuppressWarnings("unchecked")
     private void addMenu() {
@@ -113,7 +135,7 @@ public class Gui extends JFrame implements Observer {
     }
 
     private void addGrid() {
-        gridJPanel = new JPanel();
+        gridJPanel.removeAll();
         gridJPanel.setLayout(new GridBagLayout());
         cells = new GridCell[gameOfLife.getColumns()][gameOfLife.getRows()];
         int height = gameOfLife.getRows();
@@ -134,27 +156,6 @@ public class Gui extends JFrame implements Observer {
                 cells[j][i] = addCell;
             }
         }
-        gridJPanel.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                super.componentResized(e);
-                // round to nearest **50 to avoid overusing the resize method
-                int newHeight = ((gridJPanel.getHeight() + 25) / 50) * 50;
-                int newWidth = ((gridJPanel.getWidth() + 25) / 50) * 50;
-                if ((newHeight > 400 && newHeight != initialHeight) || (newWidth != initialWidth && newWidth > 600)) {
-                    // we have to take the border into account when we calculate
-                    // the new number of cells.
-                    int widthCoefficient = gameOfLife.getColumns() + 2;
-                    int heightCoefficient = gameOfLife.getRows() + 2;
-                    initialWidth = newWidth;
-                    initialHeight = newHeight;
-                    controller.resizeGrid((initialWidth - widthCoefficient)
-                            / size,
-                            (initialHeight - heightCoefficient) / size);
-                }
-            }
-        });
-        contentPane.add(gridJPanel, BorderLayout.CENTER);
     }
 
     public class CellActiveListener implements MouseListener {
