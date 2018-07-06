@@ -152,27 +152,31 @@ public class Gui extends JFrame implements Observer {
                 }
             }
         } else {
-            gridJPanel.removeAll();
-            gridJPanel.setLayout(new GridBagLayout());
-            cells = new GridCell[gameOfLife.getColumns()][gameOfLife.getRows()];
-            GridBagConstraints constraints = new GridBagConstraints();
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    GridCell addCell = new GridCell(j, i, gameOfLife.isAlive(j, i));
-                    if (addCell.isAlive()) {
-                        addCell.setBackground(Color.red);
-                    }
-                    constraints.gridy = i;
-                    constraints.gridx = j;
-                    Border border = new MatteBorder(1, 1,
-                            (i == height - 1 ? 1 : 0),
-                            (j == width - 1 ? 1 : 0), Color.BLACK);
-                    addCell.setBorder(border);
-                    addCell.setPreferredSize(new Dimension(size, size));
-                    gridJPanel.add(addCell, constraints);
-                    addCell.addMouseListener(new CellActiveListener());
-                    cells[j][i] = addCell;
+            fillGrid(width, height);
+        }
+    }
+
+    private void fillGrid(int width, int height) {
+        gridJPanel.removeAll();
+        gridJPanel.setLayout(new GridBagLayout());
+        cells = new GridCell[gameOfLife.getColumns()][gameOfLife.getRows()];
+        GridBagConstraints constraints = new GridBagConstraints();
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                GridCell addCell = new GridCell(j, i, gameOfLife.isAlive(j, i));
+                if (addCell.isAlive()) {
+                    addCell.setBackground(Color.red);
                 }
+                constraints.gridy = i;
+                constraints.gridx = j;
+                Border border = new MatteBorder(1, 1,
+                        (i == height - 1 ? 1 : 0),
+                        (j == width - 1 ? 1 : 0), Color.BLACK);
+                addCell.setBorder(border);
+                addCell.setPreferredSize(new Dimension(size, size));
+                gridJPanel.add(addCell, constraints);
+                addCell.addMouseListener(new CellActiveListener());
+                cells[j][i] = addCell;
             }
         }
     }
@@ -235,28 +239,24 @@ public class Gui extends JFrame implements Observer {
             assert cb.getSelectedItem() != null;
             if (cb.getSelectedItem().equals("Small")) {
                 size = 10;
-                for (GridCell[] gridCells : cells) {
-                    for (GridCell gc : gridCells) {
-                        gc.setPreferredSize(new Dimension(size, size));
-                    }
-                }
+                resizeCells();
             } else if (cb.getSelectedItem().equals("Medium")) {
                 size = 20;
-                for (GridCell[] gridCells : cells) {
-                    for (GridCell gc : gridCells) {
-                        gc.setPreferredSize(new Dimension(size, size));
-                    }
-                }
+                resizeCells();
             } else if (cb.getSelectedItem().equals("Large")) {
                 size = 30;
-                for (GridCell[] gridCells : cells) {
-                    for (GridCell gc : gridCells) {
-                        gc.setPreferredSize(new Dimension(size, size));
-                    }
-                }
+                resizeCells();
             }
             gridJPanel.repaint();
             gridJPanel.revalidate();
+        }
+
+        private void resizeCells() {
+            for (GridCell[] gridCells : cells) {
+                for (GridCell gc : gridCells) {
+                    gc.setPreferredSize(new Dimension(size, size));
+                }
+            }
         }
     }
 
