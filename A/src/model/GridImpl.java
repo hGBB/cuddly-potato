@@ -71,12 +71,14 @@ public class GridImpl implements Grid {
      */
     @Override
     public void resize(int column, int rows) {
-        Collection<Cell> aliveCells = getPopulation();
-        for (Cell cell : aliveCells) {
+        LinkedHashSet<Cell> willBeRemoved = new LinkedHashSet<>();
+        for (Cell cell : population) {
             if (cell.getRow() > rows || cell.getColumn() > column) {
-                population.remove(cell);
+                willBeRemoved.add(cell);
             }
         }
+        population.removeAll(willBeRemoved);
+        Collection<Cell> aliveCells = getPopulation();
         this.grid = new boolean[column][rows];
         this.columns = column;
         this.rows = rows;
