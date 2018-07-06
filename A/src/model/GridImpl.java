@@ -72,6 +72,7 @@ public class GridImpl implements Grid {
     @Override
     public void resize(int cols, int rows) {
         Collection<Cell> aliveCells = getPopulation();
+        System.out.println(cols + "  <- col row ->" + rows);
         this.grid = new boolean[cols][rows];
         this.columns = cols;
         this.rows = rows;

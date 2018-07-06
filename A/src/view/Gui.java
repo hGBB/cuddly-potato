@@ -1,6 +1,7 @@
 package view;
 
 import controller.Controller;
+import javafx.scene.Cursor;
 import model.Grid;
 import view.components.GridCell;
 
@@ -22,12 +23,14 @@ public class Gui extends JFrame implements Observer {
     private Controller controller = new Controller();
     private JLabel counter;
     private model.Grid gameOfLife;
-    private boolean go = false;
     private int threadSpeed = 1000;
     private int size;
     private boolean mousePressedDown;
     private boolean setAliveOrDead;
-    private Timer checkTime = new Timer(threadSpeed, e -> controller.startButton());
+    private Timer checkTime = new Timer(threadSpeed,
+            e -> controller.startButton());
+    private int initialWidth = 0;
+    private int initialHeight = 0;
 
 
     @Override
@@ -59,9 +62,8 @@ public class Gui extends JFrame implements Observer {
         this.mousePressedDown = false;
         this.addMenu();
         this.addGrid();
-
         controller.addObserver(this);
-    }
+ }
 
     @SuppressWarnings("unchecked")
     private void addMenu() {
@@ -74,20 +76,19 @@ public class Gui extends JFrame implements Observer {
                 "Bipole", "Tripole", "r-Pentomino"};
         JComboBox shapeComboBox = new JComboBox(shapes);
         shapeComboBox.setSelectedIndex(0);
-        shapeComboBox.addActionListener(new SetShape());
+        shapeComboBox.addActionListener(e -> {
+            JComboBox<String> cb = (JComboBox<String>) e.getSource();
+            assert cb.getSelectedItem() != null;
+            controller.shapeComboBox(cb.getSelectedItem().toString());
+        });
         menu.add(shapeComboBox);
         // add start button
         JButton start = new JButton("Start");
-        start.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                checkTime.start();
-            }
-        });
+        start.addActionListener(e -> checkTime.start());
         menu.add(start);
         // add stop button
         JButton stop = new JButton("Stop");
-        stop.addActionListener(new StopButton());
+        stop.addActionListener(e -> checkTime.stop());
         menu.add(stop);
         // add size label
         JLabel dropownSize = new JLabel("Size:");
@@ -126,7 +127,7 @@ public class Gui extends JFrame implements Observer {
             for (int j = 0; j < width; j++) {
                 GridCell addCell = new GridCell(j, i, gameOfLife.isAlive(j, i));
                 if (gameOfLife.isAlive(j, i)) {
-                    addCell.setBackground(Color.decode("#000080"));
+                    addCell.setBackground(Color.blue);
                 }
                 constraints.gridy = i;
                 constraints.gridx = j;
@@ -140,8 +141,8 @@ public class Gui extends JFrame implements Observer {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         GridCell cell = (GridCell) e.getSource();
-                        controller.changeCellStatus(cell.getCol(), cell.getRow(), !cell.isAlive());
                         cell.setAlive(!cell.isAlive());
+                        controller.changeCellStatus(cell.getCol(), cell.getRow(), !cell.isAlive());
                     }
 
                     @Override
@@ -167,30 +168,41 @@ public class Gui extends JFrame implements Observer {
                             controller.changeCellStatus(cell.getCol(), cell.getRow(), setAliveOrDead);
                             cell.setAlive(setAliveOrDead);
                         }
-
                     }
-
                 });
                 cells[j][i] = addCell;
             }
         }
+        gridJPanel.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                // round to nearest **50 to avoid overusing the resize method
+                int newHeight = ((gridJPanel.getHeight() + 25) / 50) * 50;
+                int newWidth = ((gridJPanel.getWidth() + 25) / 50) * 50;
+                if ((newHeight > 400 && newHeight != initialHeight) || (newWidth != initialWidth && newWidth > 600)) {
+                    // we have to take the border into account when we calculate
+                    // the new number of cells.
+                    int widthCoefficient = gameOfLife.getColumns() + 2;
+                    int heightCoefficient = gameOfLife.getRows() + 2;
+                    initialWidth = newWidth;
+                    initialHeight = newHeight;
+                    System.out.println(initialWidth);
+                    System.out.println(initialHeight + " 1");
+                    controller.resizeGrid((initialWidth - widthCoefficient)
+                            / size,
+                            (initialHeight - heightCoefficient) / size);
+                }
+            }
+        });
         contentPane.add(gridJPanel, BorderLayout.CENTER);
+        contentPane.addComponentListener(new ResizeListener());
     }
 
-    public class StopButton implements ActionListener {
+    public class ResizeListener extends ComponentAdapter {
         @Override
-        public void actionPerformed(ActionEvent e) {
-            checkTime.stop();
-        }
-    }
+        public void componentResized(ComponentEvent e) {
 
-    @SuppressWarnings("unchecked")
-    public class SetShape implements ActionListener {
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            JComboBox<String> cb = (JComboBox<String>) e.getSource();
-            assert cb.getSelectedItem() != null;
-            controller.shapeComboBox(cb.getSelectedItem().toString());
         }
     }
 
@@ -200,28 +212,25 @@ public class Gui extends JFrame implements Observer {
             @SuppressWarnings("unchecked")
             JComboBox<String> cb = (JComboBox<String>) e.getSource();
             assert cb.getSelectedItem() != null;
-            Dimension small = new Dimension(10, 10);
-            Dimension medium = new Dimension(20, 20);
-            Dimension large = new Dimension(30, 30);
             if (cb.getSelectedItem().equals("Small")) {
                 size = 10;
                 for (GridCell[] gridCells : cells) {
                     for (GridCell gc : gridCells) {
-                        gc.setPreferredSize(small);
+                        gc.setPreferredSize(new Dimension(size, size));
                     }
                 }
             } else if (cb.getSelectedItem().equals("Medium")) {
                 size = 20;
                 for (GridCell[] gridCells : cells) {
                     for (GridCell gc : gridCells) {
-                        gc.setPreferredSize(medium);
+                        gc.setPreferredSize(new Dimension(size, size));
                     }
                 }
             } else if (cb.getSelectedItem().equals("Large")) {
                 size = 30;
                 for (GridCell[] gridCells : cells) {
                     for (GridCell gc : gridCells) {
-                        gc.setPreferredSize(large);
+                        gc.setPreferredSize(new Dimension(size, size));
                     }
                 }
             }
@@ -233,8 +242,8 @@ public class Gui extends JFrame implements Observer {
     @SuppressWarnings("unchecked")
     public class SetThreadSpeed implements ActionListener {
         @Override
-        public void actionPerformed(ActionEvent e) {
-            JComboBox<String> cb = (JComboBox<String>) e.getSource();
+        public void actionPerformed(ActionEvent event) {
+            JComboBox<String> cb = (JComboBox<String>) event.getSource();
             assert cb.getSelectedItem() != null;
             checkTime.stop();
             if (cb.getSelectedItem().equals("slow")) {
@@ -244,7 +253,7 @@ public class Gui extends JFrame implements Observer {
             } else if (cb.getSelectedItem().equals("fast")) {
                 threadSpeed = 500;
             }
-            checkTime = new Timer(threadSpeed, event -> controller.startButton());
+            checkTime = new Timer(threadSpeed, e -> controller.startButton());
             checkTime.start();
         }
     }
