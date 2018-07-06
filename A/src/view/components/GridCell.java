@@ -1,6 +1,7 @@
 package view.components;
 
 import javax.swing.*;
+import java.awt.*;
 
 
 public class GridCell extends JPanel {
@@ -10,6 +11,7 @@ public class GridCell extends JPanel {
 
     public GridCell(int col, int row, boolean alive) {
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
+        this.setBackground(Color.white);
         this.alive = alive;
         this.col = col;
         this.row = row;

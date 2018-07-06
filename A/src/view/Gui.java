@@ -1,7 +1,6 @@
 package view;
 
 import controller.Controller;
-import javafx.scene.Cursor;
 import model.Grid;
 import view.components.GridCell;
 
@@ -53,34 +52,39 @@ public class Gui extends JFrame implements Observer {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout(0, 0));
         contentPane.add(panel);
-        this.size = 20;
         this.mousePressedDown = false;
+        this.size = 20;
         this.addMenu();
-        this.addGrid();
         controller.addObserver(this);
         gridJPanel = new JPanel();
         contentPane.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                super.componentResized(e);
-                // round to nearest **50 to avoid overusing the resize method
-                int newHeight = ((gridJPanel.getHeight() + 25) / 50) * 50;
-                int newWidth = ((gridJPanel.getWidth() + 25) / 50) * 50;
-                if ((newHeight > 400 && newHeight != initialHeight) || (newWidth != initialWidth && newWidth > 600)) {
-                    // we have to take the border into account when we calculate
-                    // the new number of cells.
-                    int widthCoefficient = gameOfLife.getColumns() + 2;
-                    int heightCoefficient = gameOfLife.getRows() + 2;
-                    initialWidth = newWidth;
-                    initialHeight = newHeight;
-                    controller.resizeGrid((initialWidth - widthCoefficient)
-                                    / size,
-                            (initialHeight - heightCoefficient) / size);
-                }
+                doResize();
+                //        addGrid();
             }
         });
+        this.addGrid();
         contentPane.add(gridJPanel, BorderLayout.CENTER);
 
+    }
+
+    private void doResize() {
+        // round to nearest **50 to avoid overusing the resize method
+        int newHeight = ((gridJPanel.getHeight() + 25) / 50) * 50;
+        int newWidth = ((gridJPanel.getWidth() + 25) / 50) * 50;
+        if ((newHeight > 400 && newHeight != initialHeight)
+                || (newWidth != initialWidth && newWidth > 600)) {
+            // we have to take the border into account when we calculate
+            // the new number of cells.
+            int widthCoefficient = gameOfLife.getColumns() + 2;
+            int heightCoefficient = gameOfLife.getRows() + 2;
+            initialWidth = newWidth;
+            initialHeight = newHeight;
+            controller.resizeGrid((initialWidth - widthCoefficient)
+                            / size,
+                    (initialHeight - heightCoefficient) / size);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -135,29 +139,45 @@ public class Gui extends JFrame implements Observer {
     }
 
     private void addGrid() {
-        gridJPanel.removeAll();
-        gridJPanel.setLayout(new GridBagLayout());
-        cells = new GridCell[gameOfLife.getColumns()][gameOfLife.getRows()];
-        int height = gameOfLife.getRows();
         int width = gameOfLife.getColumns();
-        GridBagConstraints constraints = new GridBagConstraints();
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++) {
-                GridCell addCell = new GridCell(j, i, gameOfLife.isAlive(j, i));
-                constraints.gridy = i;
-                constraints.gridx = j;
-                Border border = new MatteBorder(1, 1,
-                        (i == height - 1 ? 1 : 0),
-                        (j == width - 1 ? 1 : 0), Color.BLACK);
-                addCell.setBorder(border);
-                addCell.setPreferredSize(new Dimension(size, size));
-                gridJPanel.add(addCell, constraints);
-                addCell.addMouseListener(new CellActiveListener());
-                cells[j][i] = addCell;
+        int height = gameOfLife.getRows();
+        if (cells[0][0] != null && width == cells.length && height == cells[0].length) {
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    if (gameOfLife.isAlive(j, i)) {
+                        cells[j][i].setBackground(Color.blue);
+                    } else {
+                        cells[j][i].setBackground(Color.white);
+                    }
+                }
+            }
+        } else {
+            gridJPanel.removeAll();
+            gridJPanel.setLayout(new GridBagLayout());
+            cells = new GridCell[gameOfLife.getColumns()][gameOfLife.getRows()];
+            GridBagConstraints constraints = new GridBagConstraints();
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    GridCell addCell = new GridCell(j, i, gameOfLife.isAlive(j, i));
+                    if (addCell.isAlive()) {
+                        addCell.setBackground(Color.red);
+                    }
+                    constraints.gridy = i;
+                    constraints.gridx = j;
+                    Border border = new MatteBorder(1, 1,
+                            (i == height - 1 ? 1 : 0),
+                            (j == width - 1 ? 1 : 0), Color.BLACK);
+                    addCell.setBorder(border);
+                    addCell.setPreferredSize(new Dimension(size, size));
+                    gridJPanel.add(addCell, constraints);
+                    addCell.addMouseListener(new CellActiveListener());
+                    cells[j][i] = addCell;
+                }
             }
         }
     }
 
+    @SuppressWarnings("unchecked")
     public class CellActiveListener implements MouseListener {
         @Override
         public void mouseClicked(MouseEvent e) {
@@ -165,19 +185,6 @@ public class Gui extends JFrame implements Observer {
             cell.setAlive(!cell.isAlive());
             controller.changeCellStatus(cell.getCol(),
                     cell.getRow(), !cell.isAlive());
-            System.out.println("clicked");
-        }
-
-        @Override
-        public void mousePressed(MouseEvent e) {
-            if (!mousePressedDown) {
-                GridCell cell = (GridCell) e.getSource();
-                setAliveOrDead = !cell.isAlive();
-                controller.changeCellStatus(cell.getCol(),                        cell.getRow(), setAliveOrDead);
-                cell.setAlive(setAliveOrDead);
-                System.out.println("pressed");
-            }
-            mousePressedDown = true;
         }
 
         @Override
@@ -186,7 +193,24 @@ public class Gui extends JFrame implements Observer {
         }
 
         @Override
+        public void mousePressed(MouseEvent e) {
+            if (!mousePressedDown) {
+                GridCell cell = (GridCell) e.getSource();
+                setAliveOrDead = !cell.isAlive();
+                controller.changeCellStatus(cell.getCol(),
+                        cell.getRow(), setAliveOrDead);
+                cell.setAlive(setAliveOrDead);
+                mousePressedDown = true;
+            }
+        }
+
+        @Override
         public void mouseEntered(MouseEvent e) {
+            changeCellStatus(e);
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
             changeCellStatus(e);
         }
 
@@ -200,13 +224,9 @@ public class Gui extends JFrame implements Observer {
                 cell.setAlive(setAliveOrDead);
             }
         }
-
-        @Override
-        public void mouseExited(MouseEvent e) {
-            changeCellStatus(e);
-        }
     }
 
+    @SuppressWarnings("unchecked")
     public class SetPanelSize implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
