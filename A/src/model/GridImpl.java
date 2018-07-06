@@ -70,10 +70,15 @@ public class GridImpl implements Grid {
      * {@inheritDoc}
      */
     @Override
-    public void resize(int cols, int rows) {
+    public void resize(int column, int rows) {
         Collection<Cell> aliveCells = getPopulation();
-        this.grid = new boolean[cols][rows];
-        this.columns = cols;
+        for (Cell cell : aliveCells) {
+            if (cell.getRow() > rows || cell.getColumn() > column) {
+                population.remove(cell);
+            }
+        }
+        this.grid = new boolean[column][rows];
+        this.columns = column;
         this.rows = rows;
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
@@ -81,7 +86,7 @@ public class GridImpl implements Grid {
             }
         }
         for (Cell cell : aliveCells) {
-            if (cell.getColumn() < cols && cell.getRow() < rows) {
+            if (cell.getColumn() < column && cell.getRow() < rows) {
                 grid[cell.getColumn()][cell.getRow()] = true;
             }
         }

@@ -69,7 +69,7 @@ public final class Controller extends Observable {
     }
 
     public static void main(String[] args) throws IOException {
-        grid = new GridImpl(3, 3);
+        grid = new GridImpl(36, 16);
         frame.setContentPane(new Gui(grid).contentPane);
         frame.getContentPane().setBackground(Color.GRAY);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

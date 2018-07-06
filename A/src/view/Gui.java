@@ -61,7 +61,6 @@ public class Gui extends JFrame implements Observer {
             @Override
             public void componentResized(ComponentEvent e) {
                 doResize();
-                //        addGrid();
             }
         });
         this.addGrid();
@@ -84,6 +83,7 @@ public class Gui extends JFrame implements Observer {
             controller.resizeGrid((initialWidth - widthCoefficient)
                             / size,
                     (initialHeight - heightCoefficient) / size);
+
         }
     }
 
@@ -129,6 +129,7 @@ public class Gui extends JFrame implements Observer {
         JComboBox threadComboBox = new JComboBox(thread);
         threadComboBox.setSelectedIndex(1);
         threadComboBox.addActionListener(new SetThreadSpeed());
+        threadComboBox.addActionListener(new SetThreadSpeed());
         menu.add(threadComboBox);
         JLabel generation = new JLabel();
         generation.setText("Gen:");
@@ -156,14 +157,12 @@ public class Gui extends JFrame implements Observer {
         } else {
             gridJPanel.removeAll();
             gridJPanel.setLayout(new GridBagLayout());
+            cells = null;
             cells = new GridCell[gameOfLife.getColumns()][gameOfLife.getRows()];
             GridBagConstraints constraints = new GridBagConstraints();
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
                     GridCell addCell = new GridCell(j, i, gameOfLife.isAlive(j, i));
-                    if (addCell.isAlive()) {
-                        addCell.setBackground(Color.red);
-                    }
                     constraints.gridy = i;
                     constraints.gridx = j;
                     Border border = new MatteBorder(1, 1,
