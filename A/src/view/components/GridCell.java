@@ -10,7 +10,6 @@ public class GridCell extends JPanel {
 
     public GridCell(int col, int row, boolean alive) {
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.CROSSHAIR_CURSOR));
-
         this.alive = alive;
         this.col = col;
         this.row = row;

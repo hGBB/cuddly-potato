@@ -24,11 +24,6 @@ public final class Controller extends Observable {
         return new GridImpl();
     }
 
-    public Grid getGrid() {
-        return Controller.grid;
-    }
-
-
     public void changeCellStatus(int col, int row, boolean alive) {
         grid.setAlive(col, row, alive);
         this.setChanged();
@@ -52,9 +47,11 @@ public final class Controller extends Observable {
         if (!string.equals("Clear")) {
             for (Shape sh : shapes.getShapeCollection()) {
                 if (string.equals(sh.getName())) {
-                    if (grid.getRows() >= sh.getShapeRows() && grid.getColumns() >= sh.getShapeColumns()) {
+                    if (grid.getRows() >= sh.getShapeRows()
+                            && grid.getColumns() >= sh.getShapeColumns()) {
                         for (int[] coords : sh.getCoordinates()) {
-                            int gameX = (grid.getColumns() - sh.getShapeColumns())
+                            int gameX = (grid.getColumns()
+                                    - sh.getShapeColumns())
                                     / 2 + coords[0];
                             int gameY = (grid.getRows() - sh.getShapeRows())
                                     / 2 + coords[1];
@@ -72,7 +69,7 @@ public final class Controller extends Observable {
     }
 
     public static void main(String[] args) throws IOException {
-        grid = new GridImpl(30, 15);
+        grid = new GridImpl(3, 3);
         frame.setContentPane(new Gui(grid).contentPane);
         frame.getContentPane().setBackground(Color.GRAY);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
