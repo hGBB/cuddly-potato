@@ -1,7 +1,7 @@
 package model;
 
 /**
- * The class model.Shape is a Blueprint for a certain constellation of living cells
+ * The class Shape is a Blueprint for a certain constellation of living cells
  * an a unique name by which they can be identified.
  */
 public class Shape {
@@ -11,13 +11,13 @@ public class Shape {
     private final int shapeRows;
 
     /**
-     * The constructor for a new model.Shape.
+     * The constructor for a new Shape.
      *
-     * @param name        The name by which the model.Shape will be called.
+     * @param name        The name by which the Shape will be called.
      * @param coordinates An Array of all Coordinates (int[X-Coordinate] -
-     *                    [Y-Coordinate]) which make up a model.Cell
-     * @param shapeColums The width of the to-be created model.Shape.
-     * @param shapeRows   The height of the to-be created model.Shape.
+     *                    [Y-Coordinate]) which make up a Cell
+     * @param shapeColums The width of the to-be created Shape.
+     * @param shapeRows   The height of the to-be created Shape.
      */
     public Shape(String name, int[][] coordinates,
                  int shapeColums, int shapeRows) {
