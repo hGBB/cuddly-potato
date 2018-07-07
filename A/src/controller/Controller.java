@@ -58,7 +58,6 @@ public final class Controller extends Observable {
                             grid.setAlive(gameX, gameY, true);
                         }
                     } else {
-                        // TODO: error handling! too small of a grid -> error message
                         System.out.println("false!");
                     }
                 }
@@ -68,9 +67,9 @@ public final class Controller extends Observable {
         this.notifyObservers(grid);
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         grid = new GridImpl(36, 16);
-        frame.setContentPane(new Gui(grid).contentPane);
+        frame.setContentPane(new Gui(grid).getContentPane());
         frame.getContentPane().setBackground(Color.GRAY);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();

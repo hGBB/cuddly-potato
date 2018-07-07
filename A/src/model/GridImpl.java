@@ -144,7 +144,8 @@ public class GridImpl implements Grid {
             for (int j = 0; j < neighborhood[i].length; j++) {
                 if (!grid[i][j] && neighborhood[i][j] == SET_ALIVE) {
                     setAlive(i, j, true);
-                } else if (grid[i][j] && (neighborhood[i][j] < SURVIVE || neighborhood[i][j] > SET_ALIVE)) {
+                } else if (grid[i][j] && (neighborhood[i][j] < SURVIVE
+                        || neighborhood[i][j] > SET_ALIVE)) {
                     grid[i][j] = false;
                     setAlive(i, j, false);
                 }

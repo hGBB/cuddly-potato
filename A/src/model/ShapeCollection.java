@@ -3,7 +3,8 @@ package model;
 import java.util.LinkedList;
 
 /**
- * This class holds a collection of all model.Shape which can be used in the game.
+ * This class holds a collection of all model.Shape
+ * which can be used in the game.
  */
 public class ShapeCollection {
     private LinkedList<Shape> shapeCollection;

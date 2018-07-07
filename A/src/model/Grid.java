@@ -3,26 +3,26 @@ package model;
 import java.util.Collection;
 
 /**
- * Interface model.Grid unifies model.Grid and model.Cell of the Game of Life
+ * Interface Grid unifies Grid and Cell of the Game of Life
  */
 public interface Grid {
 
     /**
-     * Returns weather the model.Cell at the chosen position on the board is
+     * Returns weather the Cell at the chosen position on the board is
      * alive.
      *
-     * @param col The X-Coordinate of the model.Cell.
-     * @param row The Y-Coordinate of the model.Cell.
-     * @return The status of the model.Cell.
+     * @param col The X-Coordinate of the Cell.
+     * @param row The Y-Coordinate of the Cell.
+     * @return The status of the Cell.
      */
     boolean isAlive(int col, int row); // get status of cell
 
     /**
-     * Sets the model.Cell at the chosen position on the board to a given status.
+     * Sets the Cell at the chosen position on the board to a given status.
      *
-     * @param col   The X-Coordinate of the model.Cell.
-     * @param row   The Y-Coordinate of the model.Cell.
-     * @param alive The status the model.Cell will be set to.
+     * @param col   The X-Coordinate of the Cell.
+     * @param row   The Y-Coordinate of the Cell.
+     * @param alive The status the Cell will be set to.
      */
     void setAlive(int col, int row, boolean alive);  // set status of cell
 

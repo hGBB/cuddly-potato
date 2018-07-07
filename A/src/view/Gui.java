@@ -21,7 +21,7 @@ import java.util.Observer;
 
 @SuppressWarnings("deprecation")
 public class Gui extends JFrame implements Observer {
-    public JPanel contentPane;
+    private JPanel contentPane;
     private JPanel gridJPanel;
     private GridCell[][] cells;
     private Controller controller = new Controller();
@@ -36,16 +36,6 @@ public class Gui extends JFrame implements Observer {
     private boolean run;
     private int initialWidth = 0;
     private int initialHeight = 0;
-
-
-    @Override
-    public void update(Observable o, Object arg) {
-        this.gameOfLife = (Grid) arg;
-        counter.setText(String.valueOf(gameOfLife.getGenerations()));
-        this.addGrid();
-        gridJPanel.revalidate();
-        gridJPanel.repaint();
-    }
 
     public Gui(Grid grid) {
         gridJPanel = new JPanel();
@@ -72,7 +62,20 @@ public class Gui extends JFrame implements Observer {
         });
         this.addGrid();
         contentPane.add(gridJPanel, BorderLayout.CENTER);
+    }
 
+    @Override
+    public void update(Observable o, Object arg) {
+        this.gameOfLife = (Grid) arg;
+        counter.setText(String.valueOf(gameOfLife.getGenerations()));
+        this.addGrid();
+        gridJPanel.revalidate();
+        gridJPanel.repaint();
+    }
+
+    @Override
+    public JPanel getContentPane() {
+        return contentPane;
     }
 
     private void doResize(boolean cellSizeChanged) {
@@ -113,12 +116,7 @@ public class Gui extends JFrame implements Observer {
         menu.add(shapeComboBox);
         // add next button
         JButton next = new JButton("Next");
-        next.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.startButton();
-            }
-        });
+        next.addActionListener(e -> controller.startButton());
         menu.add(next);
         // add start button
         JButton start = new JButton("Start");

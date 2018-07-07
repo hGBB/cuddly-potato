@@ -14,8 +14,8 @@ public class Shape {
      * The constructor for a new model.Shape.
      *
      * @param name        The name by which the model.Shape will be called.
-     * @param coordinates An Array of all Coordinates
-     *                    (int[X-Coordinate][Y-Coordinate]) which make up a model.Cell
+     * @param coordinates An Array of all Coordinates (int[X-Coordinate] -
+     *                    [Y-Coordinate]) which make up a model.Cell
      * @param shapeColums The width of the to-be created model.Shape.
      * @param shapeRows   The height of the to-be created model.Shape.
      */
