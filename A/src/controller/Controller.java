@@ -8,40 +8,63 @@ import view.Gui;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
 import java.util.Observable;
 
+/**
+ * The controller of the game of life, handles the interaction between view and
+ * model.
+ */
 @SuppressWarnings("deprecation")
 public final class Controller extends Observable {
     private static JFrame frame = new JFrame("Game of Life");
-    private static Grid grid = newGame();
+    private static Grid grid;
     private ShapeCollection shapes = new ShapeCollection();
 
+    /**
+     * Standard constructor.
+     */
     public Controller() {
     }
 
-    private static Grid newGame() {
-        return new GridImpl();
-    }
-
+    /**
+     * Changes the status of a cell.
+     *
+     * @param col The X Position of the cell.
+     * @param row The Y Position of the cell.
+     * @param alive The new status of the cell.
+     */
     public void changeCellStatus(int col, int row, boolean alive) {
         grid.setAlive(col, row, alive);
         this.setChanged();
         this.notifyObservers(grid);
     }
 
+    /**
+     * Resizes the grid size of the game board.
+     *
+     * @param col The new X Dimension.
+     * @param row The new Y Dimension.
+     */
     public void resizeGrid(int col, int row) {
         grid.resize(col, row);
         this.setChanged();
         this.notifyObservers(grid);
     }
 
+    /**
+     * Calculates a new Generation.
+     */
     public void startButton() {
         grid.next();
         this.setChanged();
         this.notifyObservers(grid);
     }
 
+    /**
+     * Calls a Shape on the Grid.
+     *
+     * @param string The name of the shape.
+     */
     public void shapeComboBox(String string) {
         grid.clear();
         if (!string.equals("Clear")) {
@@ -67,6 +90,11 @@ public final class Controller extends Observable {
         this.notifyObservers(grid);
     }
 
+    /**
+     * The main method of the game of life.
+     *
+     * @param args program arguments.
+     */
     public static void main(String[] args) {
         grid = new GridImpl(36, 16);
         frame.setContentPane(new Gui(grid).getContentPane());

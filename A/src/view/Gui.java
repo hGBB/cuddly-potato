@@ -18,7 +18,9 @@ import java.awt.event.MouseListener;
 import java.util.Observable;
 import java.util.Observer;
 
-
+/**
+ * The graphic user interaction class for the game of life.
+ */
 @SuppressWarnings("deprecation")
 public class Gui extends JFrame implements Observer {
     private JPanel contentPane;
@@ -37,6 +39,11 @@ public class Gui extends JFrame implements Observer {
     private int initialWidth = 0;
     private int initialHeight = 0;
 
+    /**
+     * Constructor.
+     *
+     * @param grid A game of life object for which a gui is produced.
+     */
     public Gui(Grid grid) {
         gridJPanel = new JPanel();
         cells = new GridCell[grid.getColumns()][grid.getRows()];
@@ -50,10 +57,11 @@ public class Gui extends JFrame implements Observer {
         contentPane.add(panel);
         this.mousePressedDown = false;
         this.size = 20;
-        run = false;
-        this.addMenu();
-        controller.addObserver(this);
         gridJPanel = new JPanel();
+        run = false;
+        controller.addObserver(this);
+        this.addMenu();
+        // add a componentListener to check if the size the application changes.
         contentPane.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -64,6 +72,9 @@ public class Gui extends JFrame implements Observer {
         contentPane.add(gridJPanel, BorderLayout.CENTER);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void update(Observable o, Object arg) {
         this.gameOfLife = (Grid) arg;
@@ -73,6 +84,11 @@ public class Gui extends JFrame implements Observer {
         gridJPanel.repaint();
     }
 
+    /**
+     * Getter method.
+     *
+     * @return the content.
+     */
     @Override
     public JPanel getContentPane() {
         return contentPane;
@@ -97,6 +113,9 @@ public class Gui extends JFrame implements Observer {
         }
     }
 
+    /**
+     * Adds a menu with all necessary buttons and comboBoxes.
+     */
     @SuppressWarnings("unchecked")
     private void addMenu() {
         JPanel menu = new JPanel();
@@ -157,6 +176,9 @@ public class Gui extends JFrame implements Observer {
         menu.add(counter);
     }
 
+    /**
+     * Adds the graphic representation of the game of life to the gui.
+     */
     private void addGrid() {
         int width = gameOfLife.getColumns();
         int height = gameOfLife.getRows();
@@ -198,8 +220,14 @@ public class Gui extends JFrame implements Observer {
         }
     }
 
+    /**
+     * A custom MouseListener.
+     */
     @SuppressWarnings("unchecked")
     public class CellActiveListener implements MouseListener {
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void mouseClicked(MouseEvent e) {
             GridCell cell = (GridCell) e.getSource();
@@ -208,11 +236,17 @@ public class Gui extends JFrame implements Observer {
                     cell.getRow(), !cell.isAlive());
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void mouseReleased(MouseEvent e) {
             mousePressedDown = false;
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void mousePressed(MouseEvent e) {
             if (!mousePressedDown) {
@@ -225,16 +259,27 @@ public class Gui extends JFrame implements Observer {
             }
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void mouseEntered(MouseEvent e) {
             changeCellStatus(e);
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void mouseExited(MouseEvent e) {
             changeCellStatus(e);
         }
 
+        /**
+         * Helper method to change cell status with pressed mouseButton.
+         *
+         * @param e The trigger.
+         */
         private void changeCellStatus(MouseEvent e) {
             if (mousePressedDown) {
                 GridCell cell = (GridCell) e.getSource();
@@ -247,8 +292,14 @@ public class Gui extends JFrame implements Observer {
         }
     }
 
+    /**
+     * A Custom ActionListener to change the Size of a GridCell.
+     */
     @SuppressWarnings("unchecked")
     public class SetPanelSize implements ActionListener {
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             @SuppressWarnings("unchecked")
@@ -266,6 +317,9 @@ public class Gui extends JFrame implements Observer {
             gridJPanel.revalidate();
         }
 
+        /**
+         * Resize all cells in the gui.
+         */
         private void resizeCells() {
             for (GridCell[] gridCells : cells) {
                 for (GridCell gc : gridCells) {
@@ -275,8 +329,14 @@ public class Gui extends JFrame implements Observer {
         }
     }
 
+    /**
+     * A custom ActionListener to change the Thread Speed of the gui.
+     */
     @SuppressWarnings("unchecked")
     public class SetThreadSpeed implements ActionListener {
+        /**
+         * {@inheritDoc}
+         */
         @Override
         public void actionPerformed(ActionEvent event) {
             JComboBox<String> cb = (JComboBox<String>) event.getSource();
