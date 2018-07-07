@@ -17,9 +17,6 @@ public class GridImpl implements Grid {
     private static final int SURVIVE = 2;
     private static final int SET_ALIVE = 3;
 
-    public GridImpl() {
-    }
-
     /**
      * A Constructor for a gridImpl.
      *
