@@ -60,7 +60,7 @@ public class Gui extends JFrame implements Observer {
         contentPane.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                doResize();
+                doResize(false);
             }
         });
         this.addGrid();
@@ -68,11 +68,11 @@ public class Gui extends JFrame implements Observer {
 
     }
 
-    private void doResize() {
+    private void doResize(boolean cellSizeChanged) {
         // round to nearest **50 to avoid overusing the resize method
         int newHeight = ((gridJPanel.getHeight() + 25) / 50) * 50;
         int newWidth = ((gridJPanel.getWidth() + 25) / 50) * 50;
-        if ((newHeight > 400 && newHeight != initialHeight)
+        if (cellSizeChanged || (newHeight > 400 && newHeight != initialHeight)
                 || (newWidth != initialWidth && newWidth > 600)) {
             // we have to take the border into account when we calculate
             // the new number of cells.
@@ -178,7 +178,6 @@ public class Gui extends JFrame implements Observer {
         }
     }
 
-
     @SuppressWarnings("unchecked")
     public class CellActiveListener implements MouseListener {
         @Override
@@ -245,6 +244,7 @@ public class Gui extends JFrame implements Observer {
                 size = 30;
                 resizeCells();
             }
+            doResize(true);
             gridJPanel.repaint();
             gridJPanel.revalidate();
         }
