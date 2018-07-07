@@ -9,7 +9,13 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
-import java.awt.event.*;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -131,7 +137,7 @@ public class Gui extends JFrame implements Observer {
         JLabel dropownSize = new JLabel("Size:");
         menu.add(dropownSize);
         // add size comboBox.
-        String[] size = {"Small", "Medium", "Large"};
+        String[] size = {"Small", "Medium"};
         JComboBox sizeComboBox = new JComboBox(size);
         sizeComboBox.setSelectedIndex(1);
         sizeComboBox.addActionListener(new SetPanelSize());
@@ -158,7 +164,8 @@ public class Gui extends JFrame implements Observer {
         int width = gameOfLife.getColumns();
         int height = gameOfLife.getRows();
         // if the size is the same update only do a visual update.
-        if (cells[0][0] != null && width == cells.length && height == cells[0].length) {
+        if (cells[0][0] != null && width == cells.length
+                && height == cells[0].length) {
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
                     if (gameOfLife.isAlive(j, i)) {
@@ -177,7 +184,8 @@ public class Gui extends JFrame implements Observer {
             GridBagConstraints constraints = new GridBagConstraints();
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
-                    GridCell addCell = new GridCell(j, i, gameOfLife.isAlive(j, i));
+                    GridCell addCell =
+                            new GridCell(j, i, gameOfLife.isAlive(j, i));
                     constraints.gridy = i;
                     constraints.gridx = j;
                     Border border = new MatteBorder(1, 1,
@@ -255,9 +263,6 @@ public class Gui extends JFrame implements Observer {
             } else if (cb.getSelectedItem().equals("Medium")) {
                 size = 20;
                 resizeCells();
-            } else if (cb.getSelectedItem().equals("Large")) {
-                size = 30;
-                resizeCells();
             }
             doResize(true);
             gridJPanel.repaint();
@@ -295,7 +300,8 @@ public class Gui extends JFrame implements Observer {
             } else if (cb.getSelectedItem().equals("overdrive")) {
                 threadSpeed = 50;
             }
-            automaticNext = new Timer(threadSpeed, e -> controller.startButton());
+            automaticNext = new Timer(threadSpeed,
+                    e -> controller.startButton());
             if (wasRunning) {
                 automaticNext.start();
             }
