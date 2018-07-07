@@ -26,8 +26,9 @@ public class Gui extends JFrame implements Observer {
     private int size;
     private boolean mousePressedDown;
     private boolean setAliveOrDead;
-    private Timer checkTime = new Timer(threadSpeed,
+    private Timer automaticNext = new Timer(threadSpeed,
             e -> controller.startButton());
+    private boolean run;
     private int initialWidth = 0;
     private int initialHeight = 0;
 
@@ -54,6 +55,7 @@ public class Gui extends JFrame implements Observer {
         contentPane.add(panel);
         this.mousePressedDown = false;
         this.size = 20;
+        run = false;
         this.addMenu();
         controller.addObserver(this);
         gridJPanel = new JPanel();
@@ -104,14 +106,27 @@ public class Gui extends JFrame implements Observer {
             controller.shapeComboBox(cb.getSelectedItem().toString());
         });
         menu.add(shapeComboBox);
+        // add next button
+        JButton next = new JButton("Next");
+        next.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                controller.startButton();
+            }
+        });
+        menu.add(next);
         // add start button
         JButton start = new JButton("Start");
-        start.addActionListener(e -> checkTime.start());
+        start.addActionListener(e -> {
+            if (!run) {
+                automaticNext.start();
+                run = true;
+            } else {
+                automaticNext.stop();
+                run = false;
+            }
+        });
         menu.add(start);
-        // add stop button
-        JButton stop = new JButton("Stop");
-        stop.addActionListener(e -> checkTime.stop());
-        menu.add(stop);
         // add size label
         JLabel dropownSize = new JLabel("Size:");
         menu.add(dropownSize);
@@ -265,8 +280,8 @@ public class Gui extends JFrame implements Observer {
             JComboBox<String> cb = (JComboBox<String>) event.getSource();
             assert cb.getSelectedItem() != null;
             boolean wasRunning = false;
-            if (checkTime.isRunning()) {
-                checkTime.stop();
+            if (automaticNext.isRunning()) {
+                automaticNext.stop();
                 wasRunning = true;
             }
             if (cb.getSelectedItem().equals("slow")) {
@@ -280,9 +295,9 @@ public class Gui extends JFrame implements Observer {
             } else if (cb.getSelectedItem().equals("overdrive")) {
                 threadSpeed = 50;
             }
-            checkTime = new Timer(threadSpeed, e -> controller.startButton());
+            automaticNext = new Timer(threadSpeed, e -> controller.startButton());
             if (wasRunning) {
-                checkTime.start();
+                automaticNext.start();
             }
         }
     }
