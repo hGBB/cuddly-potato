@@ -1,7 +1,7 @@
 package view.components;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JPanel;
+import java.awt.Color;
 
 /**
  * An own JPanel implementation to represent the cells of the game of life.

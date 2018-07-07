@@ -8,6 +8,7 @@ import view.Gui;
 
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import java.awt.Dimension;
 import java.awt.Color;
@@ -32,8 +33,8 @@ public final class Controller extends Observable {
     /**
      * Changes the status of a cell.
      *
-     * @param col The X Position of the cell.
-     * @param row The Y Position of the cell.
+     * @param col   The X Position of the cell.
+     * @param row   The Y Position of the cell.
      * @param alive The new status of the cell.
      */
     public void changeCellStatus(int col, int row, boolean alive) {
@@ -84,7 +85,8 @@ public final class Controller extends Observable {
                             grid.setAlive(gameX, gameY, true);
                         }
                     } else {
-                        System.out.println("false!");
+                        JOptionPane.showMessageDialog(frame, "The "
+                                + "shape doesn't fit on the grid!");
                     }
                 }
             }
@@ -105,7 +107,7 @@ public final class Controller extends Observable {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setBounds(100, 100, 650, 400);
-        frame.setMinimumSize(new Dimension(650, 400));
+        frame.setMinimumSize(new Dimension(650, 100));
         frame.setVisible(true);
     }
 }
