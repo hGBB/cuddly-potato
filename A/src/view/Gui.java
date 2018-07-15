@@ -2,6 +2,8 @@ package view;
 
 import controller.Controller;
 import model.Grid;
+import ownObserverPattern.OwnObservable;
+import ownObserverPattern.OwnObserver;
 import view.components.GridCell;
 
 
@@ -25,14 +27,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
-import java.util.Observable;
-import java.util.Observer;
 
 /**
  * The graphic user interaction class for the game of life.
  */
-@SuppressWarnings("deprecation")
-public class Gui extends JFrame implements Observer {
+public class Gui extends JFrame implements OwnObserver {
     private JPanel contentPane;
     private JPanel gridJPanel;
     private GridCell[][] cells;
@@ -69,7 +68,7 @@ public class Gui extends JFrame implements Observer {
         this.size = 20;
         gridJPanel = new JPanel();
         run = false;
-        controller.addObserver(this);
+        controller.setObserver(this);
         this.addMenu();
         // add a componentListener to check if the size the application changes.
         contentPane.addComponentListener(new ComponentAdapter() {
@@ -86,7 +85,7 @@ public class Gui extends JFrame implements Observer {
      * {@inheritDoc}
      */
     @Override
-    public void update(Observable o, Object arg) {
+    public void update(OwnObservable o, Object arg) {
         this.gameOfLife = (Grid) arg;
         counter.setText(String.valueOf(gameOfLife.getGenerations()));
         this.addGrid();
@@ -224,6 +223,9 @@ public class Gui extends JFrame implements Observer {
                     addCell.setPreferredSize(new Dimension(size, size));
                     gridJPanel.add(addCell, constraints);
                     addCell.addMouseListener(new CellActiveListener());
+                    if (gameOfLife.isAlive(j, i)) {
+                        addCell.setBackground(Color.blue);
+                    }
                     cells[j][i] = addCell;
                 }
             }

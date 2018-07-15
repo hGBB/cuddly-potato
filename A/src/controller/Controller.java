@@ -4,6 +4,7 @@ import model.Grid;
 import model.GridImpl;
 import model.Shape;
 import model.ShapeCollection;
+import ownObserverPattern.OwnObservable;
 import view.Gui;
 
 
@@ -12,14 +13,12 @@ import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import java.awt.Dimension;
 import java.awt.Color;
-import java.util.Observable;
 
 /**
  * The controller of the game of life, handles the interaction between view and
  * model.
  */
-@SuppressWarnings("deprecation")
-public final class Controller extends Observable {
+public final class Controller extends OwnObservable {
     private static JFrame frame = new JFrame("Game of Life");
     private static Grid grid;
     private ShapeCollection shapes = new ShapeCollection();
