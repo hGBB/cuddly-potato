@@ -21,8 +21,9 @@ public class OwnObservable {
      */
     public void notifyObservers(Object arg) {
         synchronized (this) {
-            if (!changed)
+            if (!changed) {
                 return;
+            }
             changed = false;
         }
         obs.update(this, arg);

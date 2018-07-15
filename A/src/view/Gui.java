@@ -107,7 +107,7 @@ public class Gui extends JFrame implements OwnObserver {
         // round to nearest **50 to avoid overusing the resize method
         int newHeight = ((gridJPanel.getHeight() + 25) / 50) * 50;
         int newWidth = ((gridJPanel.getWidth() + 25) / 50) * 50;
-        if (cellSizeChanged || (newHeight > 400 && newHeight != initialHeight)
+        if (cellSizeChanged || newHeight != initialHeight
                 || (newWidth != initialWidth && newWidth > 600)) {
             // we have to take the border into account when we calculate
             // the new number of cells.
