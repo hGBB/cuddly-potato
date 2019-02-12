@@ -1,2 +1,2 @@
 # cuddly-potato
-Prog2A1
+Game of Life written in Java with Swing GUI 
